@@ -6,7 +6,7 @@
     <title>একটি প্রশ্ন জিজ্ঞাসা করুন - PhysFlow</title>
     
     <link rel="stylesheet" href="css/loader.css">
-<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/ask-question.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -14,6 +14,8 @@
 <body>
 
     <header class="s-header" id="main-header"></header>
+
+    <div id="main-sidebar"></div>
 
     <main class="s-main-container">
         <div class="ask-container">
@@ -28,18 +30,18 @@
 
                 <div class="form-group">
                     <label for="q-desc">বিস্তারিত বর্ণনা</label>
-                    <p>আপনার সমস্যাটি এখানে বিস্তারিত ব্যাখ্যা করুন (কমপক্ষে ২০ শব্দ)।</p>
+                    <p>আপনার সমস্যাটি এখানে বিস্তারিত ব্যাখ্যা করুন।</p>
                     <textarea id="q-desc" rows="10" placeholder="বিস্তারিত লিখুন..." required></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="q-tags">ট্যাগসমূহ</label>
                     <p>প্রশ্নটি কোন বিষয় সম্পর্কিত? (কমা দিয়ে আলাদা করুন)</p>
-                    <input type="text" id="q-tags" placeholder="যেমন: বলবিদ্যা, গতিবিদ্যা, hsc">
+                    <input type="text" id="q-tags" placeholder="যেমন: বলবিদ্যা, hsc, পদার্থবিজ্ঞান">
                 </div>
 
                 <button type="submit" class="s-btn s-btn__primary" id="submit-btn">
-                    প্রশ্ন পোস্ট করুন
+                    <i class="fas fa-paper-plane"></i> প্রশ্ন পোস্ট করুন
                 </button>
             </form>
         </div>
