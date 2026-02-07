@@ -143,6 +143,14 @@
     }
 }
 
+        .phys {
+            color: #3a4a5a;
+        }
+
+        .flow {
+            color: #8a9aa5;
+            font-weight: 300;
+        }
 
 
 #google-login, .s-btn__google {
