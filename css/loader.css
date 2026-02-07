@@ -22,13 +22,13 @@
     align-items: center;
 }
 
-/* Sidebar (Mobile) */
+/* --- Sidebar Mobile Default --- */
 .s-sidebar {
     position: fixed;
     top: 50px;
-    left: -250px;
+    left: -250px; /* ডিফল্টভাবে স্ক্রিনের বাইরে থাকবে */
     width: 240px;
-    height: 100%;
+    height: calc(100vh - 50px);
     background: var(--white);
     border-right: 1px solid var(--border);
     transition: 0.3s ease;
@@ -36,8 +36,19 @@
 }
 
 .s-sidebar.active {
-    left: 0;
+    left: 0; /* বাটন ক্লিক করলে ভেতরে আসবে */
 }
+
+/* --- Desktop View (768px এর উপরে) --- */
+@media (min-width: 768px) {
+    .s-sidebar {
+        display: none !important; /* ডেস্কটপে সাইডবার পুরোপুরি অদৃশ্য থাকবে */
+    }
+    .s-btn__hamburger {
+        display: none; /* ডেস্কটপে হ্যামবার্গার বাটন লাগবে না */
+    }
+}
+
 
 .nav-links {
     display: block;
