@@ -1,58 +1,68 @@
 async function loadComponent(elementId, filePath) {
     try {
         const response = await fetch(filePath);
-        if (!response.ok) throw new Error("ফাইল পাওয়া যায়নি");
+        if (!response.ok) throw new Error(`${filePath} পাওয়া যায়নি`);
         const content = await response.text();
-        const container = document.getElementById(elementId);
-        if (container) {
-            container.innerHTML = content;
+        const el = document.getElementById(elementId);
+        if (el) {
+            el.innerHTML = content;
             return true;
         }
-    } catch (error) {
-        console.error("Error:", error);
-    }
+    } catch (e) { console.error(e); }
     return false;
 }
 
-// এটি সব পেজের জন্য কাজ করবে
+// মাস্টার ইনিশিয়ালাইজার
 window.addEventListener('DOMContentLoaded', async () => {
-    // হেডার, ফুটার এবং সাইডবার লোড হওয়া পর্যন্ত অপেক্ষা করবে
-    const h = await loadComponent('main-header', 'components/header.html');
-    const f = await loadComponent('main-footer', 'components/footer.html');
-    const s = await loadComponent('main-sidebar', 'components/sidebar.html');
+    // ১. কম্পোনেন্ট লোড হওয়া পর্যন্ত অপেক্ষা করো
+    await loadComponent('main-header', 'components/header.html');
+    await loadComponent('main-sidebar', 'components/sidebar.html');
+    await loadComponent('main-footer', 'components/footer.html');
 
-    // লোড হওয়ার পর বাটনগুলো চালু করো
-    if (h || s) {
-        initializeInteractions();
-        checkSavedTheme();
-    }
+    // ২. এবার সব বাটন ফাংশন চালু করো
+    initGlobalScripts();
 });
 
-function initializeInteractions() {
+function initGlobalScripts() {
     const navToggle = document.getElementById('nav-toggle');
-    const sidebar = document.getElementById('mobile-sidebar');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
     const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
 
-    // সাইডবার টগল
-    if (navToggle && sidebar) {
-        navToggle.addEventListener('click', () => sidebar.classList.toggle('active'));
+    // ১. থিম চেক (সেভ করা থিম লোড)
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        if (themeToggle) themeToggle.querySelector('i').className = 'fas fa-moon';
     }
 
-    // নাইট মোড টগল
+    // ২. সাইডবার টগল
+    if (navToggle && mobileSidebar) {
+        navToggle.addEventListener('click', () => {
+            mobileSidebar.classList.toggle('active');
+            const icon = navToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+    }
+
+    // ৩. থিম টগল
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
+            body.classList.toggle('dark-mode');
+            const isDark = body.classList.contains('dark-mode');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             themeToggle.querySelector('i').className = isDark ? 'fas fa-moon' : 'fas fa-sun';
         });
     }
-}
 
-function checkSavedTheme() {
-    if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-        const icon = document.querySelector('#theme-toggle i');
-        if (icon) icon.className = 'fas fa-moon';
-    }
+    // ৪. বাইরে ক্লিক করলে সাইডবার বন্ধ
+    document.addEventListener('click', (e) => {
+        if (mobileSidebar?.classList.contains('active')) {
+            if (!mobileSidebar.contains(e.target) && !navToggle.contains(e.target)) {
+                mobileSidebar.classList.remove('active');
+                navToggle.querySelector('i').className = 'fas fa-bars';
+            }
+        }
+    });
 }
