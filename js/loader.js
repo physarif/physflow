@@ -1,6 +1,7 @@
 async function loadComponent(elementId, filePath) {
     try {
-        const response = await fetch(filePath);
+        // সাব-ফোল্ডারের ঝামেলা এড়াতে './' যোগ করা নিরাপদ
+        const response = await fetch('./' + filePath); 
         if (!response.ok) return false;
         const content = await response.text();
         const el = document.getElementById(elementId);
@@ -8,7 +9,7 @@ async function loadComponent(elementId, filePath) {
             el.innerHTML = content;
             return true;
         }
-    } catch (e) { console.error(e); }
+    } catch (e) { console.error("Error loading " + filePath, e); }
     return false;
 }
 
@@ -25,18 +26,14 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 function initInteractions() {
-    // header.html এর ভেতরকার আইডিগুলো ঠিকমতো ধরছে কি না চেক
     const navToggle = document.getElementById('nav-toggle');
-    const sidebar = document.getElementById('mobile-sidebar'); // নিশ্চিত করো sidebar.html এর মেইন ট্যাগ আইডি এটি
+    const sidebar = document.getElementById('mobile-sidebar'); 
     const themeToggle = document.getElementById('theme-toggle');
 
-    // সাইডবার টগল লজিক
     if (navToggle && sidebar) {
         navToggle.onclick = (e) => {
             e.stopPropagation();
             sidebar.classList.toggle('active');
-            
-            // আইকন বদলানো (Bars থেকে Times)
             const icon = navToggle.querySelector('i');
             if (icon) {
                 icon.className = sidebar.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
@@ -44,7 +41,6 @@ function initInteractions() {
         };
     }
 
-    // নাইট মোড টগল
     if (themeToggle) {
         themeToggle.onclick = () => {
             document.body.classList.toggle('dark-mode');
@@ -55,15 +51,14 @@ function initInteractions() {
         };
     }
 
-    // সাইডবারের বাইরে ক্লিক করলে বন্ধ হবে
     document.addEventListener('click', (e) => {
         if (sidebar && sidebar.classList.contains('active')) {
             if (!sidebar.contains(e.target) && !navToggle.contains(e.target)) {
                 sidebar.classList.remove('active');
-                navToggle.querySelector('i').className = 'fas fa-bars';
+                if(navToggle.querySelector('i')) {
+                    navToggle.querySelector('i').className = 'fas fa-bars';
+                }
             }
         }
     });
 }
-
-    
