@@ -1,9 +1,9 @@
 // firebase-config.js
 
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore"; // ডাটাবেস ব্যবহারের জন্য
-import { getAuth } from "firebase/auth";           // লগইন/সাইনআপের জন্য
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD1ucDBk5BRDQzJx1D-VvB0rz5e_K0zQqw",
@@ -18,9 +18,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// সার্ভিসগুলো এক্সপোর্ট করা হচ্ছে যাতে অন্য ফাইলে ব্যবহার করা যায়
+// সার্ভিসগুলো এক্সপোর্ট করা হচ্ছে
 export const analytics = getAnalytics(app);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider(); // গুগল লগইনের জন্য এটি প্রয়োজন
 
 export default app;
