@@ -1,5 +1,13 @@
-/* --- Header, Sidebar & Footer Base Styles --- */
+/* --- Global Variables (নিশ্চিত করার জন্য পুনরায় দেওয়া) --- */
+:root {
+    --orange: #f48225;
+    --border: #d6d9dc;
+    --bc-light: #f8f9f9;
+    --white: #ffffff;
+    --black: #232629;
+}
 
+/* --- Header Styles --- */
 .s-header {
     background-color: var(--bc-light);
     border-top: 3px solid var(--orange);
@@ -22,11 +30,17 @@
     align-items: center;
 }
 
-/* --- Sidebar Mobile Default --- */
+/* আইকন এবং বাটন স্টাইল */
+.s-btn i, .nav-links i {
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+/* --- Sidebar (Mobile Default) --- */
 .s-sidebar {
     position: fixed;
     top: 50px;
-    left: -250px; /* ডিফল্টভাবে স্ক্রিনের বাইরে থাকবে */
+    left: -250px; /* স্ক্রিনের বাইরে */
     width: 240px;
     height: calc(100vh - 50px);
     background: var(--white);
@@ -36,19 +50,13 @@
 }
 
 .s-sidebar.active {
-    left: 0; /* বাটন ক্লিক করলে ভেতরে আসবে */
+    left: 0; /* একটিভ হলে সামনে আসবে */
 }
 
-/* --- Desktop View (768px এর উপরে) --- */
-@media (min-width: 768px) {
-    .s-sidebar {
-        display: none !important; /* ডেস্কটপে সাইডবার পুরোপুরি অদৃশ্য থাকবে */
-    }
-    .s-btn__hamburger {
-        display: none; /* ডেস্কটপে হ্যামবার্গার বাটন লাগবে না */
-    }
+.s-sidebar--nav ul {
+    list-style: none;
+    padding: 10px 0;
 }
-
 
 .nav-links {
     display: block;
@@ -56,6 +64,7 @@
     text-decoration: none;
     color: var(--text-dark);
     font-size: 14px;
+    border-bottom: 1px solid transparent;
 }
 
 .nav-links:hover {
@@ -63,7 +72,7 @@
     border-right: 3px solid var(--orange);
 }
 
-/* Footer */
+/* --- Footer Styles --- */
 .s-footer {
     background-color: var(--black);
     color: #9199a1;
@@ -75,13 +84,42 @@
     max-width: 1264px;
     margin: 0 auto;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
 }
 
-/* Desktop Fix */
+.footer-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.footer-links a {
+    color: #9199a1;
+    text-decoration: none;
+}
+
+/* --- Desktop View Fix (768px+) --- */
 @media (min-width: 768px) {
-    .s-btn__hamburger { display: none; }
-    .s-sidebar { display: none; }
-    .s-navigation__desktop { display: block; }
+    /* ১. সাইডবার ডেস্কটপে পুরোপুরি হাইড */
+    .s-sidebar, #main-sidebar {
+        display: none !important;
+    }
+    
+    /* ২. হ্যামবার্গার বাটন ডেস্কটপে হাইড */
+    .s-btn__hamburger {
+        display: none !important;
+    }
+    
+    /* ৩. ডেস্কটপ নেভিগেশন মেনু শো */
+    .s-navigation__desktop {
+        display: block !important;
+    }
+}
+
+/* --- Mobile View Fix (< 768px) --- */
+@media (max-width: 767px) {
+    .s-navigation__desktop {
+        display: none !important;
+    }
 }
