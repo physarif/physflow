@@ -1,0 +1,202 @@
+/* --- Variables --- */
+:root {
+    --orange: #f48225;
+    --black: #232629;
+    --white: #ffffff;
+    --bc-light: #f8f9f9;
+    --border: #d6d9dc;
+    --text-dark: #3b4045;
+    --text-light: #6a737c;
+    --hover-bg: #e3e6e8;
+    --primary-blue: #0095ff;
+}
+
+/* --- Basic Reset --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background-color: var(--white);
+    color: var(--text-dark);
+}
+
+/* --- Header Style --- */
+.s-header {
+    background-color: var(--bc-light);
+    border-top: 3px solid var(--orange);
+    border-bottom: 1px solid var(--border);
+    padding: 0 15px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    width: 100%;
+    max-width: 1264px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.s-logo {
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--black);
+    padding: 0 8px;
+}
+
+.s-logo span {
+    font-weight: 800;
+}
+
+/* --- Buttons --- */
+.s-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 18px;
+    color: var(--text-light);
+    border-radius: 3px;
+    transition: 0.2s;
+}
+
+.s-btn:hover {
+    background-color: var(--hover-bg);
+    color: var(--black);
+}
+
+.s-btn__ask {
+    background-color: var(--primary-blue);
+    color: var(--white) !important;
+}
+
+.s-btn__ask:hover {
+    background-color: #0077cc;
+}
+
+/* --- Avatar --- */
+.s-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+    object-fit: cover;
+}
+
+/* --- Navigation (Desktop & Mobile) --- */
+.s-navigation__desktop {
+    display: none; /* মোবাইলে হাইড থাকবে */
+}
+
+.s-navigation__desktop ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.s-navigation__desktop a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+/* --- Sidebar (Mobile) --- */
+.s-sidebar {
+    position: fixed;
+    top: 50px;
+    left: -250px;
+    width: 240px;
+    height: 100%;
+    background: var(--white);
+    border-right: 1px solid var(--border);
+    transition: 0.3s ease;
+    z-index: 999;
+}
+
+.s-sidebar.active {
+    left: 0;
+}
+
+.s-sidebar--nav ul {
+    list-style: none;
+    padding-top: 20px;
+}
+
+.nav-links {
+    display: block;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 14px;
+}
+
+.nav-links i {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.nav-links:hover {
+    background: var(--hover-bg);
+    border-right: 3px solid var(--orange);
+}
+
+/* --- Footer --- */
+.s-footer {
+    background-color: var(--black);
+    color: #9199a1;
+    padding: 30px 20px;
+    margin-top: 50px;
+}
+
+.footer-container {
+    max-width: 1264px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.footer-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.footer-links a {
+    color: #9199a1;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+/* --- Desktop Styles --- */
+@media (min-width: 768px) {
+    .s-btn__hamburger {
+        display: none;
+    }
+
+    .s-navigation__desktop {
+        display: block;
+    }
+
+    .s-sidebar {
+        display: none;
+    }
+}
+
+.d-none { display: none; }
