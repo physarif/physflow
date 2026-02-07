@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রশ্ন বিস্তারিত - PhysFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="s-header">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="index.html" class="s-logo">phys<span>flow</span></a>
+            </div>
+            <div class="header-right">
+                <div id="auth-container">
+                    <div id="user-profile" class="d-none">
+                        <img src="" alt="Profile" class="s-avatar" id="user-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="s-main-container">
+        <div class="question-page-layout">
+            
+            <div id="full-question-content">
+                <h1 id="display-title" class="q-detail-title">লোড হচ্ছে...</h1>
+                <div class="q-meta">
+                    <span id="display-date">সময়: ...</span>
+                    <span id="display-author">লেখক: ...</span>
+                </div>
+                <hr>
+                <div class="q-body" id="display-desc">
+                    প্রশ্নের বিস্তারিত অংশ এখানে দেখাবে...
+                </div>
+                <div class="q-tags" id="display-tags"></div>
+            </div>
+
+            <div class="answers-section">
+                <h2 id="answer-count">০টি উত্তর</h2>
+                <div id="answers-list">
+                    </div>
+            </div>
+
+            <div class="post-answer">
+                <h3>আপনার উত্তর দিন</h3>
+                <form id="answer-form">
+                    <textarea id="answer-text" rows="8" placeholder="আপনার উত্তরটি এখানে বিস্তারিত লিখুন..." required></textarea>
+                    <button type="submit" class="s-btn s-btn__primary">উত্তর পোস্ট করুন</button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/question.js"></script> <script src="js/app.js"></script>
+
+</body>
+</html>
