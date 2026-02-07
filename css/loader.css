@@ -36,21 +36,22 @@
     vertical-align: middle;
 }
 
-/* --- Sidebar (Mobile Default) --- */
+/* --- Sidebar Base (মোবাইলে এটি স্ক্রিনের বাইরে থাকবে) --- */
 .s-sidebar {
     position: fixed;
     top: 50px;
-    left: -250px; /* স্ক্রিনের বাইরে */
+    left: -260px; /* এটি নিশ্চিত করে যে ডিফল্টভাবে সাইডবার বামে লুকিয়ে থাকবে */
     width: 240px;
     height: calc(100vh - 50px);
     background: var(--white);
     border-right: 1px solid var(--border);
-    transition: 0.3s ease;
-    z-index: 999;
+    transition: transform 0.3s ease, left 0.3s ease;
+    z-index: 1000;
 }
 
+/* যখন 'active' ক্লাস যুক্ত হবে তখন সামনে আসবে */
 .s-sidebar.active {
-    left: 0; /* একটিভ হলে সামনে আসবে */
+    left: 0 !important;
 }
 
 .s-sidebar--nav ul {
