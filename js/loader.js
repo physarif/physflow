@@ -1,76 +1,67 @@
-// কম্পোনেন্ট লোড করার মেইন ফাংশন
+// কম্পোনেন্ট লোড করার ফাংশন
 async function loadComponent(elementId, filePath) {
     try {
         const response = await fetch(filePath);
-        if (!response.ok) throw new Error(`Failed to load ${filePath}`);
         const content = await response.text();
         const element = document.getElementById(elementId);
         if (element) {
             element.innerHTML = content;
+            return true;
         }
     } catch (error) {
         console.error("Error loading component:", error);
     }
+    return false;
 }
 
 // পেজ লোড হলে সব কাজ শুরু হবে
 window.addEventListener('DOMContentLoaded', async () => {
-    // ১. সব কম্পোনেন্ট লোড হওয়ার জন্য অপেক্ষা করো
-    await loadComponent('main-header', 'components/header.html');
-    await loadComponent('main-sidebar', 'components/sidebar.html');
-    await loadComponent('main-footer', 'components/footer.html');
+    // ১. কম্পোনেন্টগুলো লোড করো
+    const headerLoaded = await loadComponent('main-header', 'components/header.html');
+    const footerLoaded = await loadComponent('main-footer', 'components/footer.html');
+    const sidebarLoaded = await loadComponent('main-sidebar', 'components/sidebar.html');
 
-    // ২. কম্পোনেন্ট লোড শেষ, এবার ইভেন্ট লিসেনার চালু করো
-    initAppFeatures();
-    
-    // ৩. থিম চেক করো (ডার্ক মোড)
-    applySavedTheme();
+    // ২. লোড হওয়া শেষ হলে ফিচারগুলো চালু করো
+    if (headerLoaded) {
+        initThemeToggle();
+        initSidebarToggle();
+    }
 });
 
-// Sidebar এবং Theme Toggle লজিক
-function initAppFeatures() {
+// নাইট মোড লজিক
+function initThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) return;
+
+    // আগে থেকে সেভ করা থিম চেক
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeToggle.querySelector('i').className = 'fas fa-moon';
+    }
+
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        themeToggle.querySelector('i').className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+    });
+}
+
+// সাইডবার লজিক
+function initSidebarToggle() {
     const navToggle = document.getElementById('nav-toggle');
     const sidebar = document.getElementById('mobile-sidebar');
-    const themeToggle = document.getElementById('theme-toggle');
 
-    // মোবাইল সাইডবার টগল
     if (navToggle && sidebar) {
-        navToggle.addEventListener('click', (e) => {
-            e.stopPropagation(); // বুদবুদ হওয়া রোধ করতে
+        navToggle.addEventListener('click', () => {
             sidebar.classList.toggle('active');
         });
 
-        // সাইডবারের বাইরে ক্লিক করলে বন্ধ হবে
+        // বাইরে ক্লিক করলে বন্ধ হবে
         document.addEventListener('click', (e) => {
             if (!sidebar.contains(e.target) && !navToggle.contains(e.target)) {
                 sidebar.classList.remove('active');
             }
         });
-    }
-
-    // নাইট মোড টগল
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            updateThemeIcon(isDark);
-        });
-    }
-}
-
-function updateThemeIcon(isDark) {
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        const icon = themeToggle.querySelector('i');
-        icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
-    }
-}
-
-function applySavedTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        updateThemeIcon(true);
     }
 }
