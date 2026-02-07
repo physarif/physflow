@@ -142,3 +142,17 @@
         display: none !important;
     }
 }
+
+
+
+#google-login, .s-btn__google {
+    cursor: pointer !important;
+    position: relative;
+    z-index: 1010; /* যাতে সবকিছুর উপরে থাকে */
+    pointer-events: auto !important;
+}
+
+#google-login i {
+    pointer-events: none; /* আইকনের ওপর ক্লিক করলে যেন বাটনে লাগে */
+}
+
