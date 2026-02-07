@@ -1,13 +1,16 @@
-/* --- Ask Question Page Style --- */
+/* --- Ask Question Page Style (Slightly Fixed) --- */
 .ask-container {
+    width: 100%; /* এটি যোগ করা হয়েছে */
     max-width: 800px;
-    margin: 0 auto;
+    margin: 30px auto; /* মাঝখানে রাখার জন্য auto এবং উপরে-নিচে গ্যাপ */
+    display: block; /* style.css এর flex-কে ওভাররাইড করার জন্য */
 }
 
 .ask-container h2 {
     font-size: 27px;
     font-weight: 600;
     margin-bottom: 24px;
+    color: var(--text-dark); /* ভেরিয়েবল ব্যবহার */
 }
 
 .ask-form {
@@ -19,13 +22,14 @@
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* গ্যাপ একটু বাড়ানো হয়েছে */
 }
 
 .form-group label {
     font-weight: 600;
     display: block;
     margin-bottom: 4px;
+    color: var(--text-dark);
 }
 
 .form-group p {
@@ -36,11 +40,14 @@
 
 .form-group input, .form-group textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid var(--border);
     border-radius: 3px;
     font-family: inherit;
     font-size: 14px;
+    background-color: var(--white);
+    color: var(--text-dark);
+    display: block; /* নিশ্চিত করার জন্য */
 }
 
 .form-group input:focus, .form-group textarea:focus {
@@ -52,9 +59,25 @@
 .s-btn__primary {
     background-color: var(--primary-blue);
     color: white;
-    padding: 10px 15px;
+    padding: 10px 20px;
     font-size: 14px;
     font-weight: 500;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
     margin-top: 10px;
 }
 
+.s-btn__primary:hover {
+    background-color: #0077cc;
+}
+
+/* ডার্ক মোড ইনপুট ফিক্স */
+body.dark-mode .ask-form {
+    background: var(--bc-light);
+}
+
+body.dark-mode .form-group input, 
+body.dark-mode .form-group textarea {
+    background-color: #1e1e1e; /* ডার্ক মোডে ইনপুট বক্সের ব্যাকগ্রাউন্ড */
+}
