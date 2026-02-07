@@ -1,23 +1,23 @@
 // Firebase Auth references
 // মনে রাখবে, firebase-config.js ফাইলে auth এবং provider আগে থেকেই ডিফাইন করা থাকতে হবে।
-import { signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { auth, provider } from "./firebase-config.js";
+import { auth, provider } from './firebase-config.js';
+import { signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-const loginBtn = document.getElementById('google-login');
-const userProfile = document.getElementById('user-profile');
-const userImg = document.getElementById('user-img');
+// লোডার যখন বলবে কম্পোনেন্ট রেডি, তখন বাটন ধরবে
+window.addEventListener('componentsLoaded', () => {
+    const loginBtn = document.getElementById('google-login');
+    if (loginBtn) {
+        loginBtn.onclick = async () => {
+            try {
+                await signInWithPopup(auth, provider);
+                console.log("Logged in successfully");
+            } catch (error) {
+                console.error("Login failed", error);
+            }
+        };
+    }
+});
 
-// 1. Google Login Function
-if (loginBtn) {
-    loginBtn.addEventListener('click', () => {
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                console.log("Logged in as:", result.user.displayName);
-            }).catch((error) => {
-                console.error("Login Error:", error.message);
-            });
-    });
-}
 
 // 2. Auth State Observer (লগইন আছে কি নেই তা চেক করবে)
 onAuthStateChanged(auth, (user) => {
