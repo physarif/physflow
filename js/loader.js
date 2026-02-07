@@ -13,26 +13,30 @@ async function loadComponent(elementId, filePath) {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
-    // হেডার, ফুটার এবং সাইডবার লোড হবে
+    // সব কম্পোনেন্ট লোড না হওয়া পর্যন্ত অপেক্ষা
     await Promise.all([
         loadComponent('main-header', 'components/header.html'),
         loadComponent('main-sidebar', 'components/sidebar.html'),
         loadComponent('main-footer', 'components/footer.html')
     ]);
 
-    // সব লোড হওয়ার পর বাটনগুলো চালু করো
-    initGlobalScripts();
+    // লোড হওয়ার পর বাটন সেটআপ
+    initInteractions();
 });
 
-function initGlobalScripts() {
+function initInteractions() {
+    // header.html এর ভেতরকার আইডিগুলো ঠিকমতো ধরছে কি না চেক
     const navToggle = document.getElementById('nav-toggle');
-    const sidebar = document.getElementById('mobile-sidebar');
+    const sidebar = document.getElementById('mobile-sidebar'); // নিশ্চিত করো sidebar.html এর মেইন ট্যাগ আইডি এটি
     const themeToggle = document.getElementById('theme-toggle');
 
-    // সাইডবার টগল (হ্যামবার্গার)
+    // সাইডবার টগল লজিক
     if (navToggle && sidebar) {
-        navToggle.onclick = () => {
+        navToggle.onclick = (e) => {
+            e.stopPropagation();
             sidebar.classList.toggle('active');
+            
+            // আইকন বদলানো (Bars থেকে Times)
             const icon = navToggle.querySelector('i');
             if (icon) {
                 icon.className = sidebar.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
@@ -50,4 +54,16 @@ function initGlobalScripts() {
             if (icon) icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
         };
     }
+
+    // সাইডবারের বাইরে ক্লিক করলে বন্ধ হবে
+    document.addEventListener('click', (e) => {
+        if (sidebar && sidebar.classList.contains('active')) {
+            if (!sidebar.contains(e.target) && !navToggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+                navToggle.querySelector('i').className = 'fas fa-bars';
+            }
+        }
+    });
 }
+
+    
