@@ -54,6 +54,24 @@
     left: 0 !important;
 }
 
+/* --- Desktop View Fix (৭৬৮ পিক্সেলের উপরে) --- */
+@media (min-width: 768px) {
+    .s-sidebar, #main-sidebar {
+        display: none !important; /* ডেস্কটপে সাইডবার চিরতরে অদৃশ্য */
+    }
+    .s-btn__hamburger {
+        display: none !important; /* হ্যামবার্গার বাটনও উধাও */
+    }
+}
+
+/* --- Mobile Fix (৭৬৮ পিক্সেলের নিচে) --- */
+@media (max-width: 767px) {
+    .s-navigation__desktop {
+        display: none !important; /* মোবাইলে ডেস্কটপ মেনু হাইড */
+    }
+}
+
+
 .s-sidebar--nav ul {
     list-style: none;
     padding: 10px 0;
