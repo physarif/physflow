@@ -270,3 +270,30 @@ hr {
         flex: 1;
     }
 }
+
+.mb-16 { margin-bottom: 16px; }
+.d-flex { display: flex; }
+.justify-between { justify-content: space-between; }
+.align-center { align-items: center; }
+
+.stat-item {
+    padding: 4px;
+    margin-bottom: 4px;
+}
+
+.q-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.q-user-info {
+    font-size: 12px;
+    color: var(--primary-blue);
+}
+
+.q-excerpt {
+    color: var(--text-dark);
+    line-height: 1.4;
+}
