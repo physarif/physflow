@@ -1,44 +1,51 @@
-// Firebase Auth references
-// মনে রাখবে, firebase-config.js ফাইলে auth এবং provider আগে থেকেই ডিফাইন করা থাকতে হবে।
 import { auth, provider } from './firebase-config.js';
-import { signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// লোডার যখন বলবে কম্পোনেন্ট রেডি, তখন বাটন ধরবে
+// ১. পেজের কম্পোনেন্টগুলো (Header/Footer) লোড হওয়ার পর বাটন সেটআপ হবে
 window.addEventListener('componentsLoaded', () => {
     const loginBtn = document.getElementById('google-login');
+    const userProfile = document.getElementById('user-profile');
+    const userImg = document.getElementById('user-img');
+
+    // লগইন বাটন ক্লিক হ্যান্ডলার
     if (loginBtn) {
         loginBtn.onclick = async () => {
             try {
-                await signInWithPopup(auth, provider);
-                console.log("Logged in successfully");
+                const result = await signInWithPopup(auth, provider);
+                console.log("Logged in:", result.user.displayName);
+                // লগইন সফল হলে প্রোফাইল আপডেট অটোমেটিক হবে onAuthStateChanged এর মাধ্যমে
             } catch (error) {
-                console.error("Login failed", error);
+                console.error("Login Error:", error.message);
+                alert("লগইন করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
             }
         };
     }
-});
 
+    // ২. লগইন স্ট্যাটাস চেক করা (প্রোফাইল ফটো দেখানো বা লুকানো)
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // ইউজার লগইন থাকলে
+            if (loginBtn) loginBtn.classList.add('d-none');
+            if (userProfile) {
+                userProfile.classList.remove('d-none');
+                userImg.src = user.photoURL || 'assets/default-user.png';
+                userImg.title = user.displayName;
+            }
+        } else {
+            // ইউজার লগআউট থাকলে
+            if (loginBtn) loginBtn.classList.remove('d-none');
+            if (userProfile) userProfile.classList.add('d-none');
+        }
+    });
 
-// 2. Auth State Observer (লগইন আছে কি নেই তা চেক করবে)
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        // ইউজার লগইন থাকলে প্রোফাইল পিকচার দেখাবে এবং লগইন বাটন লুকাবে
-        loginBtn.classList.add('d-none');
-        userProfile.classList.remove('d-none');
-        userImg.src = user.photoURL;
-        userImg.title = user.displayName;
-    } else {
-        // লগআউট থাকলে উল্টোটা হবে
-        loginBtn.classList.remove('d-none');
-        userProfile.classList.add('d-none');
-    }
-});
-
-// 3. Logout Function (প্রয়োজন হলে প্রোফাইল ইমেজে ক্লিক করলে লগআউট হবে এমন লজিক রাখতে পারো)
-userImg.addEventListener('click', () => {
-    if (confirm("আপনি কি লগআউট করতে চান?")) {
-        signOut(auth).then(() => {
-            console.log("Logged out successfully");
-        });
+    // ৩. প্রোফাইল ছবিতে ক্লিক করলে লগআউট অপশন (ঐচ্ছিক)
+    if (userImg) {
+        userImg.onclick = () => {
+            if (confirm("আপনি কি লগআউট করতে চান?")) {
+                signOut(auth).then(() => {
+                    location.reload();
+                });
+            }
+        };
     }
 });
