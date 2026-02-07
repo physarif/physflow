@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>একটি প্রশ্ন জিজ্ঞাসা করুন - PhysFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="s-header">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="index.html" class="s-logo">phys<span>flow</span></a>
+            </div>
+            <div class="header-right">
+                <div id="user-profile">
+                    <img src="" alt="Profile" class="s-avatar" id="user-img">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="s-main-container">
+        <div class="ask-container">
+            <h2>একটি প্রশ্ন জিজ্ঞাসা করুন</h2>
+            
+            <form id="ask-question-form" class="ask-form">
+                <div class="form-group">
+                    <label for="q-title">শিরোনাম (Title)</label>
+                    <p>আপনার প্রশ্নের মূল অংশটি সংক্ষেপে লিখুন।</p>
+                    <input type="text" id="q-title" placeholder="যেমন: নিউটনের দ্বিতীয় সূত্রটি কীভাবে কাজ করে?" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="q-desc">বিস্তারিত বর্ণনা</label>
+                    <p>আপনার প্রশ্নের বিস্তারিত এখানে লিখুন (কমপক্ষে ২০ শব্দ)।</p>
+                    <textarea id="q-desc" rows="10" placeholder="আপনার সমস্যাটি বিস্তারিত ব্যাখ্যা করুন..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="q-tags">ট্যাগসমূহ (Tags)</label>
+                    <p>প্রশ্নটি কোন বিষয় সম্পর্কিত? (কমা দিয়ে আলাদা করুন)</p>
+                    <input type="text" id="q-tags" placeholder="যেমন: বলবিদ্যা, গতিবিদ্যা, hsc">
+                </div>
+
+                <button type="submit" class="s-btn s-btn__primary" id="submit-btn">প্রশ্ন পোস্ট করুন</button>
+            </form>
+        </div>
+    </main>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/ask.js"></script> <script src="js/app.js"></script>
+
+</body>
+</html>
