@@ -8,5 +8,5 @@ async function loadComponent(elementId, filePath) {
 window.addEventListener('DOMContentLoaded', () => {
     loadComponent('main-header', 'components/header.html');
     loadComponent('main-footer', 'components/footer.html');
-    // সাইডবার থাকলে সেটিও লোড করতে পারো
+    loadComponent('main-footer', 'components/sidebar.html');
 });
