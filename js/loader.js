@@ -1,9 +1,3 @@
-// ইভেন্ট ডিসপ্যাচ করার জন্য একটি কাস্টম ফাংশন
-function triggerComponentsLoaded() {
-    const event = new Event('componentsLoaded');
-    window.dispatchEvent(event);
-}
-
 async function loadComponent(elementId, filePath) {
     try {
         const response = await fetch(filePath);
@@ -19,30 +13,32 @@ async function loadComponent(elementId, filePath) {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
+    // হেডার, ফুটার এবং সাইডবার লোড হবে
     await Promise.all([
         loadComponent('main-header', 'components/header.html'),
         loadComponent('main-sidebar', 'components/sidebar.html'),
         loadComponent('main-footer', 'components/footer.html')
     ]);
 
-    // বাটনগুলো সেটআপ করা
-    setupGlobalUI();
-    
-    // লগইন স্ক্রিপ্টকে জানানো যে হেডার তৈরি
-    triggerComponentsLoaded(); 
+    // সব লোড হওয়ার পর বাটনগুলো চালু করো
+    initGlobalScripts();
 });
 
-function setupGlobalUI() {
+function initGlobalScripts() {
     const navToggle = document.getElementById('nav-toggle');
-    const sidebar = document.getElementById('mobile-sidebar'); // নিশ্চিত করো sidebar.html-এ এই আইডি আছে
+    const sidebar = document.getElementById('mobile-sidebar');
+    const themeToggle = document.getElementById('theme-toggle');
 
+    // সাইডবার টগল (হ্যামবার্গার)
     if (navToggle && sidebar) {
-        navToggle.onclick = (e) => {
-            e.stopPropagation();
+        navToggle.onclick = () => {
             sidebar.classList.toggle('active');
+            const icon = navToggle.querySelector('i');
+            if (icon) {
+                icon.className = sidebar.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+            }
         };
     }
-}
 
     // নাইট মোড টগল
     if (themeToggle) {
@@ -50,7 +46,8 @@ function setupGlobalUI() {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            themeToggle.querySelector('i').className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+            const icon = themeToggle.querySelector('i');
+            if (icon) icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
         };
     }
 }
