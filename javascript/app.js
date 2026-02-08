@@ -1,4 +1,7 @@
-// ১. HTML কম্পোনেন্ট রেন্ডার করার ফাংশন
+/**
+ * ১. HTML কম্পোনেন্ট রেন্ডার করার ফাংশন
+ * এখানে আপনার আগের দেওয়া স্টাইলিশ হেডার ও ফুটারের কোডগুলো বসাবেন।
+ */
 const renderLayout = () => {
     const header = document.getElementById('main-header');
     const sidebar = document.getElementById('main-sidebar');
@@ -6,128 +9,145 @@ const renderLayout = () => {
 
     if (header) {
         header.innerHTML = `
-        <nav class="fixed top-0 w-full bg-white dark:bg-darkCard border-b dark:border-darkBorder z-[100] h-[60px] flex items-center px-4 md:px-8 justify-between">
-            <div class="flex items-center gap-4">
-                <button id="hamburger-btn" class="md:hidden text-gray-600 dark:text-gray-300">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-                <a href="/" class="text-2xl font-black tracking-tighter text-brandOrange">PhysFlow</a>
+        <header class="fixed top-0 w-full h-[56px] bg-white dark:bg-[#1a1a1b] border-t-4 border-[#f48024] border-b dark:border-gray-800 z-[100] shadow-sm">
+            <div class="container mx-auto px-4 h-full flex items-center justify-between gap-4">
+                <div class="flex items-center gap-2 shrink-0">
+                    <button id="hamburger-btn" class="md:hidden text-gray-600 dark:text-gray-300 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                    <a href="index.html" class="flex items-center gap-0.5">
+                        <span class="text-2xl font-black text-gray-800 dark:text-white tracking-tighter">phys</span>
+                        <span class="text-2xl font-light text-gray-500 dark:text-gray-400 tracking-tighter">flow</span>
+                    </a>
+                </div>
+                <div class="hidden sm:flex flex-1 max-w-2xl relative items-center group">
+                    <i class="fas fa-search absolute left-3 text-gray-400 text-xs"></i>
+                    <input type="text" placeholder="অনুসন্ধান করুন..." class="w-full pl-9 pr-3 py-1.5 bg-white dark:bg-[#1a1a1b] border border-gray-300 dark:border-gray-700 rounded text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-400">
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <button id="theme-toggle" class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i id="theme-icon" class="fas fa-moon text-lg"></i>
+                    </button>
+                    <div id="user-actions" class="flex items-center gap-2">
+                         <a href="/login" id="login-btn" class="text-[#0074cc] dark:text-blue-400 px-3 py-1.5 rounded text-[13px] font-medium hover:bg-blue-50 dark:hover:bg-gray-800">লগ ইন</a>
+                         <div id="user-menu" class="hidden"></div>
+                    </div>
+                </div>
             </div>
-            
-            <div class="flex items-center gap-4">
-                <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-                    <i id="theme-icon" class="fas fa-moon text-lg"></i>
-                </button>
-                <div id="user-menu" class="hidden"></div>
-                <a href="/login" id="login-btn" class="bg-[#0a95ff] hover:bg-[#0074cc] text-white px-4 py-1.5 rounded text-sm font-medium transition">লগইন</a>
-            </div>
-        </nav>`;
+        </header>`;
     }
 
     if (sidebar) {
+        // এখানে আপনার আগের দেওয়া ডেক্সটপ + মোবাইল সাপোর্ট করা সাইডবার বসবে
         sidebar.innerHTML = `
-        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-[150] hidden"></div>
-        <aside id="mobile-sidebar" class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-darkCard z-[200] transform -translate-x-full transition-transform duration-300 border-r dark:border-darkBorder p-6">
-            <div class="flex justify-between items-center mb-8">
-                <span class="font-bold text-xl text-brandOrange">PhysFlow</span>
-                <button id="close-sidebar" class="md:hidden text-gray-500"><i class="fas fa-times"></i></button>
-            </div>
-            <nav class="space-y-4">
-                <a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-brandOrange font-medium">হোম</a>
-                <a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-brandOrange font-medium">প্রশ্নসমূহ</a>
-                <a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-brandOrange font-medium">ট্যাগ</a>
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-[140] hidden backdrop-blur-sm transition-opacity md:hidden"></div>
+        <aside id="mobile-sidebar" class="fixed top-[56px] left-0 h-screen w-[240px] bg-white dark:bg-[#1a1a1b] border-r dark:border-gray-800 z-[150] -translate-x-full transition-transform duration-300 ease-in-out md:translate-x-0 md:sticky md:z-0 shadow-2xl md:shadow-none">
+            <nav class="flex flex-col py-4 text-[13px] font-medium text-gray-600 dark:text-gray-400">
+                <a href="index.html" class="flex items-center gap-3 px-6 py-2.5 bg-[#fdf3e7] dark:bg-[#2d1d0f] text-[#f48024] border-r-4 border-[#f48024]">
+                    <i class="fas fa-home w-4"></i> <span>হোম</span>
+                </a>
+                <div class="px-6 mt-6 mb-2 text-[11px] uppercase text-gray-400 font-bold">পাবলিক</div>
+                <a href="questions.html" class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+                    <i class="fas fa-globe w-4"></i> <span>প্রশ্নসমূহ</span>
+                </a>
             </nav>
         </aside>`;
     }
 
     if (footer) {
-        footer.innerHTML = `
-        <footer class="bg-white dark:bg-darkCard border-t dark:border-darkBorder py-8 mt-auto">
-            <div class="container mx-auto px-8 text-center text-gray-500 text-xs">
-                <p>&copy; 2026 PhysFlow - ফিজিক্স হোক সহজ।</p>
-            </div>
-        </footer>`;
+        // আগের ডিজাইন অনুযায়ী ফুটার রেন্ডার
     }
 };
 
-// ২. থিম কন্ট্রোল
-const themeToggle = () => {
+/**
+ * ২. থিম কন্ট্রোল (ফ্লিকারিং ফ্রি)
+ */
+const initTheme = () => {
     const html = document.documentElement;
     const themeIcon = document.getElementById('theme-icon');
+    const currentTheme = localStorage.getItem('theme') || 'light';
     
-    const isDark = html.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    
-    if (themeIcon) {
-        if (isDark) {
-            themeIcon.classList.replace('fa-moon', 'fa-sun');
-        } else {
-            themeIcon.classList.replace('fa-sun', 'fa-moon');
-        }
+    if (currentTheme === 'dark') {
+        html.classList.add('dark');
+        if (themeIcon) themeIcon.classList.replace('fa-moon', 'fa-sun');
     }
 };
 
-// ৩. মোবাইল সাইডবার কন্ট্রোল
+const toggleTheme = () => {
+    const html = document.documentElement;
+    const themeIcon = document.getElementById('theme-icon');
+    const isDark = html.classList.toggle('dark');
+    
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    if (themeIcon) {
+        isDark ? themeIcon.classList.replace('fa-moon', 'fa-sun') : themeIcon.classList.replace('fa-sun', 'fa-moon');
+    }
+};
+
+/**
+ * ৩. মোবাইল সাইডবার লজিক (উন্নত)
+ */
 const setupMobileMenu = () => {
     const hamburgerBtn = document.getElementById('hamburger-btn');
-    const closeBtn = document.getElementById('close-sidebar');
     const sidebar = document.getElementById('mobile-sidebar');
     const overlay = document.getElementById('sidebar-overlay');
 
-    const toggleMenu = () => {
+    const toggle = () => {
+        if (!sidebar || !overlay) return;
         sidebar.classList.toggle('-translate-x-full');
         overlay.classList.toggle('hidden');
     };
 
-    if (hamburgerBtn) hamburgerBtn.addEventListener('click', toggleMenu);
-    if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
-    if (overlay) overlay.addEventListener('click', toggleMenu);
+    hamburgerBtn?.addEventListener('click', toggle);
+    overlay?.addEventListener('click', toggle);
 };
 
-// ৪. পেজ লোড সেটআপ
-document.addEventListener('DOMContentLoaded', () => {
-    // আগে লেআউট রেন্ডার করো
-    renderLayout();
-
-    // থিম চেক
-    if (localStorage.getItem('theme') === 'dark') {
-        document.documentElement.classList.add('dark');
-        const themeIcon = document.getElementById('theme-icon');
-        if (themeIcon) themeIcon.classList.replace('fa-moon', 'fa-sun');
-    }
-
-    // বাটন ইভেন্ট
-    const themeBtn = document.getElementById('theme-toggle');
-    if (themeBtn) themeBtn.addEventListener('click', themeToggle);
-
-    setupMobileMenu();
-});
-
-// ৫. ইউজার প্রোফাইল মেনু
+/**
+ * ৪. ইউজার প্রোফাইল মেনু (উন্নত ইভেন্ট হ্যান্ডলিং)
+ */
 export const updateHeaderUserMenu = (user) => {
     const loginBtn = document.getElementById('login-btn');
     const userMenu = document.getElementById('user-menu');
 
     if (user && userMenu) {
-        loginBtn.classList.add('hidden');
+        loginBtn?.classList.add('hidden');
         userMenu.classList.remove('hidden');
         userMenu.innerHTML = `
             <div class="relative group">
-                <img src="${user.photoURL}" class="w-8 h-8 rounded-full border border-gray-300 dark:border-gray-600 cursor-pointer" id="profile-btn">
-                <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-44 bg-white dark:bg-darkCard border dark:border-darkBorder rounded shadow-xl py-2 z-[300]">
-                    <p class="px-4 py-2 text-[11px] text-gray-500 border-b dark:border-darkBorder mb-1">${user.displayName}</p>
-                    <button id="logout-btn" class="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-50 dark:hover:bg-gray-800 transition">লগআউট</button>
+                <img src="${user.photoURL}" class="w-8 h-8 rounded border border-gray-300 dark:border-gray-600 cursor-pointer shadow-sm" id="profile-btn">
+                <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-[#1a1a1b] border dark:border-gray-800 rounded shadow-xl py-2 z-[300]">
+                    <div class="px-4 py-2 border-b dark:border-gray-800 mb-1">
+                        <p class="text-xs font-bold text-gray-800 dark:text-white truncate">${user.displayName}</p>
+                        <p class="text-[10px] text-gray-500 truncate">${user.email}</p>
+                    </div>
+                    <a href="/profile" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800">প্রোফাইল</a>
+                    <button id="logout-btn" class="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-50 dark:hover:bg-gray-800">লগআউট</button>
                 </div>
             </div>
         `;
 
-        document.getElementById('profile-btn').onclick = (e) => {
+        const profileBtn = document.getElementById('profile-btn');
+        const dropdown = document.getElementById('profile-dropdown');
+
+        profileBtn?.addEventListener('click', (e) => {
             e.stopPropagation();
-            document.getElementById('profile-dropdown').classList.toggle('hidden');
-        };
-        
-        window.onclick = () => {
-            document.getElementById('profile-dropdown')?.classList.add('hidden');
-        };
+            dropdown.classList.toggle('hidden');
+        });
     }
 };
+
+/**
+ * ৫. ইনপুট ও উইন্ডো ইভেন্ট (Cleanup)
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    renderLayout();
+    initTheme();
+    setupMobileMenu();
+
+    document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+    
+    // গ্লোবাল ক্লিক হ্যান্ডলার (ড্রপডাউন বন্ধের জন্য)
+    window.addEventListener('click', () => {
+        document.getElementById('profile-dropdown')?.classList.add('hidden');
+    });
+});
