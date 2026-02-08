@@ -2,49 +2,31 @@ import { db } from './firebase-config.js';
 import { collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 async function fetchQuestions() {
-    const qListContainer = document.getElementById('question-list');
-    
+    const qList = document.getElementById('question-list');
     try {
         const q = query(collection(db, "questions"), orderBy("createdAt", "desc"));
-        const querySnapshot = await getDocs(q);
-        
-        qListContainer.innerHTML = ''; // লোডিং টেক্সট সরিয়ে ফেলা
+        const snapshot = await getDocs(q);
+        qList.innerHTML = '';
 
-        if (querySnapshot.empty) {
-            qListContainer.innerHTML = '<p style="padding:20px;">কোনো প্রশ্ন পাওয়া যায়নি।</p>';
-            return;
-        }
-
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const qId = doc.id;
-            const date = data.createdAt?.toDate().toLocaleDateString('bn-BD') || 'অজানা সময়';
-
-            const questionHTML = `
+        snapshot.forEach((doc) => {
+            const d = doc.data();
+            qList.innerHTML += `
                 <div class="question-summary">
                     <div class="q-stats">
                         <div>0 ভোট</div>
-                        <div style="border: 1px solid var(--orange); padding: 2px; color: var(--orange);">0 উত্তর</div>
-                        <div>12 ভিউ</div>
+                        <div style="color:var(--orange)">0 উত্তর</div>
                     </div>
                     <div class="q-summary-content">
-                        <h3><a href="question.html?id=${qId}">${data.title}</a></h3>
+                        <h3><a href="question.html?id=${doc.id}">${d.title}</a></h3>
                         <div class="q-tags">
-                            ${data.tags.map(tag => `<a href="#" class="tag">${tag}</a>`).join('')}
+                            ${d.tags.map(t => `<a href="#" class="tag">${t}</a>`).join('')}
                         </div>
-                        <div style="font-size:12px; color:var(--text-light); margin-top:10px; text-align:right;">
-                            — ${data.authorName} এ ${date} জিজ্ঞাসা করেছেন
-                        </div>
+                        <p style="font-size:12px; margin-top:8px; text-align:right">
+                            ${d.authorName} - ${d.createdAt?.toDate().toLocaleDateString('bn-BD')}
+                        </p>
                     </div>
-                </div>
-            `;
-            qListContainer.innerHTML += questionHTML;
+                </div>`;
         });
-    } catch (error) {
-        console.error("Error fetching questions: ", error);
-        qListContainer.innerHTML = '<p>প্রশ্ন লোড করতে সমস্যা হয়েছে।</p>';
-    }
+    } catch (e) { qList.innerHTML = "লোড করতে ব্যর্থ!"; }
 }
-
-// পেজ লোড হলে প্রশ্ন নিয়ে আসবে
 window.addEventListener('DOMContentLoaded', fetchQuestions);
