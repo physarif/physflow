@@ -1,100 +1,57 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhysFlow - পদার্থবিজ্ঞানের প্রশ্নোত্তর প্ল্যাটফর্ম</title>
+<main class="max-w-[1264px] mx-auto flex flex-col md:flex-row gap-0 pt-[50px] min-h-screen">
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link rel="stylesheet" href="css/loader.css">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brandOrange: '#f48225',
-                        darkMain: '#232629', 
-                        darkCard: '#1A1A1A',
-                        darkBorder: '#444444'
-                    }
-                }
-            },
-            darkMode: 'class'
-        }
-    </script>
-</head>
-<body class="bg-[#f8f9f9] dark:bg-darkMain transition-colors duration-200">
-
-    <header id="main-header"></header>
-    <aside id="main-sidebar"></aside>
-
-    <main class="max-w-[1264px] mx-auto flex flex-col md:flex-row gap-0 md:gap-6 pt-[50px] min-h-screen">
-        
-        <div class="flex-grow bg-white dark:bg-darkMain border-x border-gray-200 dark:border-darkBorder">
-            
-            <div class="p-6 border-b border-gray-200 dark:border-darkBorder flex justify-between items-center">
-                <h1 class="text-2xl font-semibold text-gray-800 dark:text-[#E0E0E0]">সব প্রশ্ন</h1>
-                <a href="ask-question.html" class="bg-[#0a95ff] hover:bg-[#0074cc] text-white px-4 py-2 rounded text-sm font-medium transition-colors">
-                    প্রশ্ন করুন
+    <aside class="hidden md:block w-[220px] shrink-0 border-r border-gray-200 dark:border-darkBorder pt-6">
+        <div class="sticky top-[70px]">
+            <nav class="space-y-1">
+                <a href="index.html" class="flex items-center gap-3 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-[#E0E0E0] border-r-4 border-brandOrange bg-gray-50 dark:bg-darkCard">
+                    <i class="fas fa-globe w-4"></i> হোম
                 </a>
-            </div>
+                <a href="categories.html" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-[#B0B0B0] hover:text-gray-900 dark:hover:text-white transition-colors">
+                    <i class="fas fa-th-list w-4"></i> বিভাগ
+                </a>
+                <a href="tags.html" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-[#B0B0B0] hover:text-gray-900 dark:hover:text-white transition-colors">
+                    <i class="fas fa-tags w-4"></i> ট্যাগ
+                </a>
+            </nav>
 
-            <div class="px-6 py-3 border-b border-gray-100 dark:border-darkBorder flex justify-between items-center bg-gray-50/50 dark:bg-darkCard/30">
-                <div id="q-count-status" class="text-sm text-gray-600 dark:text-[#B0B0B0]">
-                    লোডিং...
-                </div>
-                <div class="flex border border-gray-300 dark:border-darkBorder rounded overflow-hidden">
-                    <button class="px-3 py-1.5 text-[12px] bg-white dark:bg-darkCard text-gray-700 dark:text-[#E0E0E0] border-r dark:border-darkBorder hover:bg-gray-50">Newest</button>
-                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0] border-r dark:border-darkBorder hover:bg-gray-50">Active</button>
-                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0] hover:bg-gray-50">Unanswered</button>
-                </div>
-            </div>
-
-            <div id="question-feed" class="divide-y divide-gray-100 dark:divide-darkBorder">
-                <div class="text-center py-20">
-                    <i class="fas fa-circle-notch fa-spin text-3xl text-brandOrange mb-4"></i>
-                    <p class="text-gray-500 dark:text-[#B0B0B0]">পদার্থবিজ্ঞানের প্রশ্নগুলো লোড হচ্ছে...</p>
+            <div class="mt-8 px-4">
+                <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">পরিসংখ্যান</h3>
+                <div class="text-[13px] space-y-2 text-gray-600 dark:text-[#B0B0B0]">
+                    <div class="flex justify-between"><span>প্রশ্ন:</span> <strong id="total-q">০</strong></div>
+                    <div class="flex justify-between"><span>সদস্য:</span> <strong id="active-users">০</strong></div>
                 </div>
             </div>
         </div>
+    </aside>
 
-        <aside class="w-full md:w-[300px] shrink-0 p-6 md:p-0 md:pt-6">
-            <div class="bg-white dark:bg-darkCard border border-gray-200 dark:border-darkBorder rounded-lg p-5 shadow-sm sticky top-[70px]">
-                <h3 class="text-sm font-bold text-gray-700 dark:text-[#E0E0E0] mb-4 uppercase tracking-wider">
-                    PhysFlow পরিসংখ্যান
-                </h3>
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm text-gray-600 dark:text-[#B0B0B0]">মোট প্রশ্ন</span>
-                        <strong id="total-q" class="text-gray-800 dark:text-[#E0E0E0]">০</strong>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm text-gray-600 dark:text-[#B0B0B0]">সমাধান হয়েছে</span>
-                        <strong class="text-green-600 dark:text-green-500">০</strong>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm text-gray-600 dark:text-[#B0B0B0]">সক্রিয় সদস্য</span>
-                        <strong id="active-users" class="text-gray-800 dark:text-[#E0E0E0]">০</strong>
-                    </div>
-                </div>
-                <hr class="my-4 border-gray-100 dark:border-darkBorder">
-                <p class="text-[11px] text-gray-500 dark:text-[#888888] leading-relaxed">
-                    আপনার পদার্থবিজ্ঞান বিষয়ক যেকোনো সমস্যা এখানে শেয়ার করুন। আমাদের কমিউনিটি আপনাকে সাহায্য করতে প্রস্তুত।
-                </p>
+    <div class="flex-grow bg-white dark:bg-darkMain min-w-0">
+        <div class="p-6 border-b border-gray-200 dark:border-darkBorder flex justify-between items-center">
+            <h1 class="text-2xl font-normal text-gray-800 dark:text-[#E0E0E0]">সব প্রশ্ন</h1>
+            <a href="ask-question.html" class="bg-[#0a95ff] hover:bg-[#0074cc] text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+                প্রশ্ন করুন
+            </a>
+        </div>
+
+        <div class="px-6 py-3 border-b border-gray-100 dark:border-darkBorder flex justify-between items-center bg-gray-50/50 dark:bg-darkCard/30">
+            <div id="q-count-status" class="text-sm text-gray-600 dark:text-[#B0B0B0]">লোড হচ্ছে...</div>
+            <div class="flex border border-gray-300 dark:border-darkBorder rounded overflow-hidden">
+                <button class="px-3 py-1 text-[12px] bg-white dark:bg-darkCard text-gray-700 dark:text-[#E0E0E0] border-r dark:border-darkBorder">Newest</button>
+                <button class="px-3 py-1 text-[12px] text-gray-600 dark:text-[#B0B0B0] border-r dark:border-darkBorder">Active</button>
+                <button class="px-3 py-1 text-[12px] text-gray-600 dark:text-[#B0B0B0]">Unanswered</button>
             </div>
-        </aside>
-    </main>
+        </div>
 
-    <footer id="main-footer"></footer>
+        <div id="question-feed" class="divide-y divide-gray-100 dark:divide-darkBorder">
+             </div>
+    </div>
 
-    <script src="js/loader.js"></script> 
-    <script type="module" src="js/firebase-config.js"></script>
-    <script type="module" src="js/auth.js"></script>
-    <script type="module" src="js/home.js"></script>
-
-</body>
-</html>
+    <aside class="hidden lg:block w-[300px] shrink-0 p-6">
+        <div class="bg-yellow-50 dark:bg-[#2D2D3A] border border-yellow-200 dark:border-darkBorder p-4 rounded shadow-sm">
+            <h4 class="text-xs font-bold text-yellow-800 dark:text-yellow-500 uppercase mb-2">নিয়মাবলী</h4>
+            <ul class="text-[12px] space-y-2 text-gray-700 dark:text-[#B0B0B0] list-disc ml-4">
+                <li>প্রশ্ন করার আগে অনুসন্ধান করুন।</li>
+                <li>স্পষ্ট এবং সংক্ষিপ্ত শিরোনাম দিন।</li>
+            </ul>
+        </div>
+    </aside>
+</main>
