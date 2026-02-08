@@ -70,3 +70,11 @@ function initInteractions() {
         }
     });
 }
+
+// ভার্সন নম্বর আপডেট
+    const currentVersion = "v1.0.5"; // প্রতিবার আপডেটের পর শুধু এই নম্বরটি পরিবর্তন করবে
+    const versionDisplay = document.getElementById('app-version');
+    
+    if (versionDisplay) {
+        versionDisplay.innerText = currentVersion;
+    }
