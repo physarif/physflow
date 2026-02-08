@@ -1,41 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stack Overflow Clone</title>
-    <link rel="stylesheet" href="cs/index.css">
+    <title>PhysFlow - পদার্থবিজ্ঞানের প্রশ্নোত্তর প্ল্যাটফর্ম</title>
+    
+    <link rel="stylesheet" href="css/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <div id="header-container"></div>
+    <header class="s-header" id="main-header"></header>
 
-    <div class="container">
-        <div id="sidebar-container"></div>
-        
+    <div class="s-main-layout container">
+        <aside id="main-sidebar" class="desktop-sidebar-nav"></aside>
+
         <main id="main-content">
-            <div class="main-header">
-                <h1>All Questions</h1>
-                <button class="ask-btn">Ask Question</button>
+            <div class="feed-header">
+                <h1>শীর্ষ প্রশ্নসমূহ</h1>
+                <a href="ask-question.html" class="s-btn s-btn__primary">প্রশ্ন করুন</a>
             </div>
 
-            <div class="filters">
-                <div class="filter-group">
-                    <button class="filter-item active">Newest</button>
-                    <button class="filter-item">Active</button>
-                    <button class="filter-item">Unanswered</button>
-                </div>
+            <div class="feed-tabs">
+                <button class="tab-btn active">নতুন</button>
+                <button class="tab-btn">সক্রিয়</button>
+                <button class="tab-btn">অমীমাংসিত</button>
             </div>
 
-            <div id="questions-list"></div>
+            <div id="question-list">
+                <div class="loading-state">প্রশ্নগুলো লোড হচ্ছে...</div>
+            </div>
         </main>
+
+        <aside class="right-sidebar">
+            <div class="s-widget">
+                <h3>PhysFlow নিয়মাবলী</h3>
+                <ul>
+                    <li>সংক্ষেপে সঠিক শিরোনাম দিন।</li>
+                    <li>বিস্তারিত বর্ণনা ও প্রয়োজনীয় ছবি যোগ করুন।</li>
+                    <li>সঠিক ট্যাগ ব্যবহার করুন।</li>
+                </ul>
+            </div>
+        </aside>
     </div>
 
-    <div id="footer-container"></div>
+    <footer class="s-footer" id="main-footer"></footer>
 
-    <script src="js/firebase-config.js"></script>
-    <script src="js/auth.js"></script>
     <script src="js/loader.js"></script>
-    <script src="js/index.js"></script>
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
