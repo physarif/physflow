@@ -1,50 +1,47 @@
-/* --- Global Variables (নিশ্চিত করার জন্য পুনরায় দেওয়া) --- */
+/* --- Global Variables --- */
 :root {
     --orange: #f48225;
     --border: #d6d9dc;
     --bc-light: #f8f9f9;
     --white: #ffffff;
     --black: #232629;
+    --text-muted: #666; /* নতুন যুক্ত করা হলো */
 }
 
-/* --- Header Styles --- */
-.logo-wrapper {
-    position: relative; /* ভার্সন নম্বরকে পজিশন করার জন্য */
-    display: inline-block;
-    line-height: 1;
-}
-
-.version-tag {
-    position: absolute;
-    bottom: -12px; /* লোগোর ঠিক কতটুকু নিচে থাকবে */
-    right: 0;      /* ডান দিকে এলাইন করার জন্য */
-    font-size: 9px;
-    font-weight: normal;
-    color: #666;
-    letter-spacing: 0.5px;
-    white-space: nowrap; /* যাতে এক লাইনেই থাকে */
-}
-
-/* লোগোর ফন্ট সাইজ একটু কমিয়ে ব্যালেন্স করতে পারো যদি প্রয়োজন হয় */
+/* --- Header & Logo Styles (পরিশোধিত) --- */
 .s-logo {
     text-decoration: none;
     display: flex;
-    align-items: center;
-}
-
-.s-logo {
-    display: flex;
-    flex-direction: column; /* লোগোর নিচে ভার্সন নেওয়ার জন্য */
+    flex-direction: column;
     align-items: flex-start;
     line-height: 1;
 }
 
+.logo-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.phys {
+    color: var(--orange);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.flow {
+    color: #8a9aa5;
+    font-weight: 300;
+    font-size: 1.2rem;
+}
+
 .version-tag {
-    font-size: 10px;
-    color: var(--text-muted); /* বা তোমার পছন্দমতো হালকা কোনো রং */
-    margin-top: 2px;
+    font-size: 9px;
+    color: var(--text-muted);
     font-weight: normal;
     opacity: 0.8;
+    margin-top: -2px; /* লোগোর ঠিক নিচে রাখার জন্য */
+    letter-spacing: 0.5px;
 }
 
 .s-header {
@@ -74,13 +71,13 @@
     font-size: 18px;
     vertical-align: middle;
 }
-.d-none { display: none; }
+.d-none { display: none !important; }
 
-/* --- Sidebar Base (মোবাইলে এটি স্ক্রিনের বাইরে থাকবে) --- */
+/* --- Sidebar Styles --- */
 .s-sidebar {
     position: fixed;
     top: 50px;
-    left: -260px; /* এটি নিশ্চিত করে যে ডিফল্টভাবে সাইডবার বামে লুকিয়ে থাকবে */
+    left: -260px;
     width: 240px;
     height: calc(100vh - 50px);
     background: var(--white);
@@ -89,28 +86,25 @@
     z-index: 1000;
 }
 
-/* যখন 'active' ক্লাস যুক্ত হবে তখন সামনে আসবে */
 .s-sidebar.active {
     left: 0 !important;
 }
 
-/* --- Desktop View Fix (৭৬৮ পিক্সেলের উপরে) --- */
+/* --- Desktop & Mobile Visibility --- */
 @media (min-width: 768px) {
-    .s-sidebar, #main-sidebar {
-        display: none !important; /* ডেস্কটপে সাইডবার চিরতরে অদৃশ্য */
+    .s-sidebar, #main-sidebar, .s-btn__hamburger {
+        display: none !important;
     }
-    .s-btn__hamburger {
-        display: none !important; /* হ্যামবার্গার বাটনও উধাও */
+    .s-navigation__desktop {
+        display: block !important;
     }
 }
 
-/* --- Mobile Fix (৭৬৮ পিক্সেলের নিচে) --- */
 @media (max-width: 767px) {
     .s-navigation__desktop {
-        display: none !important; /* মোবাইলে ডেস্কটপ মেনু হাইড */
+        display: none !important;
     }
 }
-
 
 .s-sidebar--nav ul {
     list-style: none;
@@ -121,13 +115,12 @@
     display: block;
     padding: 12px 20px;
     text-decoration: none;
-    color: var(--text-dark);
+    color: var(--black);
     font-size: 14px;
-    border-bottom: 1px solid transparent;
 }
 
 .nav-links:hover {
-    background: var(--hover-bg);
+    background: var(--bc-light);
     border-right: 3px solid var(--orange);
 }
 
@@ -158,49 +151,21 @@
     text-decoration: none;
 }
 
-/* --- Desktop View Fix (768px+) --- */
-@media (min-width: 768px) {
-    /* ১. সাইডবার ডেস্কটপে পুরোপুরি হাইড */
-    .s-sidebar, #main-sidebar {
-        display: none !important;
-    }
-    
-    /* ২. হ্যামবার্গার বাটন ডেস্কটপে হাইড */
-    .s-btn__hamburger {
-        display: none !important;
-    }
-    
-    /* ৩. ডেস্কটপ নেভিগেশন মেনু শো */
-    .s-navigation__desktop {
-        display: block !important;
-    }
-}
-
-/* --- Mobile View Fix (< 768px) --- */
-@media (max-width: 767px) {
-    .s-navigation__desktop {
-        display: none !important;
-    }
-}
-
-        .phys {
-            color: #f48225;
-        }
-
-        .flow {
-            color: #8a9aa5;
-            font-weight: 300;
-        }
-
-
+/* --- Auth Elements --- */
 #google-login, .s-btn__google {
     cursor: pointer !important;
     position: relative;
-    z-index: 1010; /* যাতে সবকিছুর উপরে থাকে */
+    z-index: 1010;
     pointer-events: auto !important;
 }
 
 #google-login i {
-    pointer-events: none; /* আইকনের ওপর ক্লিক করলে যেন বাটনে লাগে */
+    pointer-events: none;
 }
 
+.s-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+}
