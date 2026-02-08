@@ -1,55 +1,22 @@
-/* --- Global Variables --- */
+/* --- ১. গ্লোবাল ভ্যারিয়েবল ও রিসেট --- */
 :root {
     --orange: #f48225;
     --border: #d6d9dc;
     --bc-light: #f8f9f9;
     --white: #ffffff;
     --black: #232629;
-    --text-muted: #666; /* নতুন যুক্ত করা হলো */
+    --text-muted: #666;
 }
 
-/* --- Header & Logo Styles (পরিশোধিত) --- */
-.s-logo {
-    text-decoration: none;
-    display: flex;
-    flex-direction: column; /* লোগো এবং ভার্সনকে উপর-নিচ করার জন্য */
-    align-items: flex-start;
-    line-height: 1;
-}
+body { margin: 0; padding: 0; }
+.d-none { display: none !important; }
 
-.logo-wrapper {
-    display: flex; /* phys এবং flow কে এক লাইনে রাখার জন্য */
-    flex-direction: row; 
-    align-items: baseline;
-}
-
-.phys {
-    color: var(--orange);
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-.flow {
-    color: #8a9aa5;
-    font-weight: 300;
-    font-size: 1.2rem;
-}
-
-.version-tag {
-    font-size: 9px;
-    color: var(--text-muted);
-    font-weight: normal;
-    opacity: 0.8;
-    margin-top: 2px; /* লোগোর ঠিক নিচে গ্যাপের জন্য */
-    letter-spacing: 0.5px;
-}
-
+/* --- ২. হেডার ডিজাইন (সবচেয়ে গুরুত্বপূর্ণ অংশ) --- */
 .s-header {
     background-color: var(--bc-light);
     border-top: 3px solid var(--orange);
     border-bottom: 1px solid var(--border);
-    padding: 0 15px;
-    height: 50px;
+    height: 54px;
     display: flex;
     align-items: center;
     position: sticky;
@@ -61,55 +28,72 @@
     width: 100%;
     max-width: 1264px;
     margin: 0 auto;
+    padding: 0 15px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* বাম ও ডান অংশকে দুই দিকে ঠেলে দেবে */
     align-items: center;
 }
 
-/* আইকন এবং বাটন স্টাইল */
-.s-btn i, .nav-links i {
-    font-size: 18px;
-    vertical-align: middle;
+/* বাম ও ডান সেকশনকে পাশাপাশি রাখার জন্য */
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
-.d-none { display: none !important; }
 
-/* --- Sidebar Styles --- */
+/* লোগো ও ভার্সন */
+.s-logo {
+    text-decoration: none;
+    line-height: 1;
+}
+
+.logo-wrapper {
+    display: flex;
+    align-items: baseline;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.phys { color: var(--orange); }
+.flow { color: #8a9aa5; font-weight: 300; }
+
+.version-tag {
+    font-size: 10px;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 2px;
+}
+
+/* নেভিগেশন (ডেস্কটপ) */
+.s-navigation__desktop ul {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.s-navigation__desktop a {
+    text-decoration: none;
+    color: var(--black);
+    font-size: 13px;
+    padding: 5px 10px;
+}
+
+/* --- ৩. সাইডবার ডিজাইন --- */
 .s-sidebar {
     position: fixed;
-    top: 50px;
+    top: 54px;
     left: -260px;
     width: 240px;
-    height: calc(100vh - 50px);
+    height: calc(100vh - 54px);
     background: var(--white);
     border-right: 1px solid var(--border);
-    transition: transform 0.3s ease, left 0.3s ease;
-    z-index: 1000;
+    transition: left 0.3s ease;
+    z-index: 999;
 }
 
-.s-sidebar.active {
-    left: 0 !important;
-}
-
-/* --- Desktop & Mobile Visibility --- */
-@media (min-width: 768px) {
-    .s-sidebar, #main-sidebar, .s-btn__hamburger {
-        display: none !important;
-    }
-    .s-navigation__desktop {
-        display: block !important;
-    }
-}
-
-@media (max-width: 767px) {
-    .s-navigation__desktop {
-        display: none !important;
-    }
-}
-
-.s-sidebar--nav ul {
-    list-style: none;
-    padding: 10px 0;
-}
+.s-sidebar.active { left: 0 !important; }
 
 .nav-links {
     display: block;
@@ -119,17 +103,14 @@
     font-size: 14px;
 }
 
-.nav-links:hover {
-    background: var(--bc-light);
-    border-right: 3px solid var(--orange);
-}
+.nav-links:hover { background: var(--bc-light); border-right: 3px solid var(--orange); }
 
-/* --- Footer Styles --- */
+/* --- ৪. ফুটার ডিজাইন --- */
 .s-footer {
     background-color: var(--black);
     color: #9199a1;
-    padding: 30px 20px;
-    margin-top: 50px;
+    padding: 30px 15px;
+    margin-top: auto;
 }
 
 .footer-container {
@@ -138,34 +119,42 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap; /* মোবাইলে একটার নিচে আরেকটা আসার জন্য */
+    gap: 15px;
 }
 
 .footer-links {
     list-style: none;
     display: flex;
     gap: 15px;
+    margin: 0;
+    padding: 0;
 }
 
-.footer-links a {
-    color: #9199a1;
-    text-decoration: none;
-}
+.footer-links a { color: #9199a1; text-decoration: none; font-size: 13px; }
 
-/* --- Auth Elements --- */
-#google-login, .s-btn__google {
-    cursor: pointer !important;
-    position: relative;
-    z-index: 1010;
-    pointer-events: auto !important;
-}
-
-#google-login i {
-    pointer-events: none;
-}
-
+/* --- ৫. ইউজার ও বাটন এলিমেন্ট --- */
 .s-avatar {
     width: 32px;
     height: 32px;
     border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border);
+}
+
+.s-btn {
+    background: none;
+    border: none;
     cursor: pointer;
+    font-size: 18px;
+    color: var(--text-muted);
+}
+
+/* --- রেসপন্সিভনেস --- */
+@media (min-width: 769px) {
+    .s-btn__hamburger { display: none !important; }
+}
+
+@media (max-width: 768px) {
+    .s-navigation__desktop { display: none !important; }
 }
