@@ -8,6 +8,30 @@
 }
 
 /* --- Header Styles --- */
+.logo-wrapper {
+    position: relative; /* ভার্সন নম্বরকে পজিশন করার জন্য */
+    display: inline-block;
+    line-height: 1;
+}
+
+.version-tag {
+    position: absolute;
+    bottom: -12px; /* লোগোর ঠিক কতটুকু নিচে থাকবে */
+    right: 0;      /* ডান দিকে এলাইন করার জন্য */
+    font-size: 9px;
+    font-weight: normal;
+    color: #666;
+    letter-spacing: 0.5px;
+    white-space: nowrap; /* যাতে এক লাইনেই থাকে */
+}
+
+/* লোগোর ফন্ট সাইজ একটু কমিয়ে ব্যালেন্স করতে পারো যদি প্রয়োজন হয় */
+.s-logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
 .s-logo {
     display: flex;
     flex-direction: column; /* লোগোর নিচে ভার্সন নেওয়ার জন্য */
