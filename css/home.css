@@ -1,31 +1,48 @@
-/* লেআউট ও গ্রিড */
-.question-grid {
+/* হোমপেজের মেইন লেআউট */
+.home-main-layout {
+    max-width: 1264px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 80vh;
+}
+
+.hero-section {
+    text-align: center;
+    padding: 40px 0;
+    background: #fdf7e3;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.search-box {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+#home-search {
+    width: 60%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+}
+
+#search-btn {
+    padding: 12px 20px;
+    background: #f48225;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.content-wrapper {
     display: grid;
-    grid-template-columns: 1fr;
-    border-top: 1px solid var(--border);
-    margin-top: 10px;
-}
-@media (min-width: 768px) {
-    .question-grid { grid-template-columns: 1fr 1fr; }
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
 }
 
-/* সার্চ ইনপুট */
-.search-input-style {
-    width: 100%; padding: 10px 20px; border-radius: 30px;
-    border: 1px solid #ddd; outline: none; transition: 0.3s;
+@media (max-width: 768px) {
+    .content-wrapper { grid-template-columns: 1fr; }
+    .home-right-sidebar { display: none; }
 }
-.search-icon-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #888; border: none; background: none; cursor: pointer; }
-
-/* ফিল্টার বাটন */
-.filter-group { display: inline-flex; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
-.filter-btn { padding: 6px 15px; border: none; background: #fff; cursor: pointer; font-size: 12px; border-right: 1px solid #ddd; }
-.filter-btn.active { background: #fef7f0; color: #F48024; font-weight: bold; }
-
-/* কার্ড ডিজাইন */
-.q-card { padding: 15px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; background: #fff; }
-.q-card:hover { background: #fafafa; }
-.q-card-title { color: #0a95ff; font-size: 16px; font-weight: 600; text-decoration: none; }
-.q-card-title:hover { text-decoration: underline; }
-
-.stats-badge { display: flex; gap: 10px; font-size: 12px; }
-.loading-text { grid-column: 1 / -1; text-align: center; padding: 50px; color: #999; }
