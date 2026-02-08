@@ -1,11 +1,28 @@
-/* --- ডার্ক মোড কাস্টম কালার (Charcoal Blue লুক) --- */
+/* --- ১. গ্লোবাল সেটিংস ও রিসেট --- */
+:root {
+    --orange: #f48225;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    overflow-x: hidden;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* --- ২. ডার্ক মোড কাস্টম কালার (Charcoal Blue) --- */
 .dark body {
-    background-color: #0f172a; /* Tailwind slate-950 */
+    background-color: #0f172a; /* Slate-950 */
     color: #f1f5f9;
 }
 
 .dark #main-header {
-    background-color: #1e293b !important; /* Tailwind slate-800 */
+    background-color: #1e293b !important; /* Slate-800 */
     border-bottom-color: #334155 !important;
 }
 
@@ -14,11 +31,39 @@
     border-right-color: #334155 !important;
 }
 
-/* টেক্সট ও আইকন কালার অ্যাডজাস্টমেন্ট */
-.dark .text-gray-700, .dark .nav-links {
-    color: #cbd5e1 !important; /* হালকা গ্রে টেক্সট */
+/* ডার্ক মোডে টেক্সট ও হোভার ইফেক্ট */
+.dark .text-gray-700, 
+.dark .nav-links {
+    color: #cbd5e1 !important;
 }
 
-.dark .hover\:bg-gray-100:hover {
+.dark .hover\:bg-gray-100:hover,
+.dark .nav-links:hover {
     background-color: #334155 !important;
+}
+
+/* --- ৩. লেআউট ফিক্স (Header Fixed থাকার কারণে) --- */
+#main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    z-index: 1000;
+}
+
+/* কন্টেন্ট যেন হেডারের নিচে না ঢোকে */
+main, .home-main-layout {
+    padding-top: 50px;
+}
+
+/* --- ৪. সাইডবার সেটিংস --- */
+#mobile-sidebar {
+    position: fixed;
+    top: 50px;
+    left: -260px; /* ডিফল্টভাবে লুকানো */
+    width: 240px;
+    height: calc(100vh - 50px);
+    transition: left 0.3s ease;
+    z-index: 999;
 }
