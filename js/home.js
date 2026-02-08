@@ -1,168 +1,144 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, query, orderBy, onSnapshot, where, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-import { db } from './firebase-config.js';
-import { collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// তোমার কনফিগ (Firebase Config)
+const firebaseConfig = {
+    apiKey: "AIzaSyCyGf_NQLsckjUQH1FwbUP1DKZvzpbrYHo",
+    authDomain: "phyflow-devs.firebaseapp.com",
+    projectId: "phyflow-devs",
+    storageBucket: "phyflow-devs.firebasestorage.app",
+    messagingSenderId: "34351515593",
+    appId: "1:34351515593:web:ca06f69f07ace936b7ca18",
+    measurementId: "G-E00E61978Q"
+};
 
-// Helper function to calculate time ago in Bengali
-function getTimeAgo(timestamp) {
-    if (!timestamp) return 'অজানা সময়';
-    
-    const now = new Date();
-    const createdDate = timestamp.toDate();
-    const diffInSeconds = Math.floor((now - createdDate) / 1000);
-    
-    if (diffInSeconds < 60) return 'এইমাত্র';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} মিনিট আগে`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} ঘন্টা আগে`;
-    if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)} দিন আগে`;
-    return createdDate.toLocaleDateString('bn-BD');
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// সময় নির্ধারণের ফাংশন (বাংলায়)
+function timeAgo(timestamp) {
+    if (!timestamp) return 'এইমাত্র';
+    const seconds = Math.floor((new Date() - timestamp.toDate()) / 1000);
+    let interval = Math.floor(seconds / 31536000);
+    if (interval >= 1) return interval.toLocaleString('bn-BD') + " বছর আগে";
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) return interval.toLocaleString('bn-BD') + " মাস আগে";
+    interval = Math.floor(seconds / 86400);
+    if (interval >= 1) return interval.toLocaleString('bn-BD') + " দিন আগে";
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) return interval.toLocaleString('bn-BD') + " ঘণ্টা আগে";
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) return interval.toLocaleString('bn-BD') + " মিনিট আগে";
+    return "এইমাত্র";
 }
 
-// Question card creation function
-function createQuestionCard(question, docId) {
-    const timeAgo = getTimeAgo(question.createdAt);
-    const tags = question.tags || [];
+// মূল প্রশ্ন লোড করার ফাংশন
+function loadQuestions() {
+    const questionContainer = document.getElementById('question-container');
+    const questionsRef = collection(db, "questions");
     
-    return `
-        <div class="border border-lightBorder dark:border-darkBorder -mb-px bg-white dark:bg-darkCard p-4 flex flex-col gap-2 hover:bg-gray-50 dark:hover:bg-[#252525] transition-colors">
-            
-            <!-- Title -->
-            <a href="question-details.html?id=${docId}" 
-               class="text-brandBlue hover:text-brandBlueHover hover:underline text-lg font-semibold leading-tight inline-block">
-                ${question.title}
-            </a>
-            
-            <!-- Description -->
-            <p class="text-sm text-textDark dark:text-gray-300 leading-relaxed line-clamp-2">
-                ${question.description || 'কোনো বিবরণ নেই'}
-            </p>
-            
-            <!-- Stats, Category, Tags, Time -->
-            <div class="flex flex-wrap items-center justify-between gap-3 mt-2">
-                
-                <!-- Left: Stats -->
-                <div class="flex items-center gap-4">
-                    <span class="text-xs font-medium text-textGray dark:text-gray-400">
-                        <i class="fas fa-arrow-up"></i> ${question.upvotes || 0}
-                    </span>
-                    <span class="text-xs font-medium text-answerGreen border border-answerGreen px-1.5 py-0.5 rounded">
-                        ${question.answers || 0} উত্তর
-                    </span>
-                    <span class="text-xs font-medium text-textGray dark:text-gray-400">
-                        <i class="fas fa-eye"></i> ${question.views || 0}
-                    </span>
-                </div>
-                
-                <!-- Right: Category, Tags, Time -->
-                <div class="flex items-center gap-2 flex-wrap">
-                    <!-- Category -->
-                    <span class="bg-brandBlue text-white px-2.5 py-1 rounded text-[11px] font-bold uppercase">
-                        ${question.category || 'পদার্থবিজ্ঞান'}
-                    </span>
-                    
-                    <!-- Tags -->
-                    ${tags.map(tag => `
-                        <span class="bg-tagBg dark:bg-[#2d2d2d] text-tagText dark:text-gray-300 px-2 py-1 rounded text-[11px] border border-transparent dark:border-darkBorder">
-                            ${tag}
-                        </span>
-                    `).join('')}
-                    
-                    <!-- Time & Author -->
-                    <span class="text-xs text-timeGray dark:text-gray-500">
-                        ${timeAgo} • <span class="text-brandBlue dark:text-blue-400">${question.authorName || 'ইউজার'}</span>
-                    </span>
-                </div>
-                
-            </div>
-        </div>
-    `;
-}
+    // ট্রেন্ডিং কুয়েরি: অনুমোদিত পোস্ট এবং ভিউ অনুযায়ী সর্ট
+    const q = query(
+        questionsRef, 
+        where("status", "==", "approved"), 
+        orderBy("createdAt", "desc"),
+        limit(12)
+    );
 
-// ১. মেইন ফিড লোড করা
-async function loadQuestions() {
-    const questionFeed = document.getElementById('question-feed');
-    const qStatus = document.getElementById('q-count-status');
-
-    try {
-        const q = query(collection(db, "questions"), orderBy("createdAt", "desc"), limit(10));
-        const querySnapshot = await getDocs(q);
-        
-        questionFeed.innerHTML = ""; // লোডার সরিয়ে ফেলা
-        qStatus.innerText = `${querySnapshot.size} টি নতুন প্রশ্ন পাওয়া গেছে`;
-
-        if (querySnapshot.empty) {
-            questionFeed.innerHTML = `
-                <div class="p-10 text-center text-gray-400 dark:text-gray-600">
-                    <i class="fas fa-inbox text-3xl mb-3 opacity-50"></i>
-                    <p>কোনো প্রশ্ন পাওয়া যায়নি।</p>
-                </div>
-            `;
-            return;
+    onSnapshot(q, (snapshot) => {
+        let html = '';
+        if (snapshot.empty) { 
+            questionContainer.innerHTML = '<p class="col-span-full p-10 text-center text-gray-400 text-xs">কোনো প্রশ্ন পাওয়া যায়নি।</p>'; 
+            return; 
         }
 
-        querySnapshot.forEach((doc) => {
-            questionFeed.innerHTML += createQuestionCard(doc.data(), doc.id);
-        });
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            
+            // ডেসক্রিপশন থেকে কোড বাদ দিয়ে শুধু টেক্সট বের করা
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = data.description || "";
+            const codes = tempDiv.querySelectorAll("pre, code");
+            codes.forEach(code => code.remove());
+            const cleanText = tempDiv.innerText || tempDiv.textContent;
 
-    } catch (error) {
-        console.error("Error loading questions: ", error);
-        questionFeed.innerHTML = `
-            <div class="p-10 text-center text-red-500 dark:text-red-400">
-                <i class="fas fa-exclamation-triangle text-2xl mb-3"></i>
-                <p>ডাটা লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</p>
-            </div>
-        `;
-    }
-}
-
-// ২. ফিচারড প্রশ্ন লোড করা (বাম কলামের জন্য)
-async function loadFeaturedQuestions() {
-    const featuredList = document.getElementById('featured-list');
-    if (!featuredList) return; // Element না থাকলে return
-    
-    try {
-        const q = query(collection(db, "questions"), limit(5)); 
-        const querySnapshot = await getDocs(q);
-        
-        if (!querySnapshot.empty) {
-            featuredList.innerHTML = ""; // ডামি কন্টেন্ট ক্লিয়ার করা
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                featuredList.innerHTML += `
-                    <div class="group border-b border-gray-100 dark:border-darkBorder pb-3 last:border-0 pt-2">
-                        <a href="question-details.html?id=${doc.id}" 
-                           class="text-[13px] text-gray-700 dark:text-gray-300 hover:text-brandOrange dark:hover:text-brandOrange leading-snug line-clamp-2 block transition-colors">
-                            ${data.title}
-                        </a>
-                        <div class="flex items-center gap-2 mt-1.5 text-[11px] text-gray-500">
-                            <span><i class="fas fa-arrow-up text-[10px]"></i> ${data.upvotes || 0}</span>
-                            <span><i class="fas fa-comment text-[10px]"></i> ${data.answers || 0}</span>
-                        </div>
+            // গ্রিড আইটেম রেন্ডারিং (Tailwind Only)
+            html += `
+            <div class="p-5 border-r border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a1a1b] flex flex-col gap-2">
+                <div class="flex items-center justify-between text-[11px] font-medium">
+                    <div class="flex items-center gap-3 text-gray-500 dark:text-gray-400">
+                        <span class="text-red-500">${(data.votes || 0).toLocaleString('bn-BD')} ভোট</span>
+                        <span class="px-1.5 py-0.5 border border-green-600 text-green-600 rounded-sm font-bold">${(data.answerCount || 0).toLocaleString('bn-BD')} উত্তর</span>
+                        <span class="text-[#0a95ff] font-extrabold">${(data.views || 0).toLocaleString('bn-BD')} ভিউ</span>
                     </div>
-                `;
-            });
-        }
-    } catch (error) {
-        console.log("Featured load error:", error);
-    }
+                    <span class="text-gray-400 font-normal">${timeAgo(data.createdAt)}</span>
+                </div>
+
+                <h3 class="text-[17px] leading-snug w-fit">
+                    <a href="question.html?id=${doc.id}" class="text-[#0a95ff] font-normal hover:underline hover:text-[#005999] transition-all">
+                        ${data.title}
+                    </a>
+                </h3>
+
+                <p class="text-[13px] text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
+                    ${cleanText}
+                </p>
+
+                <div class="mt-auto pt-3 flex flex-wrap items-center gap-2">
+                    <a href="categories.html?id=${encodeURIComponent(data.category || 'general')}" 
+                       class="bg-[#e1f0ff] dark:bg-blue-900/30 text-[#0078d4] dark:text-blue-400 px-2.5 py-1 rounded-sm text-[10px] border border-[#0a95ff]/20 font-bold uppercase tracking-wide">
+                        ${data.category || 'সাধারণ'}
+                    </a>
+                    <div class="flex gap-1.5">
+                        ${(data.tags || []).slice(0, 3).map(tag => `
+                            <span class="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded-sm text-[10px] border border-gray-200 dark:border-gray-700">
+                                ${tag}
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>`;
+        });
+        questionContainer.innerHTML = html;
+    });
 }
 
-// ৩. পরিসংখ্যান আপডেট করা
-async function loadStats() {
-    try {
-        const querySnapshot = await getDocs(collection(db, "questions"));
-        const totalQElement = document.getElementById('total-q');
-        const activeUsersElement = document.getElementById('active-users');
-        
-        if (totalQElement) totalQElement.innerText = querySnapshot.size;
-        if (activeUsersElement) activeUsersElement.innerText = "১২"; // ডামি ইউজার সংখ্যা
-    } catch (e) { 
-        console.log("Stats load error:", e); 
-    }
+// ফিচারড লিস্ট লোড করা
+function loadFeaturedList() {
+    const popularContainer = document.getElementById('popular-questions-container');
+    const qFeat = query(collection(db, "questions"), where("featured", "==", true), orderBy("createdAt", "desc"), limit(8));
+
+    onSnapshot(qFeat, (snapshot) => {
+        let html = '<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">';
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            html += `
+            <div class="flex items-start gap-2 group">
+                <span class="text-gray-400 text-lg leading-none mt-1">•</span>
+                <a href="question.html?id=${doc.id}" class="text-sm text-gray-700 dark:text-gray-300 hover:text-[#0a95ff] hover:underline transition-all">
+                    ${data.title}
+                </a>
+            </div>`;
+        });
+        popularContainer.innerHTML = html + '</div>';
+    });
 }
 
-// পেজ লোড হলে সব কল হবে
-window.addEventListener('DOMContentLoaded', () => {
-    loadQuestions();
-    loadFeaturedQuestions();
-    loadStats();
-});
+// স্ট্যাটাস আপডেট (টোটাল প্রশ্ন ও উত্তর)
+async function updateStats() {
+    onSnapshot(query(collection(db, "questions"), where("status", "==", "approved")), (snap) => { 
+        document.getElementById('total-questions').innerText = snap.size.toLocaleString('bn-BD'); 
+    });
+    onSnapshot(collection(db, "answers"), (snap) => { 
+        document.getElementById('total-answers').innerText = snap.size.toLocaleString('bn-BD'); 
+    });
+}
+
+// সব ফাংশন কল করা
+updateStats();
+loadQuestions();
+loadFeaturedList();
+
+// ফিল্টার বাটন হ্যান্ডলিং
+document.getElementById('btn-latest').onclick = () => { /* তোমার লজিক */ };
+document.getElementById('btn-featured').onclick = () => { /* তোমার লজিক */ };
