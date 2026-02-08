@@ -6,60 +6,55 @@
     <title>PhysFlow - পদার্থবিজ্ঞানের প্রশ্নোত্তর প্ল্যাটফর্ম</title>
     
     <link rel="stylesheet" href="css/loader.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/home.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/home.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-white text-gray-800 dark:bg-[#1a1a1b] dark:text-gray-200">
+<body>
 
     <div id="main-header"></div>
-
-    <div class="container mx-auto flex flex-col min-h-screen pt-[56px]">
-        
-        <div class="px-4 md:px-16 mt-6 mb-4">
-            <div class="relative max-w-xl mx-auto">
-                <input type="text" id="search-input" placeholder="প্রশ্ন খুঁজুন..." class="search-input-style">
-                <button id="search-btn" class="search-icon-btn">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-
-        <main class="flex-grow">
-            <div class="flex flex-wrap items-center justify-between gap-2 px-4 md:px-16 py-2">
-                <div class="stats-badge">
-                    <div><span id="total-questions" class="text-blue-600 font-bold">০</span> প্রশ্ন</div>
-                    <div><span id="total-answers" class="text-green-600 font-bold">০</span> সমাধান</div>
-                </div>
-                
-                <div class="filter-group">
-                    <button id="btn-latest" class="filter-btn active">সর্বশেষ</button>
-                    <button id="btn-featured" class="filter-btn">জনপ্রিয়</button>
-                    <button id="btn-trending" class="filter-btn">ট্রেন্ডিং</button>
-                </div>
-            </div>
-
-            <div id="question-container" class="question-grid">
-                <div class="loading-text">
-                    <i class="fas fa-spinner fa-spin"></i> লোড হচ্ছে...
-                </div>
-            </div>
-
-            <section class="px-4 md:px-16 mt-10 mb-10 border-t pt-6 dark:border-gray-800">
-                <h2 class="featured-title">
-                    <i class="fas fa-star text-yellow-500"></i> নির্বাচিত প্রশ্ন (Featured)
-                </h2>
-                <div id="popular-questions-container" class="max-w-6xl mt-4"></div>
-            </section>
-        </main>
-    </div>
-
     <div id="main-sidebar"></div>
+
+    <main class="home-main-layout">
+        <section class="hero-section">
+            <h1>পদার্থবিজ্ঞানের দুনিয়ায় আপনাকে স্বাগতম</h1>
+            <p>আপনার অজানা প্রশ্নটি করুন অথবা অন্যদের প্রশ্নের উত্তর দিয়ে সাহায্য করুন।</p>
+            <div class="search-box">
+                <input type="text" id="home-search" placeholder="প্রশ্ন খুঁজুন...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </section>
+
+        <div class="content-wrapper">
+            <div id="question-feed" class="question-list">
+                <div class="loader-placeholder">প্রশ্নগুলো লোড হচ্ছে...</div>
+            </div>
+
+            <aside class="home-right-sidebar">
+                <div class="stats-card">
+                    <h3>পরিসংখ্যান</h3>
+                    <div class="stat-item">
+                        <span>মোট প্রশ্ন:</span>
+                        <strong id="total-q">০</strong>
+                    </div>
+                    <div class="stat-item">
+                        <span>সক্রিয় সদস্য:</span>
+                        <strong id="active-users">০</strong>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
     <div id="main-footer"></div>
 
-    <script src="js/loader.js"></script>
+    <script src="js/loader.js"></script> 
+    
     <script type="module" src="js/firebase-config.js"></script>
     <script type="module" src="js/auth.js"></script>
-    <script type="module" src="js/main.js"></script>
+    
+    <script type="module" src="js/home.js"></script>
 
 </body>
 </html>
