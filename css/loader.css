@@ -1,56 +1,24 @@
-/* loader.css */
-:root {
-    --orange: #f48225;
+/* --- ডার্ক মোড কাস্টম কালার (Charcoal Blue লুক) --- */
+.dark body {
+    background-color: #0f172a; /* Tailwind slate-950 */
+    color: #f1f5f9;
 }
 
-body {
-    margin: 0;
-    overflow-x: hidden;
-    background-color: #ffffff;
-}
-
-/* Header Fix (Tailwind এ fixed ক্লাস ব্যবহার করা যায়, তবে এখানে রাখা নিরাপদ) */
-#main-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50px;
-    background: #f8f9f9;
-    border-top: 3px solid var(--orange);
-    border-bottom: 1px solid #d6d9dc;
-    z-index: 1000;
-}
-
-#main-footer {
-    background-color: #232629;
-    padding: 30px 0;
-    width: 100%;
-}
-
-/* কন্টেন্ট যেন হেডারের নিচে না ঢোকে */
-main, .s-main-container {
-    padding-top: 50px;
-}
-
-/* loader.css এ যোগ করো */
-
-/* হেডার ডার্ক মোড */
 .dark #main-header {
-    background-color: #1a1a1b !important;
-    border-bottom-color: #343536 !important;
+    background-color: #1e293b !important; /* Tailwind slate-800 */
+    border-bottom-color: #334155 !important;
 }
 
-/* সাইডবার ডার্ক মোড */
 .dark #mobile-sidebar {
-    background-color: #1a1a1b !important;
-    border-right-color: #343536 !important;
+    background-color: #1e293b !important;
+    border-right-color: #334155 !important;
 }
 
-.dark .nav-links {
-    color: #d7dadc !important;
+/* টেক্সট ও আইকন কালার অ্যাডজাস্টমেন্ট */
+.dark .text-gray-700, .dark .nav-links {
+    color: #cbd5e1 !important; /* হালকা গ্রে টেক্সট */
 }
 
-.dark .nav-links:hover {
-    background-color: #272729 !important;
+.dark .hover\:bg-gray-100:hover {
+    background-color: #334155 !important;
 }
