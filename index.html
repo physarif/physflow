@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PhysFlow - ফিজিক্স প্রশ্নোত্তর প্ল্যাটফর্ম</title>
     
-    <link rel="stylesheet" href="css/loader.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -18,11 +18,14 @@
 
     <main class="s-main-container">
         <div class="content-wrapper">
-            <section id="question-feed">
-                <h2>শীর্ষ প্রশ্নসমূহ</h2>
-                <hr>
-                <p style="padding: 20px 0; color: var(--text-light);">এখানে প্রশ্নগুলো লোড হবে...</p>
-            </section>
+            <div class="search-container" style="margin-bottom: 20px;">
+                <form action="#" method="GET" style="display: flex; gap: 10px;">
+                    <input type="text" placeholder="প্রশ্ন খুঁজুন..." name="search" style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                    <button type="submit" style="padding: 10px 20px; border-radius: 5px; border: none; background-color: var(--primary-color, #007bff); color: white; cursor: pointer;">
+                        <i class="fa fa-search"></i> খুঁজুন
+                    </button>
+                </form>
+            </div>
         </div>
     </main>
 
@@ -36,7 +39,3 @@
 <link rel="stylesheet" href="css/style.css?v=1.0.5">
 </body>
 </html>
-
-
-
-search বার থেকে শুরু করে পোস্টের ডিজাইন সব এমন হবে, তুমি আমাকে প্রয়োজনীয় পরিবর্তন করে পুরো কোড দাও। আর, css ও js code আলাদা দেবে
