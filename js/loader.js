@@ -1,60 +1,76 @@
-// ১. কেন্দ্রীয় ভার্সন নম্বর
+// ১. কেন্দ্রীয় ভার্সন নম্বর (ক্যাশ সমস্যার সমাধানের জন্য)
 const currentVersion = "v1.1.3"; 
 
 // ২. ব্রাউজার ফোর্স রিফ্রেশ লজিক
+// যদি লোকাল ভার্সন কারেন্ট ভার্সনের চেয়ে আলাদা হয়, তবে পেজ রিলোড করবে
 const savedVersion = localStorage.getItem('physflow_version');
 if (savedVersion !== currentVersion) {
     localStorage.setItem('physflow_version', currentVersion);
     window.location.reload(true); 
 }
 
+/**
+ * কম্পোনেন্ট লোড করার ফাংশন
+ * @param {string} elementId - যে ডিভ-এ কন্টেন্ট বসবে
+ * @param {string} filePath - HTML ফাইলের পাথ
+ */
 async function loadComponent(elementId, filePath) {
     try {
         const response = await fetch('./' + filePath); 
-        if (!response.ok) return false;
+        if (!response.ok) {
+            console.error(`Failed to load ${filePath}: ${response.statusText}`);
+            return false;
+        }
         const content = await response.text();
         const el = document.getElementById(elementId);
         if (el) {
             el.innerHTML = content;
-            // Tailwind CDN ব্যবহার করলে নতুন এলিমেন্ট স্ক্যান করার জন্য:
-            if (window.tailwind) {
-                // tailwind.upgrade(); // কিছু ভার্সনে প্রয়োজন হতে পারে
-            }
             return true;
         }
-    } catch (e) { console.error("Error loading " + filePath, e); }
+    } catch (e) { 
+        console.error("Error loading " + filePath, e); 
+    }
     return false;
 }
 
+// ৩. পেজ লোড হওয়ার পর কম্পোনেন্টগুলো ইনজেক্ট করা
 window.addEventListener('DOMContentLoaded', async () => {
-    // সব কম্পোনেন্ট লোড না হওয়া পর্যন্ত অপেক্ষা
+    // হেডার, সাইডবার এবং ফুটার লোড না হওয়া পর্যন্ত অপেক্ষা করবে
     await Promise.all([
         loadComponent('main-header', 'components/header.html'),
         loadComponent('main-sidebar', 'components/sidebar.html'),
         loadComponent('main-footer', 'components/footer.html')
     ]);
 
-    // UI ইন্টারঅ্যাকশন সেটআপ
+    // UI ইন্টারঅ্যাকশন (যেমন: মোবাইল মেনু, থিম টগল) সেটআপ
     initInteractions();
 
-    // ভার্সন নম্বর UI-তে প্রদর্শন
+    // ভার্সন নম্বর UI-তে প্রদর্শন (যদি লোগোর নিচে স্প্যান থাকে)
     const versionDisplay = document.getElementById('app-version');
     if (versionDisplay) {
         versionDisplay.innerText = currentVersion;
     }
 
-    // সিগন্যাল পাঠানো
+    // ৪. গুরুত্বপূর্ণ: সব কম্পোনেন্ট লোড শেষ হওয়ার সিগন্যাল পাঠানো
+    // এটি ছাড়া auth.js হেডার থেকে লগইন বাটন খুঁজে পাবে না
     window.dispatchEvent(new Event('componentsLoaded'));
+    
+    console.log("All components loaded and event dispatched.");
 });
 
+/**
+ * বাটন ক্লিক এবং থিম পরিবর্তন হ্যান্ডেল করার ফাংশন
+ */
 function initInteractions() {
     const navToggle = document.getElementById('nav-toggle');
     const sidebar = document.getElementById('mobile-sidebar'); 
     const themeToggle = document.getElementById('theme-toggle');
-    const overlay = document.getElementById('sidebar-overlay'); // ওভারলে যোগ করা হয়েছে
+    const overlay = document.getElementById('sidebar-overlay');
 
-    // সাইডবার টগল ফাংশন
+    // সাইডবার টগল লজিক (Tailwind এর জন্য)
     const toggleSidebar = (show) => {
+        if (!sidebar) return;
+        
         if (show) {
             sidebar.style.left = '0';
             if(overlay) overlay.classList.remove('hidden');
@@ -63,12 +79,14 @@ function initInteractions() {
             if(overlay) overlay.classList.add('hidden');
         }
         
+        // আইকন পরিবর্তন (Bar থেকে Cross)
         const icon = navToggle?.querySelector('i');
         if (icon) {
             icon.className = show ? 'fas fa-times' : 'fas fa-bars';
         }
     };
 
+    // মোবাইল মেনু বাটন ক্লিক
     if (navToggle && sidebar) {
         navToggle.onclick = (e) => {
             e.stopPropagation();
@@ -77,10 +95,11 @@ function initInteractions() {
         };
     }
 
+    // ডার্ক মোড / লাইট মোড টগল
     if (themeToggle) {
-        // শুরুতে থিম চেক
+        // শুরুতে আগের থিম চেক করা
         if (localStorage.getItem('theme') === 'dark') {
-            document.documentElement.classList.add('dark'); // Tailwind dark mode এর জন্য
+            document.documentElement.classList.add('dark');
             const icon = themeToggle.querySelector('i');
             if (icon) icon.className = 'fas fa-moon';
         }
@@ -93,10 +112,10 @@ function initInteractions() {
         };
     }
 
-    // সাইডবারের বাইরে বা ওভারলেতে ক্লিক করলে বন্ধ হবে
+    // সাইডবারের বাইরে অথবা ওভারলেতে ক্লিক করলে বন্ধ হবে
     document.addEventListener('click', (e) => {
         if (sidebar && sidebar.style.left === '0px') {
-            if (!sidebar.contains(e.target) && !navToggle.contains(e.target)) {
+            if (!sidebar.contains(e.target) && !navToggle?.contains(e.target)) {
                 toggleSidebar(false);
             }
         }
