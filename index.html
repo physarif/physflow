@@ -41,9 +41,17 @@
                 
                 if (mainArea) {
                     mainArea.innerHTML = `
-                        <div class="flex items-center justify-between px-6 pt-8 pb-4">
-                            <h1 class="text-xl md:text-2xl font-normal text-gray-700 dark:text-gray-100">সব প্রশ্নসমূহ</h1>
-                            <a href="ask.html" class="bg-brandBlue hover:bg-[#0074cc] text-white px-4 py-2 rounded text-[13px] font-medium transition shadow-sm">প্রশ্ন করুন</a>
+                        <!-- হেডার সেকশন: প্রশ্ন করুন (বাম) এবং ফিল্টার বাটন (ডান) -->
+                        <div class="flex flex-col md:flex-row md:items-center justify-between px-6 pt-8 pb-4 gap-4">
+                            <div class="order-2 md:order-1">
+                                <a href="ask.html" class="bg-brandBlue hover:bg-[#0074cc] text-white px-4 py-2 rounded text-[13px] font-medium transition shadow-sm inline-block">প্রশ্ন করুন</a>
+                            </div>
+                            
+                            <div class="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-md order-1 md:order-2">
+                                <button class="px-3 py-1.5 text-[13px] font-medium rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 shadow-sm">Latest</button>
+                                <button class="px-3 py-1.5 text-[13px] font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Popular</button>
+                                <button class="px-3 py-1.5 text-[13px] font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Trending</button>
+                            </div>
                         </div>
 
                         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 px-6 py-4 border-b dark:border-gray-800">
@@ -83,3 +91,4 @@
     </script>
 </body>
 </html>
+
