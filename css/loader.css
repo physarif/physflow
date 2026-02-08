@@ -12,15 +12,15 @@
 .s-logo {
     text-decoration: none;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* লোগো এবং ভার্সনকে উপর-নিচ করার জন্য */
     align-items: flex-start;
     line-height: 1;
 }
 
 .logo-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
+    display: flex; /* phys এবং flow কে এক লাইনে রাখার জন্য */
+    flex-direction: row; 
+    align-items: baseline;
 }
 
 .phys {
@@ -40,7 +40,7 @@
     color: var(--text-muted);
     font-weight: normal;
     opacity: 0.8;
-    margin-top: -2px; /* লোগোর ঠিক নিচে রাখার জন্য */
+    margin-top: 2px; /* লোগোর ঠিক নিচে গ্যাপের জন্য */
     letter-spacing: 0.5px;
 }
 
