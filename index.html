@@ -1,13 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhysFlow - পদার্থবিজ্ঞানের প্রশ্নোত্তর প্ল্যাটফর্ম</title>
+    <title>PhysFlow - রেসপনসিভ লেআউট</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="css/loader.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <script>
@@ -15,61 +13,74 @@
             theme: {
                 extend: {
                     colors: {
-                        brandOrange: '#f48225',
-                        brandBlue: '#0a95ff',
-                        brandBlueHover: '#0074cc',
-                        darkMain: '#232629', 
+                        darkMain: '#1a1a1b', 
                         darkCard: '#1A1A1A',
-                        darkBorder: '#444444',
-                        lightBorder: '#e3e6e8',
-                        answerGreen: '#5eba7d',
-                        tagBg: '#e1ecf4',
-                        tagText: '#39739d',
-                        textGray: '#6a737c',
-                        textDark: '#4a4a4a',
-                        timeGray: '#838c95'
+                        darkBorder: '#2d2d2d',
+                        brandOrange: '#f48225'
                     }
                 }
             },
             darkMode: 'class'
         }
     </script>
-
-    <style>
-        /* Custom styles for line clamping and specific effects */
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-    </style>
 </head>
-<body class="bg-[#f8f9f9] dark:bg-darkMain transition-colors duration-200">
+<body class="bg-white dark:bg-darkMain text-gray-800 dark:text-gray-200 transition-colors duration-200 min-h-screen flex flex-col">
 
     <header id="main-header"></header>
+
     <aside id="main-sidebar"></aside>
 
-    <main class="max-w-[1000px] mx-auto pt-[70px] min-h-screen px-4">
+    <main class="container mx-auto pt-[60px] flex-grow">
         
-        <div class="mb-4 flex justify-end">
-            <span id="q-count-status" class="text-[11px] text-gray-400 dark:text-gray-600 font-medium"></span>
-        </div>
-
-        <div id="question-feed" class="flex flex-col">
-            <div class="flex flex-col items-center justify-center py-32 text-gray-400">
-                <i class="fas fa-circle-notch fa-spin text-2xl text-brandOrange/50"></i>
-                <p class="mt-4 text-sm tracking-wide">প্রশ্নগুলো সাজানো হচ্ছে...</p>
+        <div class="px-8 md:px-16 mt-6 mb-4">
+            <div class="relative max-w-xl mx-auto">
+                <input type="text" id="search-input" placeholder="প্রশ্ন খুঁজুন..." 
+                    class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full py-2.5 px-6 pr-12 focus:outline-none focus:ring-2 focus:ring-[#0a95ff] transition text-sm">
+                <button id="search-btn" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#0a95ff] transition">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
         </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 px-8 md:px-16 py-4">
+            <div class="flex items-center gap-3 text-[11px] font-medium text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 px-3 py-1.5 rounded border border-gray-200 dark:border-gray-700">
+                <div><span class="text-[#0a95ff] font-bold" id="total-questions">০</span> প্রশ্ন</div>
+                <div class="border-l border-gray-300 dark:border-gray-600 h-3"></div>
+                <div><span class="text-green-600 font-bold" id="total-answers">০</span> সমাধান</div>
+            </div>
+
+            <div class="inline-flex border border-gray-300 dark:border-gray-700 rounded shadow-sm text-[11px] bg-white dark:bg-gray-800 overflow-hidden font-medium">
+                <button id="btn-latest" class="px-4 py-2 border-r dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">সর্বশেষ</button>
+                <button id="btn-featured" class="px-4 py-2 border-r dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">জনপ্রিয়</button>
+                <button id="btn-trending" class="px-4 py-2 bg-[#fef7f0] dark:bg-[#4d2c00] text-brandOrange font-bold transition">ট্রেন্ডিং</button>
+            </div>
+        </div>
+
+        <div id="question-container" class="grid grid-cols-1 md:grid-cols-2 border-t border-l border-gray-200 dark:border-gray-800 bg-white dark:bg-darkMain mx-8 md:mx-16 mb-10">
+            <div class="col-span-full py-20 text-center text-gray-400 text-xs">
+                <i class="fas fa-spinner fa-spin mr-2"></i> লোড হচ্ছে...
+            </div>
+        </div>
+
+        <div class="px-8 md:px-16 py-10 border-t border-b dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/20">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                আরও খুঁজছেন? আমাদের <a href="#" class="text-[#0a95ff] hover:underline font-medium">প্রশ্নের সম্পূর্ণ তালিকা</a> দেখুন।
+            </p>
+        </div>
+
+        <section class="container mx-auto px-8 md:px-16 mt-8 mb-16 border-t pt-6 dark:border-gray-800">
+            <h2 class="text-xs font-bold mb-6 flex items-center gap-2 text-gray-500 dark:text-gray-400 uppercase tracking-widest">
+                <i class="fas fa-star text-yellow-500"></i> নির্বাচিত প্রশ্ন (Featured)
+            </h2>
+            <div id="popular-questions-container" class="max-w-6xl">
+                </div>
+        </section>
 
     </main>
 
     <footer id="main-footer"></footer>
 
     <script src="js/loader.js"></script> 
-    <script type="module" src="js/firebase-config.js"></script>
-    <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/home.js"></script>
 
 </body>
