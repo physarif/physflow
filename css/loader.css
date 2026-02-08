@@ -9,27 +9,34 @@
     box-sizing: border-box;
 }
 
+/* সবসময় স্ক্রলবার স্পেস ধরে রাখার জন্য যাতে লেআউট না নড়ে */
+html {
+    overflow-y: scroll;
+}
+
 body {
     width: 100%;
     overflow-x: hidden;
-    background-color: #ffffff; /* লাইট মোড ব্যাকগ্রাউন্ড */
+    background-color: #ffffff;
     color: #232629;
+    font-family: ui-sans-serif, system-ui, sans-serif;
 }
 
-/* --- ২. হেডার, ফুটার ও সাইডবার (লাইট মোড - ডিফল্ট) --- */
+/* --- ২. হেডার, ফুটার ও সাইডবার (লাইট মোড) --- */
 #main-header {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw; /* স্ক্রিন উইডথ ফিক্সড রাখার জন্য */
     height: 50px;
     z-index: 1000;
-    background-color: #f8f9f9; /* ট্রান্সপারেন্ট সমস্যা সমাধান */
+    background-color: #f8f9f9;
     border-bottom: 1px solid #d6d9dc;
+    padding-right: 0 !important; /* নড়াচড়া বন্ধ করতে */
 }
 
 #main-footer {
-    background-color: #232629; /* ফুটার কালার */
+    background-color: #232629;
     color: #9199a1;
     width: 100%;
     padding: 30px 0;
@@ -47,47 +54,64 @@ body {
     z-index: 999;
 }
 
+/* পেছনের আবছা অংশ (Overlay) */
+#sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 998;
+}
+
 /* কন্টেন্ট গ্যাপ */
 main, .home-main-layout {
     padding-top: 50px;
-    min-height: calc(100vh - 150px); /* ফুটারকে নিচে ঠেলে রাখার জন্য */
+    min-height: calc(100vh - 150px);
 }
 
-/* --- ডার্ক মোড সেটিংস (#44444E কালার প্লেট অনুযায়ী) --- */
+/* --- ৩. ডার্ক মোড সেটিংস (#44444E কালার প্লেট অনুযায়ী) --- */
 .dark body {
-    background-color: #2D2D3A; /* বডির জন্য একটু গাঢ় শেড */
+    background-color: #2D2D3A; /* বডির জন্য গভীর শেড */
     color: #E2E2E6;
 }
 
 .dark #main-header {
-    background-color: #44444E !important; /* তোমার দেওয়া মেইন কালার */
-    border-bottom: 1px solid #575766 !important; /* হালকা বর্ডার */
+    background-color: #44444E !important; /* তোমার পছন্দ করা কালার */
+    border-bottom: 1px solid #575766 !important;
 }
 
 .dark #mobile-sidebar {
-    background-color: #44444E !important; /* তোমার দেওয়া মেইন কালার */
+    background-color: #44444E !important;
     border-right: 1px solid #575766 !important;
 }
 
 /* সাইডবারের লিঙ্কের কালার */
-.dark #mobile-sidebar a {
+.dark #mobile-sidebar a, 
+.dark .nav-links {
     color: #D1D1D6 !important;
 }
 
 /* ডার্ক মোডে হোভার করলে কালার */
 .dark #mobile-sidebar a:hover, 
 .dark .hover\:bg-gray-100:hover {
-    background-color: #575766 !important; /* তোমার কালারের একটু হালকা ভার্সন */
+    background-color: #575766 !important;
     color: #ffffff !important;
 }
 
 /* ডার্ক মোড ফুটার */
 .dark #main-footer {
-    background-color: #1A1A24; /* ফুটার আরও গাঢ় */
+    background-color: #1A1A24;
     border-top: 1px solid #44444E;
 }
 
-/* ওভারলে বা পেছনের অংশ */
+/* ডার্ক মোড ওভারলে */
 .dark #sidebar-overlay {
     background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* ইউটিলিটি ক্লাস */
+.hidden {
+    display: none !important;
 }
