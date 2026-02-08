@@ -1,3 +1,14 @@
+// ১. কেন্দ্রীয় ভার্সন নম্বর (শুধু এখানে পরিবর্তন করবে)
+const currentVersion = "v1.0.5"; 
+
+// ২. ব্রাউজার ফোর্স রিফ্রেশ লজিক
+const savedVersion = localStorage.getItem('physflow_version');
+if (savedVersion !== currentVersion) {
+    localStorage.setItem('physflow_version', currentVersion);
+    // ক্যাশ ক্লিয়ার করে পেজ রিলোড করবে যাতে আপডেট দ্রুত দেখা যায়
+    window.location.reload(true); 
+}
+
 async function loadComponent(elementId, filePath) {
     try {
         const response = await fetch('./' + filePath); 
@@ -22,6 +33,12 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     // UI ইন্টারঅ্যাকশন সেটআপ
     initInteractions();
+
+    // ভার্সন নম্বর UI-তে প্রদর্শন
+    const versionDisplay = document.getElementById('app-version');
+    if (versionDisplay) {
+        versionDisplay.innerText = currentVersion;
+    }
 
     // বাটন লোড শেষ হওয়ার সিগন্যাল পাঠানো (যাতে auth.js কাজ করতে পারে)
     window.dispatchEvent(new Event('componentsLoaded'));
@@ -70,11 +87,3 @@ function initInteractions() {
         }
     });
 }
-
-// ভার্সন নম্বর আপডেট
-    const currentVersion = "v1.0.5"; // প্রতিবার আপডেটের পর শুধু এই নম্বরটি পরিবর্তন করবে
-    const versionDisplay = document.getElementById('app-version');
-    
-    if (versionDisplay) {
-        versionDisplay.innerText = currentVersion;
-    }
