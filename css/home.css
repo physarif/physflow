@@ -1,89 +1,62 @@
-.s-main-layout {
+/* সার্চ ইনপুট */
+.search-input-style {
+    width: 100%;
+    background: #f9fafb;
+    border: 1px solid #d1d5db;
+    border-radius: 9999px;
+    padding: 10px 20px;
+    outline: none;
+    transition: 0.3s;
+}
+.dark .search-input-style { background: #1f2937; border-color: #374151; color: white; }
+.search-input-style:focus { border-color: #F48024; ring: 2px #F48024; }
+
+.search-icon-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; }
+
+/* স্ট্যাটাস ও ফিল্টার */
+.stats-badge {
+    display: flex;
+    gap: 12px;
+    font-size: 11px;
+    background: #f9fafb;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+.dark .stats-badge { background: #1f2937; color: #9ca3af; }
+
+.filter-group {
+    display: inline-flex;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    overflow: hidden;
+    font-size: 11px;
+}
+.dark .filter-group { border-color: #374151; }
+
+.filter-btn { padding: 6px 12px; border-right: 1px solid #d1d5db; background: white; cursor: pointer; }
+.dark .filter-btn { background: transparent; border-color: #374151; color: #d1d5db; }
+.filter-btn.active { background: #fef7f0; color: #F48024; font-weight: 600; }
+.dark .filter-btn.active { background: #4d2c00; }
+
+/* প্রশ্ন গ্রিড */
+.question-grid {
     display: grid;
-    grid-template-columns: 164px 1fr 300px;
-    max-width: 1264px;
-    margin: 0 auto;
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    border-top: 1px solid #e5e7eb;
+    margin-top: 10px;
+}
+@media (min-width: 768px) {
+    .question-grid { grid-template-columns: 1fr 1fr; }
 }
 
-#main-content {
-    border-left: 1px solid var(--border);
-    padding: 24px;
-    min-height: 100vh;
-}
+.loading-text { padding: 40px; text-align: center; color: #9ca3af; font-size: 12px; grid-column: 1 / -1; }
 
-.feed-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
+/* ইনফো সেকশন */
+.info-section { background: rgba(249, 250, 251, 0.5); border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; }
+.dark .info-section { background: rgba(31, 41, 55, 0.2); border-color: #1f2937; }
 
-.feed-header h1 { font-size: 24px; font-weight: 400; }
+.link-brand { color: #F48024; font-weight: 500; text-decoration: none; }
+.link-brand:hover { text-decoration: underline; }
 
-.feed-tabs {
-    display: flex;
-    justify-content: flex-end;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 10px;
-}
-
-.tab-btn {
-    padding: 8px 12px;
-    border: 1px solid var(--border);
-    background: none;
-    font-size: 13px;
-    cursor: pointer;
-    margin-left: -1px;
-    color: var(--text-dark);
-}
-
-.tab-btn.active { background: var(--hover-bg); font-weight: bold; }
-
-/* প্রশ্ন কার্ড */
-.question-summary {
-    padding: 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    gap: 15px;
-}
-
-.q-stats {
-    text-align: right;
-    font-size: 13px;
-    color: var(--text-light);
-    min-width: 70px;
-}
-
-.q-summary-content h3 a {
-    color: #0074cc;
-    text-decoration: none;
-    font-size: 18px;
-}
-
-.tag {
-    background: #e1ecf4;
-    color: #39739d;
-    padding: 3px 6px;
-    border-radius: 3px;
-    font-size: 12px;
-    margin-right: 5px;
-    text-decoration: none;
-}
-
-/* ডান পাশের উইজেট */
-.right-sidebar { padding: 24px; }
-.s-widget {
-    background: #fdf7e3;
-    border: 1px solid #e6dbaf;
-    padding: 15px;
-    border-radius: 3px;
-}
-
-@media (max-width: 980px) {
-    .s-main-layout { grid-template-columns: 164px 1fr; }
-    .right-sidebar { display: none; }
-}
-
-@media (max-width: 768px) {
-    .s-main-layout { grid-template-columns: 1fr; }
-    #main-sidebar { display: none; }
-}
+/* ফিচারেড প্রশ্ন */
+.featured-title { font-size: 12px; font-weight: bold; color: #6b7280; text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 8px; }
