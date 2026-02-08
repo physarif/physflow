@@ -14,7 +14,7 @@
                 extend: {
                     colors: {
                         darkMain: '#1a1a1b', 
-                        darkCard: '#1A1A1A',
+                        darkCard: '#18181b',
                         darkBorder: '#2d2d2d',
                         brandOrange: '#f48225',
                         brandBlue: '#0a95ff'
@@ -26,31 +26,26 @@
     </script>
 
     <style>
-        /* ফন্ট সেটিংস এবং ছোটখাটো কাস্টমাইজেশন */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;  
-            overflow: hidden;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        /* কাস্টম স্ক্রলবার স্টাইল */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background: #3f3f46; }
     </style>
 </head>
 <body class="bg-white dark:bg-darkMain text-gray-800 dark:text-gray-200 transition-colors duration-200 min-h-screen flex flex-col">
 
-    <div id="main-header" class="h-[56px] shrink-0"></div>
+    <div id="main-header"></div>
 
-    <div class="flex-grow container mx-auto flex pt-[5px] md:pt-0">
+    <div class="flex-grow container mx-auto flex">
         
-        <aside id="main-sidebar" class="hidden md:block w-[240px] shrink-0 border-r dark:border-gray-800"></aside>
+        <div id="main-sidebar"></div>
 
-        <main class="flex-1 min-w-0 border-r dark:border-gray-800 min-h-screen">
+        <main class="flex-1 min-w-0 border-r dark:border-gray-800 pt-[56px]">
             
             <div class="flex items-center justify-between px-6 pt-8 pb-4">
-                <h1 class="text-xl md:text-2xl font-normal text-gray-800 dark:text-gray-100">সব প্রশ্নসমূহ</h1>
+                <h1 class="text-xl md:text-2xl font-normal text-gray-700 dark:text-gray-100">সব প্রশ্নসমূহ</h1>
                 <a href="/ask.html" class="bg-brandBlue hover:bg-[#0074cc] text-white px-4 py-2 rounded text-[13px] font-medium transition shadow-sm">প্রশ্ন করুন</a>
             </div>
 
@@ -59,9 +54,9 @@
                     <span id="total-questions" class="font-bold">০</span>টি প্রশ্ন পাওয়া গেছে
                 </div>
 
-                <div class="inline-flex border border-gray-300 dark:border-gray-700 rounded shadow-sm text-[12px] bg-white dark:bg-gray-800 overflow-hidden">
-                    <button id="btn-latest" class="px-3 py-1.5 border-r dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">সর্বশেষ</button>
-                    <button id="btn-featured" class="px-3 py-1.5 border-r dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">জনপ্রিয়</button>
+                <div class="inline-flex border border-gray-300 dark:border-gray-700 rounded shadow-sm text-[12px] bg-white dark:bg-gray-800 overflow-hidden font-medium">
+                    <button id="btn-latest" class="px-3 py-1.5 border-r dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">সর্বশেষ</button>
+                    <button id="btn-featured" class="px-3 py-1.5 border-r dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">জনপ্রিয়</button>
                     <button id="btn-trending" class="px-3 py-1.5 bg-[#fef7f0] dark:bg-[#4d2c00] text-brandOrange font-bold transition">ট্রেন্ডিং</button>
                 </div>
             </div>
@@ -74,38 +69,39 @@
             </div>
 
             <div class="px-8 py-12 border-t dark:border-gray-800 bg-gray-50/30 dark:bg-gray-800/10">
-                <p class="text-[13px] text-gray-500 text-center leading-loose">
+                <p class="text-[13px] text-gray-500 text-center">
                     আপনি কি আপনার প্রয়োজনীয় প্রশ্নের উত্তর পাচ্ছেন না? <br>
                     আমাদের <a href="#" class="text-brandBlue hover:underline font-medium">ট্যাগসমূহ</a> দেখুন অথবা আমাদের <a href="#" class="text-brandBlue hover:underline font-medium">হেল্প সেন্টারে</a> যোগাযোগ করুন।
                 </p>
             </div>
         </main>
 
-        <aside class="hidden lg:block w-[300px] p-6 shrink-0">
+        <aside class="hidden lg:block w-[300px] p-6 shrink-0 pt-[70px]">
             <div class="bg-[#fdf7e2] dark:bg-[#2d2d1a] border border-[#e6dbaf] dark:border-yellow-900/40 rounded shadow-sm overflow-hidden mb-6">
                 <h3 class="bg-[#fbf3d5] dark:bg-[#3d3d25] px-4 py-2 text-[12px] font-bold text-gray-600 dark:text-gray-200 border-b border-[#e6dbaf] dark:border-yellow-900/40 uppercase tracking-wider">PhysFlow নোটিশ</h3>
                 <ul class="p-4 text-[12px] space-y-4 text-gray-700 dark:text-gray-300 leading-snug">
                     <li class="flex gap-2">
-                        <i class="fas fa-pencil-alt text-gray-500"></i>
-                        <span>নতুন মেকানিক্স অলিম্পিয়াড নিয়ে আলোচনা শুরু হয়েছে।</span>
+                        <i class="fas fa-pencil-alt text-gray-400"></i>
+                        <span>নতুন 'কোয়ান্টাম-মেকানিক্স' ট্যাগ যুক্ত হয়েছে।</span>
                     </li>
                     <li class="flex gap-2">
-                        <i class="fas fa-bullhorn text-gray-500"></i>
-                        <span>প্রশ্ন করার সময় সঠিক ট্যাগ ব্যবহার করুন।</span>
+                        <i class="fas fa-bullhorn text-gray-400"></i>
+                        <span>আপনার প্রশ্নের সঠিক সমাধান পেলে তা মার্ক করুন।</span>
                     </li>
                 </ul>
             </div>
 
-            <div class="border dark:border-gray-800 rounded p-4">
-                <h4 class="text-[13px] font-bold text-gray-700 dark:text-gray-200 mb-3 border-b dark:border-gray-800 pb-2">পরিসংখ্যান</h4>
-                <div class="grid grid-cols-2 gap-4 text-center">
+            <div class="border dark:border-gray-800 rounded p-4 text-center">
+                <h4 class="text-[11px] uppercase font-bold text-gray-400 mb-4 tracking-widest">কমিউনিটি স্ট্যাটাস</h4>
+                <div class="flex justify-around items-center">
                     <div>
-                        <div class="text-lg font-bold text-gray-800 dark:text-gray-200" id="total-answers">০</div>
-                        <div class="text-[10px] text-gray-500 uppercase">সমাধান</div>
+                        <div class="text-lg font-bold" id="total-answers">৫২০</div>
+                        <div class="text-[10px] text-gray-500">সমাধান</div>
                     </div>
+                    <div class="h-8 border-l dark:border-gray-800"></div>
                     <div>
-                        <div class="text-lg font-bold text-gray-800 dark:text-gray-200">৯৯%</div>
-                        <div class="text-[10px] text-gray-500 uppercase">সন্তুষ্টি</div>
+                        <div class="text-lg font-bold">১.২k</div>
+                        <div class="text-[10px] text-gray-500">ইউজার</div>
                     </div>
                 </div>
             </div>
@@ -113,7 +109,7 @@
 
     </div>
 
-    <footer id="main-footer"></footer>
+    <div id="main-footer"></div>
 
     <script type="module" src="javascript/app.js"></script> 
     <script type="module" src="javascript/main.js"></script>
