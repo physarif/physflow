@@ -1,379 +1,260 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, query, orderBy, onSnapshot, where, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// javascript/main.js
+import { db, auth } from './firebase-config.js';
+import { collection, query, orderBy, limit, getDocs, where, Timestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// Firebase Configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyCyGf_NQLsckjUQH1FwbUP1DKZvzpbrYHo",
-    authDomain: "phyflow-devs.firebaseapp.com",
-    projectId: "phyflow-devs",
-    storageBucket: "phyflow-devs.firebasestorage.app",
-    messagingSenderId: "34351515593",
-    appId: "1:34351515593:web:ca06f69f07ace936b7ca18",
-    measurementId: "G-E00E61978Q"
+let currentFilter = 'latest';
+
+/**
+ * বাংলা সংখ্যায় রূপান্তর
+ */
+const toBengaliNumber = (num) => {
+    const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+    return String(num).split('').map(digit => bengaliDigits[parseInt(digit)] || digit).join('');
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// Global Variables
-let unsubscribeQuestions = null;
-let currentFilter = 'trending';
-
 /**
- * HTML Escape Function (XSS Protection)
+ * সময়ের ব্যবধান দেখানো (বাংলায়)
  */
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-/**
- * সময় নির্ধারণের ফাংশন (বাংলায়)
- */
-function timeAgo(timestamp) {
+const getTimeAgo = (timestamp) => {
     if (!timestamp) return 'এইমাত্র';
     
-    try {
-        const seconds = Math.floor((new Date() - timestamp.toDate()) / 1000);
-        let interval = Math.floor(seconds / 31536000);
-        if (interval >= 1) return interval.toLocaleString('bn-BD') + " বছর আগে";
-        
-        interval = Math.floor(seconds / 2592000);
-        if (interval >= 1) return interval.toLocaleString('bn-BD') + " মাস আগে";
-        
-        interval = Math.floor(seconds / 86400);
-        if (interval >= 1) return interval.toLocaleString('bn-BD') + " দিন আগে";
-        
-        interval = Math.floor(seconds / 3600);
-        if (interval >= 1) return interval.toLocaleString('bn-BD') + " ঘণ্টা আগে";
-        
-        interval = Math.floor(seconds / 60);
-        if (interval >= 1) return interval.toLocaleString('bn-BD') + " মিনিট আগে";
-        
-        return "এইমাত্র";
-    } catch (error) {
-        console.error('Time conversion error:', error);
-        return 'এইমাত্র';
+    const now = new Date();
+    const then = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    const diffInSeconds = Math.floor((now - then) / 1000);
+    
+    if (diffInSeconds < 60) return 'এইমাত্র';
+    if (diffInSeconds < 3600) {
+        const mins = Math.floor(diffInSeconds / 60);
+        return `${toBengaliNumber(mins)} মিনিট আগে`;
     }
-}
-
-/**
- * Clean Description (Remove Code Blocks)
- */
-function getCleanDescription(description) {
-    if (!description) return '';
-    
-    try {
-        const tempDiv = document.createElement("div");
-        tempDiv.innerHTML = description;
-        const codes = tempDiv.querySelectorAll("pre, code");
-        codes.forEach(code => code.remove());
-        return (tempDiv.innerText || tempDiv.textContent).trim();
-    } catch (error) {
-        console.error('Description cleaning error:', error);
-        return '';
+    if (diffInSeconds < 86400) {
+        const hours = Math.floor(diffInSeconds / 3600);
+        return `${toBengaliNumber(hours)} ঘণ্টা আগে`;
     }
-}
+    if (diffInSeconds < 2592000) {
+        const days = Math.floor(diffInSeconds / 86400);
+        return `${toBengaliNumber(days)} দিন আগে`;
+    }
+    const months = Math.floor(diffInSeconds / 2592000);
+    return `${toBengaliNumber(months)} মাস আগে`;
+};
 
 /**
- * Update Active Filter Button
+ * প্রশ্ন কার্ড রেন্ডার করা
  */
-function updateActiveButton(activeId) {
-    const buttons = ['btn-latest', 'btn-featured', 'btn-trending'];
+const renderQuestionCard = (question) => {
+    const { id, title, body, tags, votes, answers, views, author, createdAt, isAnswered } = question;
     
-    buttons.forEach(id => {
-        const btn = document.getElementById(id);
-        if (!btn) return;
-        
-        if (id === activeId) {
-            btn.classList.add('bg-[#fef7f0]', 'dark:bg-[#4d2c00]', 'text-brandOrange', 'font-bold');
-            btn.classList.remove('hover:bg-gray-50', 'dark:hover:bg-gray-700');
-        } else {
-            btn.classList.remove('bg-[#fef7f0]', 'dark:bg-[#4d2c00]', 'text-brandOrange', 'font-bold');
-            btn.classList.add('hover:bg-gray-50', 'dark:hover:bg-gray-700');
-        }
-    });
-}
+    return `
+        <div class="flex gap-4 px-6 py-5 hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors">
+            <!-- Stats Column -->
+            <div class="hidden sm:flex flex-col gap-2 items-end text-[12px] min-w-[90px]">
+                <div class="flex items-center gap-1.5 ${votes > 0 ? 'text-gray-700 dark:text-gray-300' : 'text-gray-500'}">
+                    <i class="fas fa-arrow-up text-[10px]"></i>
+                    <span class="font-medium">${toBengaliNumber(votes || 0)}</span>
+                    <span class="text-gray-400">ভোট</span>
+                </div>
+                <div class="flex items-center gap-1.5 ${isAnswered ? 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded' : 'text-gray-500'}">
+                    <i class="fas fa-check text-[10px]"></i>
+                    <span class="font-medium">${toBengaliNumber(answers || 0)}</span>
+                    <span class="text-gray-400">উত্তর</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-500">
+                    <i class="fas fa-eye text-[10px]"></i>
+                    <span>${toBengaliNumber(views || 0)}</span>
+                </div>
+            </div>
 
-/**
- * মূল প্রশ্ন লোড করার ফাংশন (উন্নত)
- */
-function loadQuestions(filterType = 'trending') {
-    const questionContainer = document.getElementById('question-container');
-    if (!questionContainer) return;
-    
-    // Show Loading State
-    questionContainer.innerHTML = `
-        <div class="py-24 text-center text-gray-400 text-xs italic">
-            <i class="fas fa-spinner fa-spin text-xl mb-3 block"></i>
-            ফিজিক্সের তথ্যসমূহ লোড হচ্ছে...
+            <!-- Content Column -->
+            <div class="flex-1 min-w-0">
+                <a href="question-detail.html?id=${id}" class="block group">
+                    <h3 class="text-[15px] font-normal text-brandBlue dark:text-blue-400 mb-2 group-hover:underline line-clamp-2">
+                        ${title}
+                    </h3>
+                </a>
+                
+                <p class="text-[13px] text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                    ${body ? body.substring(0, 150) + '...' : ''}
+                </p>
+
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                    ${tags ? tags.map(tag => `
+                        <a href="tags.html?tag=${tag}" class="bg-[#e1ecf4] dark:bg-[#3b4045] text-[#39739d] dark:text-[#8ab4f8] px-2 py-0.5 rounded text-[11px] hover:bg-[#d0e3f1] dark:hover:bg-[#4c5459] transition">
+                            ${tag}
+                        </a>
+                    `).join('') : ''}
+                </div>
+
+                <div class="flex items-center justify-between text-[11px] text-gray-500">
+                    <div class="flex items-center gap-2">
+                        <img src="${author?.photoURL || 'https://via.placeholder.com/24'}" alt="${author?.name || 'ব্যবহারকারী'}" class="w-5 h-5 rounded-full">
+                        <span class="font-medium">${author?.name || 'অজানা'}</span>
+                    </div>
+                    <span>${getTimeAgo(createdAt)}</span>
+                </div>
+
+                <!-- Mobile Stats -->
+                <div class="flex sm:hidden gap-4 mt-3 text-[11px] text-gray-500">
+                    <span><i class="fas fa-arrow-up"></i> ${toBengaliNumber(votes || 0)}</span>
+                    <span><i class="fas fa-check"></i> ${toBengaliNumber(answers || 0)}</span>
+                    <span><i class="fas fa-eye"></i> ${toBengaliNumber(views || 0)}</span>
+                </div>
+            </div>
         </div>
     `;
+};
+
+/**
+ * প্রশ্ন লোড করা
+ */
+const loadQuestions = async (filter = 'latest') => {
+    const container = document.getElementById('question-container');
+    const totalQuestionsEl = document.getElementById('total-questions');
     
-    // Unsubscribe previous listener (Memory Leak Prevention)
-    if (unsubscribeQuestions) {
-        unsubscribeQuestions();
-    }
+    if (!container) return;
     
-    const questionsRef = collection(db, "questions");
-    let q;
-    
-    // Build Query Based on Filter Type
+    container.innerHTML = `
+        <div class="py-24 text-center text-gray-400 text-xs italic">
+            <i class="fas fa-spinner fa-spin text-xl mb-3 block"></i>
+            প্রশ্ন লোড হচ্ছে...
+        </div>
+    `;
+
     try {
-        if (filterType === 'latest') {
-            q = query(
-                questionsRef, 
-                where("status", "==", "approved"), 
-                orderBy("createdAt", "desc"),
-                limit(12)
-            );
-        } else if (filterType === 'featured') {
-            q = query(
-                questionsRef, 
-                where("status", "==", "approved"),
-                where("featured", "==", true),
-                orderBy("createdAt", "desc"),
-                limit(12)
-            );
-        } else { // trending (default)
-            q = query(
-                questionsRef, 
-                where("status", "==", "approved"), 
-                orderBy("views", "desc"),
-                limit(12)
-            );
+        let q;
+        const questionsRef = collection(db, 'questions');
+
+        switch(filter) {
+            case 'featured':
+                q = query(questionsRef, orderBy('votes', 'desc'), limit(20));
+                break;
+            case 'trending':
+                // Last 7 days, sorted by views
+                const weekAgo = new Date();
+                weekAgo.setDate(weekAgo.setDate() - 7);
+                q = query(
+                    questionsRef, 
+                    where('createdAt', '>=', Timestamp.fromDate(weekAgo)),
+                    orderBy('createdAt', 'desc'),
+                    orderBy('views', 'desc'),
+                    limit(20)
+                );
+                break;
+            default: // latest
+                q = query(questionsRef, orderBy('createdAt', 'desc'), limit(20));
         }
-    } catch (error) {
-        console.error('Query building error:', error);
-        questionContainer.innerHTML = `
-            <div class="p-10 text-center text-red-500 text-sm">
-                <i class="fas fa-exclamation-triangle mb-2 text-xl block"></i>
-                <p>ডাটাবেস কুয়েরি তৈরিতে সমস্যা হয়েছে।</p>
-            </div>
-        `;
-        return;
-    }
 
-    // Subscribe to Realtime Updates
-    unsubscribeQuestions = onSnapshot(q, (snapshot) => {
-        try {
-            if (snapshot.empty) { 
-                questionContainer.innerHTML = `
-                    <div class="p-10 text-center text-gray-400 text-xs">
-                        <i class="fas fa-inbox text-3xl mb-3 block opacity-50"></i>
-                        <p>কোনো প্রশ্ন পাওয়া যায়নি।</p>
-                    </div>
-                `; 
-                return; 
-            }
+        const querySnapshot = await getDocs(q);
+        const questions = [];
+        
+        querySnapshot.forEach((doc) => {
+            questions.push({ id: doc.id, ...doc.data() });
+        });
 
-            let html = '';
-            
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                const cleanDescription = getCleanDescription(data.description);
-                
-                // Render Grid Item (with XSS Protection)
-                html += `
-                <div class="p-5 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a1a1b] flex flex-col gap-2 hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors">
-                    <div class="flex items-center justify-between text-[11px] font-medium">
-                        <div class="flex items-center gap-3 text-gray-500 dark:text-gray-400">
-                            <span class="text-red-500">
-                                <i class="fas fa-arrow-up text-[9px]"></i> 
-                                ${(data.votes || 0).toLocaleString('bn-BD')} ভোট
-                            </span>
-                            <span class="px-1.5 py-0.5 border ${data.answerCount > 0 ? 'border-green-600 text-green-600' : 'border-gray-400 text-gray-400'} rounded-sm font-bold">
-                                ${(data.answerCount || 0).toLocaleString('bn-BD')} উত্তর
-                            </span>
-                            <span class="text-[#0a95ff] font-extrabold">
-                                <i class="fas fa-eye text-[9px]"></i> 
-                                ${(data.views || 0).toLocaleString('bn-BD')}
-                            </span>
-                        </div>
-                        <span class="text-gray-400 font-normal">${timeAgo(data.createdAt)}</span>
-                    </div>
-
-                    <h3 class="text-[17px] leading-snug">
-                        <a href="question.html?id=${doc.id}" class="text-[#0a95ff] font-normal hover:underline hover:text-[#005999] transition-all">
-                            ${escapeHtml(data.title || 'শিরোনাম নেই')}
-                        </a>
-                    </h3>
-
-                    <p class="text-[13px] text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
-                        ${escapeHtml(cleanDescription || 'বিবরণ নেই')}
-                    </p>
-
-                    <div class="mt-auto pt-3 flex flex-wrap items-center gap-2">
-                        ${data.category ? `
-                        <a href="categories.html?id=${encodeURIComponent(data.category)}" 
-                           class="bg-[#e1f0ff] dark:bg-blue-900/30 text-[#0078d4] dark:text-blue-400 px-2.5 py-1 rounded-sm text-[10px] border border-[#0a95ff]/20 font-bold uppercase tracking-wide hover:bg-[#d0e7ff] transition-colors">
-                            ${escapeHtml(data.category)}
-                        </a>
-                        ` : ''}
-                        
-                        <div class="flex gap-1.5">
-                            ${(data.tags || []).slice(0, 3).map(tag => `
-                                <span class="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded-sm text-[10px] border border-gray-200 dark:border-gray-700">
-                                    ${escapeHtml(tag)}
-                                </span>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>`;
-            });
-            
-            questionContainer.innerHTML = html;
-            
-        } catch (error) {
-            console.error('Error rendering questions:', error);
-            questionContainer.innerHTML = `
-                <div class="p-10 text-center text-red-500 text-sm">
-                    <i class="fas fa-exclamation-triangle mb-2 text-xl block"></i>
-                    <p>প্রশ্ন প্রদর্শনে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।</p>
+        if (questions.length === 0) {
+            container.innerHTML = `
+                <div class="py-24 text-center">
+                    <i class="fas fa-inbox text-4xl text-gray-300 dark:text-gray-700 mb-4"></i>
+                    <p class="text-gray-500 text-sm">এখনো কোন প্রশ্ন নেই</p>
+                    <a href="ask.html" class="inline-block mt-4 bg-brandBlue text-white px-4 py-2 rounded text-sm hover:bg-[#0074cc]">
+                        প্রথম প্রশ্ন করুন
+                    </a>
                 </div>
             `;
+        } else {
+            container.innerHTML = questions.map(q => renderQuestionCard(q)).join('');
         }
-    }, (error) => {
-        console.error('Snapshot error:', error);
-        questionContainer.innerHTML = `
-            <div class="p-10 text-center text-red-500 text-sm">
-                <i class="fas fa-exclamation-triangle mb-2 text-xl block"></i>
-                <p>ডাটাবেস সংযোগে সমস্যা হয়েছে। ইন্টারনেট চেক করুন।</p>
+
+        if (totalQuestionsEl) {
+            totalQuestionsEl.textContent = toBengaliNumber(questions.length);
+        }
+
+    } catch (error) {
+        console.error('Error loading questions:', error);
+        container.innerHTML = `
+            <div class="py-24 text-center text-red-500 text-sm">
+                <i class="fas fa-exclamation-triangle text-2xl mb-3 block"></i>
+                প্রশ্ন লোড করতে সমস্যা হয়েছে
+                <br><br>
+                <button onclick="location.reload()" class="bg-brandBlue text-white px-4 py-2 rounded text-xs hover:bg-[#0074cc]">
+                    আবার চেষ্টা করুন
+                </button>
             </div>
         `;
-    });
-}
+    }
+};
 
 /**
- * ফিচারড লিস্ট লোড করা (Optional - যদি এই container থাকে)
+ * ফিল্টার বাটন সেটআপ
  */
-function loadFeaturedList() {
-    const popularContainer = document.getElementById('popular-questions-container');
-    if (!popularContainer) return; // Element না থাকলে skip করো
-    
-    const qFeat = query(
-        collection(db, "questions"), 
-        where("featured", "==", true), 
-        orderBy("createdAt", "desc"), 
-        limit(8)
-    );
+const setupFilterButtons = () => {
+    const buttons = {
+        'btn-latest': 'latest',
+        'btn-featured': 'featured',
+        'btn-trending': 'trending'
+    };
 
-    onSnapshot(qFeat, (snapshot) => {
-        try {
-            let html = '<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">';
+    Object.keys(buttons).forEach(btnId => {
+        const btn = document.getElementById(btnId);
+        if (!btn) return;
+
+        btn.addEventListener('click', () => {
+            currentFilter = buttons[btnId];
             
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                html += `
-                <div class="flex items-start gap-2 group">
-                    <span class="text-gray-400 text-lg leading-none mt-1">•</span>
-                    <a href="question.html?id=${doc.id}" class="text-sm text-gray-700 dark:text-gray-300 hover:text-[#0a95ff] hover:underline transition-all">
-                        ${escapeHtml(data.title || 'শিরোনাম নেই')}
-                    </a>
-                </div>`;
+            // Active state update
+            Object.keys(buttons).forEach(id => {
+                const b = document.getElementById(id);
+                if (b) {
+                    b.classList.remove('bg-[#fef7f0]', 'dark:bg-[#4d2c00]', 'text-brandOrange', 'font-bold');
+                }
             });
             
-            popularContainer.innerHTML = html + '</div>';
-        } catch (error) {
-            console.error('Featured list error:', error);
-        }
-    }, (error) => {
-        console.error('Featured snapshot error:', error);
+            btn.classList.add('bg-[#fef7f0]', 'dark:bg-[#4d2c00]', 'text-brandOrange', 'font-bold');
+            
+            loadQuestions(currentFilter);
+        });
     });
-}
+};
 
 /**
- * স্ট্যাটাস আপডেট (টোটাল প্রশ্ন ও উত্তর)
+ * স্ট্যাটিস্টিক্স লোড করা
  */
-function updateStats() {
-    // Total Questions Count
-    const totalQuestionsEl = document.getElementById('total-questions');
-    if (totalQuestionsEl) {
-        onSnapshot(
-            query(collection(db, "questions"), where("status", "==", "approved")), 
-            (snap) => { 
-                totalQuestionsEl.innerText = snap.size.toLocaleString('bn-BD'); 
-            },
-            (error) => {
-                console.error('Questions count error:', error);
-                totalQuestionsEl.innerText = '০';
-            }
-        );
-    }
-    
-    // Total Answers Count
-    const totalAnswersEl = document.getElementById('total-answers');
-    if (totalAnswersEl) {
-        onSnapshot(
-            collection(db, "answers"), 
-            (snap) => { 
-                totalAnswersEl.innerText = snap.size.toLocaleString('bn-BD'); 
-            },
-            (error) => {
-                console.error('Answers count error:', error);
-                totalAnswersEl.innerText = '০';
-            }
-        );
-    }
-}
-
-/**
- * ফিল্টার বাটন হ্যান্ডলিং
- */
-function setupFilterButtons() {
-    const btnLatest = document.getElementById('btn-latest');
-    const btnFeatured = document.getElementById('btn-featured');
-    const btnTrending = document.getElementById('btn-trending');
-    
-    if (btnLatest) {
-        btnLatest.onclick = () => {
-            currentFilter = 'latest';
-            loadQuestions('latest');
-            updateActiveButton('btn-latest');
-        };
-    }
-    
-    if (btnFeatured) {
-        btnFeatured.onclick = () => {
-            currentFilter = 'featured';
-            loadQuestions('featured');
-            updateActiveButton('btn-featured');
-        };
-    }
-    
-    if (btnTrending) {
-        btnTrending.onclick = () => {
-            currentFilter = 'trending';
-            loadQuestions('trending');
-            updateActiveButton('btn-trending');
-        };
-    }
-}
-
-/**
- * Initialize Everything
- */
-function init() {
+const loadStats = async () => {
     try {
-        updateStats();
-        loadQuestions(currentFilter);
-        loadFeaturedList(); // Optional
-        setupFilterButtons();
-        updateActiveButton('btn-trending'); // Set initial active button
-    } catch (error) {
-        console.error('Initialization error:', error);
-    }
-}
+        const questionsSnapshot = await getDocs(collection(db, 'questions'));
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        
+        let totalAnswers = 0;
+        questionsSnapshot.forEach(doc => {
+            totalAnswers += doc.data().answers || 0;
+        });
 
-// Run on page load
-init();
+        const totalAnswersEl = document.getElementById('total-answers');
+        const totalUsersEl = document.getElementById('total-users');
+        
+        if (totalAnswersEl) totalAnswersEl.textContent = toBengaliNumber(totalAnswers);
+        if (totalUsersEl) totalUsersEl.textContent = toBengaliNumber(usersSnapshot.size);
+        
+    } catch (error) {
+        console.error('Error loading stats:', error);
+    }
+};
 
 /**
- * Cleanup on page unload (Optional but good practice)
+ * Initialize
  */
-window.addEventListener('beforeunload', () => {
-    if (unsubscribeQuestions) {
-        unsubscribeQuestions();
-    }
-});
+const init = () => {
+    setupFilterButtons();
+    loadQuestions(currentFilter);
+    loadStats();
+    
+    console.log('Questions page initialized!');
+};
+
+// DOM Ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
