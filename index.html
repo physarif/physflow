@@ -6,8 +6,10 @@
     <title>PhysFlow - পদার্থবিজ্ঞানের প্রশ্নোত্তর প্ল্যাটফর্ম</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="stylesheet" href="css/loader.css">
     <link rel="stylesheet" href="css/home.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <script>
@@ -53,36 +55,80 @@
                     <div class="grid grid-cols-2 gap-2 text-[13px] text-gray-600 dark:text-[#B0B0B0]">
                         <div class="flex flex-col p-2 bg-gray-50 dark:bg-darkCard rounded">
                             <span class="text-[10px]">প্রশ্ন</span>
-                            <strong id="total-q" class="text-brandOrange">০</strong>
+                            <strong id="total-q" class="text-brandOrange text-lg">০</strong>
                         </div>
                         <div class="flex flex-col p-2 bg-gray-50 dark:bg-darkCard rounded">
                             <span class="text-[10px]">সদস্য</span>
-                            <strong id="active-users" class="text-brandOrange">০</strong>
+                            <strong id="active-users" class="text-brandOrange text-lg">০</strong>
                         </div>
                     </div>
                 </div>
 
                 <div class="px-6 border-t border-gray-100 dark:border-darkBorder pt-6">
                     <h3 class="text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                        <i class="fas fa-star text-yellow-500 text-[10px]"></i> ফিচারড
+                        <i class="fas fa-star text-yellow-500 text-[10px]"></i> ফিচারড প্রশ্ন
                     </h3>
                     <div id="featured-list" class="space-y-4">
-                        <div class="group">
+                        <div class="group cursor-pointer">
                             <a href="#" class="text-[13px] text-gray-700 dark:text-[#E0E0E0] hover:text-brandOrange leading-snug line-clamp-2 block transition-colors">
                                 ফটোইলেক্ট্রিক ইফেক্ট এবং আইনস্টাইনের ব্যাখ্যা কী?
                             </a>
+                            <div class="flex items-center gap-2 mt-1 text-[10px] text-gray-400">
+                                <span>৫টি উত্তর</span> • <span>১২ জন দেখেছে</span>
+                            </div>
+                        </div>
+
+                        <div class="group cursor-pointer border-t border-gray-50 dark:border-darkBorder pt-3">
+                            <a href="#" class="text-[13px] text-gray-700 dark:text-[#E0E0E0] hover:text-brandOrange leading-snug line-clamp-2 block transition-colors">
+                                ব্ল্যাক হোলের ভেতরে সময় কেন স্থির হয়ে যায়?
+                            </a>
+                            <div class="flex items-center gap-2 mt-1 text-[10px] text-gray-400">
+                                <span>৩টি উত্তর</span> • <span>৪৫ জন দেখেছে</span>
+                            </div>
                         </div>
                     </div>
+                    
+                    <a href="#" class="inline-block mt-4 text-[11px] text-brandOrange hover:underline font-medium">সব ফিচারড দেখুন →</a>
                 </div>
             </div>
         </div>
 
         <div class="flex-grow bg-white dark:bg-darkMain min-w-0">
+            
+            <div class="p-6 border-b border-gray-200 dark:border-darkBorder flex justify-between items-center">
+                <h1 class="text-2xl font-normal text-gray-800 dark:text-[#E0E0E0]">সব প্রশ্ন</h1>
+                <a href="ask-question.html" class="bg-[#0a95ff] hover:bg-[#0074cc] text-white px-4 py-2 rounded text-sm font-medium transition-colors shadow-sm">
+                    প্রশ্ন করুন
+                </a>
             </div>
+
+            <div class="px-6 py-3 border-b border-gray-100 dark:border-darkBorder flex flex-wrap justify-between items-center bg-gray-50/30 dark:bg-darkCard/20 gap-3">
+                <div id="q-count-status" class="text-sm text-gray-600 dark:text-[#B0B0B0]">
+                    প্রশ্নগুলো লোড হচ্ছে...
+                </div>
+                <div class="flex border border-gray-300 dark:border-darkBorder rounded overflow-hidden shadow-sm">
+                    <button class="px-3 py-1.5 text-[12px] bg-white dark:bg-darkCard text-gray-800 dark:text-[#E0E0E0] border-r dark:border-darkBorder hover:bg-gray-50">Newest</button>
+                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0] border-r dark:border-darkBorder hover:bg-gray-50">Active</button>
+                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0] hover:bg-gray-50">Unanswered</button>
+                </div>
+            </div>
+
+            <div id="question-feed" class="divide-y divide-gray-100 dark:divide-darkBorder min-h-[500px]">
+                <div class="flex flex-col items-center justify-center py-20 text-gray-400">
+                    <i class="fas fa-spinner fa-spin text-3xl mb-3 text-brandOrange"></i>
+                    <p>ডাটাবেজ কানেক্ট হচ্ছে...</p>
+                </div>
+            </div>
+        </div>
 
     </main>
 
     <footer id="main-footer"></footer>
-    </body>
 
+    <script src="js/loader.js"></script> 
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/home.js"></script>
+
+</body>
 </html>
