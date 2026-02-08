@@ -8,6 +8,21 @@
 }
 
 /* --- Header Styles --- */
+.s-logo {
+    display: flex;
+    flex-direction: column; /* লোগোর নিচে ভার্সন নেওয়ার জন্য */
+    align-items: flex-start;
+    line-height: 1;
+}
+
+.version-tag {
+    font-size: 10px;
+    color: var(--text-muted); /* বা তোমার পছন্দমতো হালকা কোনো রং */
+    margin-top: 2px;
+    font-weight: normal;
+    opacity: 0.8;
+}
+
 .s-header {
     background-color: var(--bc-light);
     border-top: 3px solid var(--orange);
