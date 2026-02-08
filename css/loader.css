@@ -12,10 +12,48 @@
 body {
     width: 100%;
     overflow-x: hidden;
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #ffffff; /* লাইট মোড ব্যাকগ্রাউন্ড */
+    color: #232629;
 }
 
-/* --- ২. ডার্ক মোড কাস্টম কালার (Charcoal Blue) --- */
+/* --- ২. হেডার, ফুটার ও সাইডবার (লাইট মোড - ডিফল্ট) --- */
+#main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    z-index: 1000;
+    background-color: #f8f9f9; /* ট্রান্সপারেন্ট সমস্যা সমাধান */
+    border-bottom: 1px solid #d6d9dc;
+}
+
+#main-footer {
+    background-color: #232629; /* ফুটার কালার */
+    color: #9199a1;
+    width: 100%;
+    padding: 30px 0;
+}
+
+#mobile-sidebar {
+    position: fixed;
+    top: 50px;
+    left: -260px;
+    width: 240px;
+    height: calc(100vh - 50px);
+    background-color: #ffffff;
+    border-right: 1px solid #d6d9dc;
+    transition: left 0.3s ease;
+    z-index: 999;
+}
+
+/* কন্টেন্ট গ্যাপ */
+main, .home-main-layout {
+    padding-top: 50px;
+    min-height: calc(100vh - 150px); /* ফুটারকে নিচে ঠেলে রাখার জন্য */
+}
+
+/* --- ৩. ডার্ক মোড সেটিংস (Charcoal Blue) --- */
 .dark body {
     background-color: #0f172a; /* Slate-950 */
     color: #f1f5f9;
@@ -31,39 +69,16 @@ body {
     border-right-color: #334155 !important;
 }
 
-/* ডার্ক মোডে টেক্সট ও হোভার ইফেক্ট */
-.dark .text-gray-700, 
-.dark .nav-links {
+.dark #main-footer {
+    background-color: #020617; /* আরও গাঢ় ফুটার */
+    border-top: 1px solid #1e293b;
+}
+
+/* ডার্ক মোডে টেক্সট অ্যাডজাস্টমেন্ট */
+.dark .text-gray-700, .dark .nav-links {
     color: #cbd5e1 !important;
 }
 
-.dark .hover\:bg-gray-100:hover,
-.dark .nav-links:hover {
+.dark .hover\:bg-gray-100:hover, .dark .nav-links:hover {
     background-color: #334155 !important;
-}
-
-/* --- ৩. লেআউট ফিক্স (Header Fixed থাকার কারণে) --- */
-#main-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50px;
-    z-index: 1000;
-}
-
-/* কন্টেন্ট যেন হেডারের নিচে না ঢোকে */
-main, .home-main-layout {
-    padding-top: 50px;
-}
-
-/* --- ৪. সাইডবার সেটিংস --- */
-#mobile-sidebar {
-    position: fixed;
-    top: 50px;
-    left: -260px; /* ডিফল্টভাবে লুকানো */
-    width: 240px;
-    height: calc(100vh - 50px);
-    transition: left 0.3s ease;
-    z-index: 999;
 }
