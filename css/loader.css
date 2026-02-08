@@ -53,10 +53,19 @@ main, .home-main-layout {
     min-height: calc(100vh - 150px); /* ফুটারকে নিচে ঠেলে রাখার জন্য */
 }
 
-/* --- ৩. ডার্ক মোড সেটিংস (Charcoal Blue) --- */
+/* --- ডার্ক মোড সেটিংস --- */
 .dark body {
     background-color: #0f172a; /* Slate-950 */
     color: #f1f5f9;
+}
+
+/* সাইডবার ওপেন হলে পেছনের আবছা অংশ (Overlay) */
+#sidebar-overlay {
+    background-color: rgba(0, 0, 0, 0.5); /* হালকা কালো শেড */
+}
+
+.dark #sidebar-overlay {
+    background-color: rgba(0, 0, 0, 0.7); /* ডার্ক মোডে আরও গাঢ় শেড */
 }
 
 .dark #main-header {
@@ -65,20 +74,23 @@ main, .home-main-layout {
 }
 
 .dark #mobile-sidebar {
-    background-color: #1e293b !important;
+    background-color: #1e293b !important; /* সাইডবার ব্যাকগ্রাউন্ড */
     border-right-color: #334155 !important;
+    box-shadow: 10px 0 15px -3px rgba(0, 0, 0, 0.3); /* ডার্ক মোডে শ্যাডো */
 }
 
-.dark #main-footer {
-    background-color: #020617; /* আরও গাঢ় ফুটার */
-    border-top: 1px solid #1e293b;
-}
-
-/* ডার্ক মোডে টেক্সট অ্যাডজাস্টমেন্ট */
-.dark .text-gray-700, .dark .nav-links {
+/* সাইডবারের ভেতরের লিঙ্কের কালার */
+.dark #mobile-sidebar a {
     color: #cbd5e1 !important;
 }
 
-.dark .hover\:bg-gray-100:hover, .dark .nav-links:hover {
-    background-color: #334155 !important;
+/* ডার্ক মোডে হোভার করলে সাদা ভাব দূর করা */
+.dark #mobile-sidebar a:hover {
+    background-color: #334155 !important; /* গাঢ় হোভার কালার */
+    color: #f48225 !important; /* হোভার করলে অরেঞ্জ টেক্সট */
+}
+
+.dark #main-footer {
+    background-color: #020617;
+    border-top: 1px solid #1e293b;
 }
