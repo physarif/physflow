@@ -1,62 +1,31 @@
-/* সার্চ ইনপুট */
-.search-input-style {
-    width: 100%;
-    background: #f9fafb;
-    border: 1px solid #d1d5db;
-    border-radius: 9999px;
-    padding: 10px 20px;
-    outline: none;
-    transition: 0.3s;
-}
-.dark .search-input-style { background: #1f2937; border-color: #374151; color: white; }
-.search-input-style:focus { border-color: #F48024; ring: 2px #F48024; }
-
-.search-icon-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; }
-
-/* স্ট্যাটাস ও ফিল্টার */
-.stats-badge {
-    display: flex;
-    gap: 12px;
-    font-size: 11px;
-    background: #f9fafb;
-    padding: 4px 8px;
-    border-radius: 4px;
-}
-.dark .stats-badge { background: #1f2937; color: #9ca3af; }
-
-.filter-group {
-    display: inline-flex;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
-    overflow: hidden;
-    font-size: 11px;
-}
-.dark .filter-group { border-color: #374151; }
-
-.filter-btn { padding: 6px 12px; border-right: 1px solid #d1d5db; background: white; cursor: pointer; }
-.dark .filter-btn { background: transparent; border-color: #374151; color: #d1d5db; }
-.filter-btn.active { background: #fef7f0; color: #F48024; font-weight: 600; }
-.dark .filter-btn.active { background: #4d2c00; }
-
-/* প্রশ্ন গ্রিড */
+/* লেআউট ও গ্রিড */
 .question-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-    border-top: 1px solid #e5e7eb;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--border);
     margin-top: 10px;
 }
 @media (min-width: 768px) {
     .question-grid { grid-template-columns: 1fr 1fr; }
 }
 
-.loading-text { padding: 40px; text-align: center; color: #9ca3af; font-size: 12px; grid-column: 1 / -1; }
+/* সার্চ ইনপুট */
+.search-input-style {
+    width: 100%; padding: 10px 20px; border-radius: 30px;
+    border: 1px solid #ddd; outline: none; transition: 0.3s;
+}
+.search-icon-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #888; border: none; background: none; cursor: pointer; }
 
-/* ইনফো সেকশন */
-.info-section { background: rgba(249, 250, 251, 0.5); border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; }
-.dark .info-section { background: rgba(31, 41, 55, 0.2); border-color: #1f2937; }
+/* ফিল্টার বাটন */
+.filter-group { display: inline-flex; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
+.filter-btn { padding: 6px 15px; border: none; background: #fff; cursor: pointer; font-size: 12px; border-right: 1px solid #ddd; }
+.filter-btn.active { background: #fef7f0; color: #F48024; font-weight: bold; }
 
-.link-brand { color: #F48024; font-weight: 500; text-decoration: none; }
-.link-brand:hover { text-decoration: underline; }
+/* কার্ড ডিজাইন */
+.q-card { padding: 15px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; background: #fff; }
+.q-card:hover { background: #fafafa; }
+.q-card-title { color: #0a95ff; font-size: 16px; font-weight: 600; text-decoration: none; }
+.q-card-title:hover { text-decoration: underline; }
 
-/* ফিচারেড প্রশ্ন */
-.featured-title { font-size: 12px; font-weight: bold; color: #6b7280; text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 8px; }
+.stats-badge { display: flex; gap: 10px; font-size: 12px; }
+.loading-text { grid-column: 1 / -1; text-align: center; padding: 50px; color: #999; }
