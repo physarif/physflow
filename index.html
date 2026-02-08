@@ -2,72 +2,81 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>সব প্রশ্নসমূহ - PhysFlow</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkMain: '#1a1a1b', 
+                        darkCard: '#18181b',
+                        darkBorder: '#2d2d2d',
+                        brandOrange: '#f48225',
+                        brandBlue: '#0a95ff'
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
 </head>
-<body>
+<body class="bg-white dark:bg-darkMain">
 
     <div id="layout-wrapper"></div>
 
     <script>
         async function renderPage() {
             try {
-                // ১. layout.html ফাইলটি ফেচ করা
+                // ১. layout.html লোড করা
                 const response = await fetch('layout.html');
                 const layoutHtml = await response.text();
-                
-                // ২. র‍্যাপারের ভেতরে লেআউট বসানো
                 document.getElementById('layout-wrapper').innerHTML = layoutHtml;
 
-                // ৩. লেআউটের 'main-content' আইডিতে ইনডেক্স পেজের কন্টেন্ট ইনজেক্ট করা
+                // ২. কন্টেন্ট এরিয়া চিহ্নিত করা
                 const mainArea = document.getElementById('main-content');
                 
-                mainArea.innerHTML = `
-                    <div class="flex items-center justify-between px-6 pt-8 pb-4">
-                        <h1 class="text-xl md:text-2xl font-normal text-gray-700 dark:text-gray-100">সব প্রশ্নসমূহ</h1>
-                        <a href="ask.html" class="bg-brandBlue hover:bg-[#0074cc] text-white px-4 py-2 rounded text-[13px] font-medium transition shadow-sm">প্রশ্ন করুন</a>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 px-6 py-4 border-b dark:border-gray-800">
-                        <div class="text-[14px] text-gray-600 dark:text-gray-400">
-                            <span id="total-questions" class="font-bold">০</span>টি প্রশ্ন পাওয়া গেছে
+                if (mainArea) {
+                    mainArea.innerHTML = `
+                        <div class="flex items-center justify-between px-6 pt-8 pb-4">
+                            <h1 class="text-xl md:text-2xl font-normal text-gray-700 dark:text-gray-100">সব প্রশ্নসমূহ</h1>
+                            <a href="ask.html" class="bg-brandBlue hover:bg-[#0074cc] text-white px-4 py-2 rounded text-[13px] font-medium transition shadow-sm">প্রশ্ন করুন</a>
                         </div>
 
-                        <div class="inline-flex border border-gray-300 dark:border-gray-700 rounded shadow-sm text-[12px] bg-white dark:bg-gray-800 overflow-hidden font-medium">
-                            <button id="btn-latest" class="px-3 py-1.5 border-r dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 bg-[#fef7f0] dark:bg-[#4d2c00] text-brandOrange font-bold">সর্বশেষ</button>
-                            <button id="btn-featured" class="px-3 py-1.5 border-r dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">জনপ্রিয়</button>
-                            <button id="btn-trending" class="px-3 py-1.5 hover:bg-gray-50 dark:hover:bg-gray-700">ট্রেন্ডিং</button>
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 px-6 py-4 border-b dark:border-gray-800">
+                            <div class="text-[14px] text-gray-600 dark:text-gray-400">
+                                <span id="total-questions" class="font-bold">০</span>টি প্রশ্ন পাওয়া গেছে
+                            </div>
                         </div>
-                    </div>
 
-                    <div id="question-container" class="divide-y divide-gray-100 dark:divide-gray-800">
-                        <div class="py-24 text-center text-gray-400 text-xs italic">
-                            <i class="fas fa-spinner fa-spin text-xl mb-3 block"></i>
-                            ফিজিক্সের তথ্যসমূহ লোড হচ্ছে...
+                        <div id="question-container" class="divide-y divide-gray-100 dark:divide-gray-800">
+                            <div class="py-24 text-center text-gray-400 text-xs italic">
+                                <i class="fas fa-spinner fa-spin text-xl mb-3 block"></i>
+                                ফিজিক্সের তথ্যসমূহ লোড হচ্ছে...
+                            </div>
                         </div>
-                    </div>
+                    `;
+                }
 
-                    <div class="px-8 py-12 border-t dark:border-gray-800 bg-gray-50/30 dark:bg-gray-800/10">
-                        <p class="text-[13px] text-gray-500 text-center">
-                            আপনি কি আপনার প্রয়োজনীয় প্রশ্নের উত্তর পাচ্ছেন না? <br>
-                            আমাদের <a href="tags.html" class="text-brandBlue hover:underline font-medium">ট্যাগসমূহ</a> দেখুন অথবা আমাদের <a href="help.html" class="text-brandBlue hover:underline font-medium">হেল্প সেন্টারে</a> যোগাযোগ করুন।
-                        </p>
-                    </div>
-                `;
-
-                // ৪. লেআউট লোড হওয়ার পর প্রজেক্টের মেইন স্ক্রিপ্টগুলো পুনরায় লোড করা (প্রয়োজন হলে)
+                // ৩. স্ক্রিপ্টগুলো পুনরায় লোড করা
                 loadScripts();
 
             } catch (error) {
-                console.error("Layout loading failed:", error);
+                console.error("Error loading layout:", error);
             }
         }
 
         function loadScripts() {
-            // যদি তোমার layout.js বা main.js এর ফাংশনগুলো কাজ না করে, তবে এখানে সেগুলো কল করতে পারো
-            const script = document.createElement('script');
-            script.src = 'javascript/main.js';
-            script.type = 'module';
-            document.body.appendChild(script);
+            const scripts = ['javascript/layout.js', 'javascript/main.js'];
+            scripts.forEach(src => {
+                const s = document.createElement('script');
+                s.src = src;
+                s.type = 'module';
+                document.body.appendChild(s);
+            });
         }
 
         renderPage();
