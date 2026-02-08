@@ -1,10 +1,9 @@
-
-
-## ১. `layout.js`
-
 import { auth, provider } from './firebase-config.js';
 import { signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+/**
+ * লেআউট রেন্ডারিং
+ */
 export const renderLayout = () => {
     const header = document.getElementById('main-header');
     const sidebar = document.getElementById('main-sidebar');
@@ -171,11 +170,13 @@ export const updateHeaderUserMenu = (user) => {
     const loginBtn = document.getElementById('login-btn');
     const userMenu = document.getElementById('user-menu');
 
-    if (user && userMenu) {
+    if (!userMenu) return;
+
+    if (user) {
         loginBtn?.classList.add('hidden');
         userMenu.classList.remove('hidden');
         userMenu.innerHTML = `
-            <div class="relative group">
+            <div class="relative">
                 <img src="${user.photoURL}" alt="Profile" class="w-8 h-8 rounded-full border-2 border-gray-300 dark:border-gray-600 cursor-pointer shadow-sm hover:border-[#f48024] transition-all" id="profile-btn">
                 <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-[#1a1a1b] border dark:border-gray-800 rounded shadow-xl py-2 z-[300]">
                     <div class="px-4 py-2 border-b dark:border-gray-800 mb-1">
@@ -189,32 +190,28 @@ export const updateHeaderUserMenu = (user) => {
             </div>
         `;
 
-        // Profile dropdown toggle
-        setTimeout(() => {
-            const profileBtn = document.getElementById('profile-btn');
-            const dropdown = document.getElementById('profile-dropdown');
+        // ইভেন্ট লিসেনার সরাসরি যুক্ত করা (setTimeout প্রয়োজন নেই)
+        const profileBtn = document.getElementById('profile-btn');
+        const dropdown = document.getElementById('profile-dropdown');
+        const logoutBtn = document.getElementById('logout-btn');
 
-            profileBtn?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                dropdown?.classList.toggle('hidden');
-            });
+        profileBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown?.classList.toggle('hidden');
+        });
 
-            // Logout handler
-            document.getElementById('logout-btn')?.addEventListener('click', async () => {
-                if (confirm("লগআউট করবেন?")) {
-                    try {
-                        await signOut(auth);
-                        console.log('Logged out successfully');
-                    } catch (error) {
-                        console.error('Logout error:', error);
-                    }
+        logoutBtn?.addEventListener('click', async () => {
+            if (confirm("লগআউট করবেন?")) {
+                try {
+                    await signOut(auth);
+                } catch (error) {
+                    console.error('Logout error:', error);
                 }
-            });
-        }, 100);
+            }
+        });
     } else {
-        // User logged out - reset UI
         loginBtn?.classList.remove('hidden');
-        userMenu?.classList.add('hidden');
+        userMenu.classList.add('hidden');
         userMenu.innerHTML = '';
     }
 };
@@ -225,31 +222,22 @@ export const updateHeaderUserMenu = (user) => {
 export const setupAuth = () => {
     const loginBtn = document.getElementById('login-btn');
 
-    // Login button click
     loginBtn?.addEventListener('click', async () => {
         try {
-            const result = await signInWithPopup(auth, provider);
-            console.log('Login successful:', result.user);
+            await signInWithPopup(auth, provider);
         } catch (error) {
             console.error('Login error:', error);
             alert('লগইন ব্যর্থ হয়েছে: ' + error.message);
         }
     });
 
-    // Auth state observer
     onAuthStateChanged(auth, (user) => {
-        if (user) {
-            console.log("User logged in:", user.displayName);
-            updateHeaderUserMenu(user);
-        } else {
-            console.log("User logged out");
-            updateHeaderUserMenu(null);
-        }
+        updateHeaderUserMenu(user);
     });
 };
 
 /**
- * Global click handler (ড্রপডাউন বন্ধের জন্য)
+ * ড্রপডাউন বন্ধের জন্য গ্লোবাল ক্লিক হ্যান্ডলার
  */
 const setupGlobalClickHandler = () => {
     window.addEventListener('click', () => {
@@ -270,11 +258,11 @@ export const initLayout = () => {
     setupAuth();
     setupGlobalClickHandler();
     
-    // Theme toggle button
+    // থিম টগল বাটন হ্যান্ডলার
     document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
 };
 
-// Auto-initialize when DOM is ready
+// DOM ready চেক
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initLayout);
 } else {
@@ -282,11 +270,6 @@ if (document.readyState === 'loading') {
 }
 
 export default {
-    renderLayout,
-    initTheme,
-    toggleTheme,
-    setupMobileMenu,
-    updateHeaderUserMenu,
-    setupAuth,
-    initLayout
+    initLayout,
+    toggleTheme
 };
