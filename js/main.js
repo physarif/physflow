@@ -1,44 +1,50 @@
-import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { db } from './firebase-config.js';
+import { collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const db = getFirestore();
-const feed = document.getElementById('question-feed');
-
-// Real-time listener for questions
-const q = query(collection(db, "questions"), orderBy("timestamp", "desc"));
-
-onSnapshot(q, (snapshot) => {
-    let html = "";
+async function fetchQuestions() {
+    const qListContainer = document.getElementById('question-list');
     
-    snapshot.forEach((doc) => {
-        const data = doc.data();
+    try {
+        const q = query(collection(db, "questions"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
         
-        // Tags generation logic
-        let tagsHtml = `<span class="category-badge">${data.category || 'General'}</span>`;
-        if (data.tags && Array.isArray(data.tags)) {
-            data.tags.forEach(tag => {
-                tagsHtml += `<span class="hash-badge">#${tag}</span>`;
-            });
+        qListContainer.innerHTML = ''; // লোডিং টেক্সট সরিয়ে ফেলা
+
+        if (querySnapshot.empty) {
+            qListContainer.innerHTML = '<p style="padding:20px;">কোনো প্রশ্ন পাওয়া যায়নি।</p>';
+            return;
         }
 
-        html += `
-            <div class="question-card">
-                <div class="card-meta">
-                    <div class="metrics">
-                        <span class="vote-count">০ ভোট</span>
-                        <span class="ans-count">০ উত্তর</span>
-                        <span class="view-count">০ দেখা</span>
-                    </div>
-                    <span class="time-ago">১৫ ঘণ্টা আগে</span>
-                </div>
-                <a href="post.html?id=${doc.id}" class="q-link">${data.title}</a>
-                <p class="q-excerpt">${data.description ? data.description.substring(0, 120) : ''}...</p>
-                <div class="tag-list">
-                    ${tagsHtml}
-                </div>
-            </div>
-        `;
-    });
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const qId = doc.id;
+            const date = data.createdAt?.toDate().toLocaleDateString('bn-BD') || 'অজানা সময়';
 
-    feed.innerHTML = html;
-    document.getElementById('total-q').innerText = snapshot.size;
-});
+            const questionHTML = `
+                <div class="question-summary">
+                    <div class="q-stats">
+                        <div>0 ভোট</div>
+                        <div style="border: 1px solid var(--orange); padding: 2px; color: var(--orange);">0 উত্তর</div>
+                        <div>12 ভিউ</div>
+                    </div>
+                    <div class="q-summary-content">
+                        <h3><a href="question.html?id=${qId}">${data.title}</a></h3>
+                        <div class="q-tags">
+                            ${data.tags.map(tag => `<a href="#" class="tag">${tag}</a>`).join('')}
+                        </div>
+                        <div style="font-size:12px; color:var(--text-light); margin-top:10px; text-align:right;">
+                            — ${data.authorName} এ ${date} জিজ্ঞাসা করেছেন
+                        </div>
+                    </div>
+                </div>
+            `;
+            qListContainer.innerHTML += questionHTML;
+        });
+    } catch (error) {
+        console.error("Error fetching questions: ", error);
+        qListContainer.innerHTML = '<p>প্রশ্ন লোড করতে সমস্যা হয়েছে।</p>';
+    }
+}
+
+// পেজ লোড হলে প্রশ্ন নিয়ে আসবে
+window.addEventListener('DOMContentLoaded', fetchQuestions);
