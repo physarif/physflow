@@ -6,7 +6,9 @@
     <title>PhysFlow - পদার্থবিজ্ঞানের প্রশ্নোত্তর প্ল্যাটফর্ম</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="stylesheet" href="css/loader.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <script>
@@ -15,9 +17,9 @@
                 extend: {
                     colors: {
                         brandOrange: '#f48225',
-                        // তোমার পছন্দের ডার্ক কালার এখানে যোগ করা হলো
                         darkMain: '#232629', 
-                        darkCard: '#1A1A1A'
+                        darkCard: '#1A1A1A',
+                        darkBorder: '#444444'
                     }
                 }
             },
@@ -25,51 +27,66 @@
         }
     </script>
 </head>
-<body class="bg-white dark:bg-darkMain transition-colors duration-200">
+<body class="bg-[#f8f9f9] dark:bg-darkMain transition-colors duration-200">
 
     <header id="main-header"></header>
     <aside id="main-sidebar"></aside>
 
-    <main class="max-w-[1264px] mx-auto px-4 pt-[70px] pb-10 min-h-screen">
+    <main class="max-w-[1264px] mx-auto flex flex-col md:flex-row gap-0 md:gap-6 pt-[50px] min-h-screen">
         
-        <section class="bg-orange-50 dark:bg-darkCard rounded-xl p-8 md:p-12 text-center mb-8 border border-orange-100 dark:border-[#444444]">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-[#E0E0E0] mb-4">পদার্থবিজ্ঞানের দুনিয়ায় আপনাকে স্বাগতম</h1>
-            <p class="text-gray-600 dark:text-[#B0B0B0] mb-8 max-w-2xl mx-auto">আপনার অজানা প্রশ্নটি করুন অথবা অন্যদের প্রশ্নের উত্তর দিয়ে সাহায্য করুন।</p>
+        <div class="flex-grow bg-white dark:bg-darkMain border-x border-gray-200 dark:border-darkBorder">
             
-            <div class="flex max-w-lg mx-auto shadow-sm">
-                <input type="text" id="home-search" class="w-full p-3 border border-gray-300 dark:border-[#444444] dark:bg-darkMain dark:text-[#E0E0E0] rounded-l-lg focus:outline-none focus:ring-2 focus:ring-brandOrange" placeholder="প্রশ্ন খুঁজুন...">
-                <button id="search-btn" class="bg-brandOrange hover:bg-orange-600 text-white px-6 py-3 rounded-r-lg transition-colors">
-                    <i class="fas fa-search"></i>
-                </button>
+            <div class="p-6 border-b border-gray-200 dark:border-darkBorder flex justify-between items-center">
+                <h1 class="text-2xl font-semibold text-gray-800 dark:text-[#E0E0E0]">সব প্রশ্ন</h1>
+                <a href="ask-question.html" class="bg-[#0a95ff] hover:bg-[#0074cc] text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+                    প্রশ্ন করুন
+                </a>
             </div>
-        </section>
 
-        <div class="flex flex-col md:flex-row gap-8">
-            <div id="question-feed" class="flex-grow space-y-4">
-                <div class="text-center py-10 text-gray-500 dark:text-[#B0B0B0]">
-                    <i class="fas fa-spinner fa-spin text-2xl mb-2 text-brandOrange"></i>
-                    <p>নতুন প্রশ্নগুলো শীঘ্রই আসছে...</p>
+            <div class="px-6 py-3 border-b border-gray-100 dark:border-darkBorder flex justify-between items-center bg-gray-50/50 dark:bg-darkCard/30">
+                <div id="q-count-status" class="text-sm text-gray-600 dark:text-[#B0B0B0]">
+                    লোডিং...
+                </div>
+                <div class="flex border border-gray-300 dark:border-darkBorder rounded overflow-hidden">
+                    <button class="px-3 py-1.5 text-[12px] bg-white dark:bg-darkCard text-gray-700 dark:text-[#E0E0E0] border-r dark:border-darkBorder hover:bg-gray-50">Newest</button>
+                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0] border-r dark:border-darkBorder hover:bg-gray-50">Active</button>
+                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0] hover:bg-gray-50">Unanswered</button>
                 </div>
             </div>
 
-            <aside class="w-full md:w-[300px] shrink-0">
-                <div class="bg-white dark:bg-darkCard border border-gray-200 dark:border-[#444444] rounded-lg p-6 shadow-sm sticky top-[80px]">
-                    <h3 class="text-lg font-bold text-gray-800 dark:text-[#E0E0E0] mb-4 flex items-center gap-2">
-                        <i class="fas fa-chart-line text-brandOrange"></i> পরিসংখ্যান
-                    </h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center border-b border-gray-50 dark:border-[#444444] pb-2">
-                            <span class="text-gray-600 dark:text-[#B0B0B0]">মোট প্রশ্ন</span>
-                            <strong id="total-q" class="text-brandOrange text-lg font-bold">০</strong>
-                        </div>
-                        <div class="flex justify-between items-center pb-2">
-                            <span class="text-gray-600 dark:text-[#B0B0B0]">সক্রিয় সদস্য</span>
-                            <strong id="active-users" class="text-brandOrange text-lg font-bold">০</strong>
-                        </div>
+            <div id="question-feed" class="divide-y divide-gray-100 dark:divide-darkBorder">
+                <div class="text-center py-20">
+                    <i class="fas fa-circle-notch fa-spin text-3xl text-brandOrange mb-4"></i>
+                    <p class="text-gray-500 dark:text-[#B0B0B0]">পদার্থবিজ্ঞানের প্রশ্নগুলো লোড হচ্ছে...</p>
+                </div>
+            </div>
+        </div>
+
+        <aside class="w-full md:w-[300px] shrink-0 p-6 md:p-0 md:pt-6">
+            <div class="bg-white dark:bg-darkCard border border-gray-200 dark:border-darkBorder rounded-lg p-5 shadow-sm sticky top-[70px]">
+                <h3 class="text-sm font-bold text-gray-700 dark:text-[#E0E0E0] mb-4 uppercase tracking-wider">
+                    PhysFlow পরিসংখ্যান
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600 dark:text-[#B0B0B0]">মোট প্রশ্ন</span>
+                        <strong id="total-q" class="text-gray-800 dark:text-[#E0E0E0]">০</strong>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600 dark:text-[#B0B0B0]">সমাধান হয়েছে</span>
+                        <strong class="text-green-600 dark:text-green-500">০</strong>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600 dark:text-[#B0B0B0]">সক্রিয় সদস্য</span>
+                        <strong id="active-users" class="text-gray-800 dark:text-[#E0E0E0]">০</strong>
                     </div>
                 </div>
-            </aside>
-        </div>
+                <hr class="my-4 border-gray-100 dark:border-darkBorder">
+                <p class="text-[11px] text-gray-500 dark:text-[#888888] leading-relaxed">
+                    আপনার পদার্থবিজ্ঞান বিষয়ক যেকোনো সমস্যা এখানে শেয়ার করুন। আমাদের কমিউনিটি আপনাকে সাহায্য করতে প্রস্তুত।
+                </p>
+            </div>
+        </aside>
     </main>
 
     <footer id="main-footer"></footer>
