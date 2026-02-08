@@ -1,92 +1,95 @@
 import { db } from './firebase-config.js';
-import { collection, query, orderBy, getDocs, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// --- ১. এলিমেন্ট সিলেক্টর ---
-const questionFeed = document.getElementById('question-feed');
-const totalQElement = document.getElementById('total-q');
+// ১. মেইন ফিড লোড করা
+async function loadQuestions() {
+    const questionFeed = document.getElementById('question-feed');
+    const qStatus = document.getElementById('q-count-status');
 
-// --- ২. প্রশ্নগুলো লোড করার মেইন ফাংশন ---
-async function fetchQuestions() {
     try {
-        const q = query(collection(db, "questions"), orderBy("createdAt", "desc"), limit(20));
+        const q = query(collection(db, "questions"), orderBy("createdAt", "desc"), limit(10));
         const querySnapshot = await getDocs(q);
         
-        // লোডার পরিষ্কার করা
-        questionFeed.innerHTML = '';
-        
+        questionFeed.innerHTML = ""; // লোডার সরিয়ে ফেলা
+        qStatus.innerText = `${querySnapshot.size} টি নতুন প্রশ্ন পাওয়া গেছে`;
+
         if (querySnapshot.empty) {
-            questionFeed.innerHTML = `<p class="text-center py-10 text-gray-500">এখনো কোনো প্রশ্ন করা হয়নি।</p>`;
+            questionFeed.innerHTML = `<div class="p-10 text-center text-gray-400">কোনো প্রশ্ন পাওয়া যায়নি।</div>`;
             return;
         }
 
-        // পরিসংখ্যান আপডেট (মোট কয়টি প্রশ্ন আসলো)
-        totalQElement.innerText = querySnapshot.size;
-
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            const qId = doc.id;
-            renderQuestionCard(qId, data);
-        });
+            const date = data.createdAt?.toDate().toLocaleDateString('bn-BD') || "অজানা সময়";
 
+            questionFeed.innerHTML += `
+                <div class="p-4 hover:bg-gray-50 dark:hover:bg-[#2d2d2d] transition-all border-b dark:border-darkBorder">
+                    <div class="flex gap-4">
+                        <div class="hidden sm:flex flex-col items-end text-xs text-gray-500 gap-2 w-16">
+                            <span>০ ভোট</span>
+                            <span class="border border-green-600 text-green-600 px-1 rounded">১ উত্তর</span>
+                            <span>১২ ভিউ</span>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="text-blue-600 dark:text-[#58a6ff] text-lg font-medium hover:text-blue-800 transition-colors">
+                                <a href="question-details.html?id=${doc.id}">${data.title}</a>
+                            </h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mt-1">${data.description}</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <div class="flex gap-2">
+                                    <span class="bg-blue-50 dark:bg-gray-800 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded text-xs">${data.category || 'পদার্থবিজ্ঞান'}</span>
+                                </div>
+                                <div class="text-[11px] text-gray-500">
+                                    ${date} • <span class="text-blue-500">${data.authorName || 'ইউজার'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+        });
     } catch (error) {
-        console.error("Error fetching questions: ", error);
-        questionFeed.innerHTML = `<p class="text-center py-10 text-red-500">ডাটা লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</p>`;
+        console.error("Error loading questions: ", error);
+        questionFeed.innerHTML = `<div class="p-10 text-center text-red-500">ডাটা লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</div>`;
     }
 }
 
-// --- ৩. প্রশ্নের কার্ড রেন্ডার করা (StackOverflow Style) ---
-function renderQuestionCard(id, data) {
-    const { title, content, tags, authorName, createdAt, votes = 0, answersCount = 0, views = 0 } = data;
-    
-    // সময় ফরম্যাট করা
-    const date = createdAt?.toDate ? createdAt.toDate().toLocaleDateString('bn-BD') : "কিছুক্ষণ আগে";
-
-    const cardHTML = `
-        <div class="bg-white dark:bg-darkCard border-b border-gray-200 dark:border-[#444444] p-4 flex flex-col md:flex-row gap-4 hover:bg-gray-50 dark:hover:bg-[#2D2D3A] transition-all">
-            
-            <div class="flex flex-row md:flex-col items-center gap-3 md:gap-1 md:w-[80px] shrink-0 text-sm">
-                <div class="flex flex-col items-center px-2 py-1 rounded">
-                    <span class="font-bold text-gray-800 dark:text-[#E0E0E0]">${votes}</span>
-                    <span class="text-[10px] text-gray-500 uppercase">ভোট</span>
-                </div>
-                <div class="flex flex-col items-center px-2 py-1 rounded border ${answersCount > 0 ? 'border-green-600 text-green-600' : 'text-gray-500'}">
-                    <span class="font-bold">${answersCount}</span>
-                    <span class="text-[10px] uppercase">উত্তর</span>
-                </div>
-                <div class="hidden md:flex flex-col items-center text-gray-400">
-                    <span class="text-[11px]">${views} বার দেখা</span>
-                </div>
-            </div>
-
-            <div class="flex-grow">
-                <h3 class="text-lg font-medium text-[#0074cc] dark:text-[#58a6ff] hover:text-[#0a95ff] mb-1 leading-snug">
-                    <a href="question-detail.html?id=${id}">${title}</a>
-                </h3>
-                
-                <p class="text-sm text-gray-600 dark:text-[#B0B0B0] line-clamp-2 mb-3">
-                    ${content.replace(/<[^>]*>?/gm, '').substring(0, 150)}...
-                </p>
-
-                <div class="flex flex-wrap justify-between items-center gap-3">
-                    <div class="flex flex-wrap gap-1">
-                        ${tags.map(tag => `
-                            <a href="tags.html?tag=${tag}" class="px-2 py-1 bg-blue-50 dark:bg-[#2D2D3A] text-[#39739d] dark:text-[#58a6ff] text-[11px] rounded hover:bg-blue-100 transition-colors">
-                                ${tag}
-                            </a>
-                        `).join('')}
-                    </div>
-
-                    <div class="flex items-center gap-2 text-[12px] text-gray-500 dark:text-[#888888]">
-                        <span class="font-medium text-[#0074cc] dark:text-[#58a6ff]">${authorName}</span>
-                        <span>প্রশ্ন করেছেন ${date}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-
-    questionFeed.insertAdjacentHTML('beforeend', cardHTML);
+// ২. ফিচারড প্রশ্ন লোড করা (বাম কলামের জন্য)
+async function loadFeaturedQuestions() {
+    const featuredList = document.getElementById('featured-list');
+    try {
+        // এখানে আমরা বেশি ভিউ পাওয়া ৩টি প্রশ্ন লোড করছি
+        const q = query(collection(db, "questions"), limit(3)); 
+        const querySnapshot = await getDocs(q);
+        
+        if (!querySnapshot.empty) {
+            featuredList.innerHTML = ""; // ডামি কন্টেন্ট ক্লিয়ার করা
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                featuredList.innerHTML += `
+                    <div class="group border-b border-gray-50 dark:border-darkBorder pb-3 last:border-0 pt-2">
+                        <a href="question-details.html?id=${doc.id}" class="text-[13px] text-gray-700 dark:text-[#E0E0E0] hover:text-brandOrange leading-snug line-clamp-2 block transition-colors">
+                            ${data.title}
+                        </a>
+                    </div>`;
+            });
+        }
+    } catch (error) {
+        console.log("Featured load error:", error);
+    }
 }
 
-// পেজ লোড হলে ফাংশনটি কল করা
-window.addEventListener('DOMContentLoaded', fetchQuestions);
+// ৩. পরিসংখ্যান আপডেট করা
+async function loadStats() {
+    try {
+        const querySnapshot = await getDocs(collection(db, "questions"));
+        document.getElementById('total-q').innerText = querySnapshot.size;
+        document.getElementById('active-users').innerText = "১২"; // ডামি ইউজার সংখ্যা
+    } catch (e) { console.log(e); }
+}
+
+// পেজ লোড হলে সব কল হবে
+window.addEventListener('DOMContentLoaded', () => {
+    loadQuestions();
+    loadFeaturedQuestions();
+    loadStats();
+});
