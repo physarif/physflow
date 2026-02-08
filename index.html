@@ -20,7 +20,7 @@
                         brandOrange: '#f48225',
                         darkMain: '#232629', 
                         darkCard: '#1A1A1A',
-                        darkBorder: '#444444'
+                        darkBorder: '#3a3a3a'
                     }
                 }
             },
@@ -33,10 +33,10 @@
     <div id="main-header"></div>
     <div id="main-sidebar"></div>
 
-    <main class="max-w-[1264px] mx-auto flex flex-col md:flex-row pt-[50px] min-h-screen">
+    <main class="max-w-[1264px] mx-auto flex flex-col md:flex-row pt-[50px] min-h-screen bg-white dark:bg-darkMain">
         
-        <div class="hidden md:block w-[240px] shrink-0 border-r border-gray-200 dark:border-darkBorder pt-6 bg-white dark:bg-darkMain">
-            <div class="sticky top-[70px] flex flex-col h-[calc(100vh-80px)] overflow-y-auto custom-scrollbar pr-1">
+        <div class="hidden md:block w-[240px] shrink-0 border-r border-gray-300 dark:border-darkBorder pt-6">
+            <div class="sticky top-[50px] flex flex-col h-[calc(100vh-50px)] overflow-y-auto custom-scrollbar pr-1">
                 
                 <nav class="space-y-1 mb-8">
                     <a href="index.html" class="flex items-center gap-3 px-6 py-2 text-sm font-semibold text-gray-800 dark:text-[#E0E0E0] border-r-4 border-brandOrange bg-orange-50/50 dark:bg-darkCard transition-all">
@@ -80,7 +80,7 @@
 
                         <div class="group cursor-pointer border-t border-gray-50 dark:border-darkBorder pt-3">
                             <a href="#" class="text-[13px] text-gray-700 dark:text-[#E0E0E0] hover:text-brandOrange leading-snug line-clamp-2 block transition-colors">
-                                ব্ল্যাক হোলের ভেতরে সময় কেন স্থির হয়ে যায়?
+                                ব্ল্যাক হোলের ভেতরে সময় কেন স্থির হয়ে যায়?
                             </a>
                             <div class="flex items-center gap-2 mt-1 text-[10px] text-gray-400">
                                 <span>৩টি উত্তর</span> • <span>৪৫ জন দেখেছে</span>
@@ -93,7 +93,7 @@
             </div>
         </div>
 
-        <div class="flex-grow bg-white dark:bg-darkMain min-w-0">
+        <div class="flex-grow min-w-0">
             
             <div class="p-6 border-b border-gray-200 dark:border-darkBorder flex justify-between items-center">
                 <h1 class="text-2xl font-normal text-gray-800 dark:text-[#E0E0E0]">সব প্রশ্ন</h1>
@@ -107,9 +107,9 @@
                     প্রশ্নগুলো লোড হচ্ছে...
                 </div>
                 <div class="flex border border-gray-300 dark:border-darkBorder rounded overflow-hidden shadow-sm">
-                    <button class="px-3 py-1.5 text-[12px] bg-white dark:bg-darkCard text-gray-800 dark:text-[#E0E0E0] border-r dark:border-darkBorder hover:bg-gray-50">Newest</button>
-                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0] border-r dark:border-darkBorder hover:bg-gray-50">Active</button>
-                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0] hover:bg-gray-50">Unanswered</button>
+                    <button class="px-3 py-1.5 text-[12px] bg-white dark:bg-darkCard text-gray-800 dark:text-[#E0E0E0] border-r dark:border-darkBorder hover:bg-gray-50 dark:hover:bg-darkCard/80">Newest</button>
+                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0] border-r dark:border-darkBorder hover:bg-gray-50 dark:hover:bg-darkCard/80">Active</button>
+                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0] hover:bg-gray-50 dark:hover:bg-darkCard/80">Unanswered</button>
                 </div>
             </div>
 
