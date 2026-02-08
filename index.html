@@ -41,42 +41,49 @@
                 
                 if (mainArea) {
                     mainArea.innerHTML = `
-                        <!-- হেডার সেকশন -->
-                        <div class="flex flex-col md:flex-row md:items-center justify-between px-6 pt-8 pb-4 gap-4 border-b dark:border-gray-800">
-                            <div class="order-2 md:order-1">
-                                <a href="ask.html" class="bg-brandBlue hover:bg-[#0074cc] text-white px-4 py-2 rounded text-[13px] font-medium transition shadow-sm inline-block">Ask Question</a>
+                        <!-- হেডার সেকশন: এক লাইনে ফিক্সড বাটনসমূহ -->
+                        <div class="flex items-center justify-between px-6 py-6 border-b dark:border-gray-800 sticky top-0 bg-white dark:bg-darkMain z-10">
+                            <div>
+                                <a href="ask.html" class="bg-brandBlue hover:bg-[#0074cc] text-white px-4 py-2 rounded text-[13px] font-medium transition shadow-sm inline-block whitespace-nowrap">Ask Question</a>
                             </div>
                             
-                            <div class="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-md order-1 md:order-2 self-start md:self-auto">
-                                <button class="px-3 py-1.5 text-[13px] font-medium rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 shadow-sm">Latest</button>
-                                <button class="px-3 py-1.5 text-[13px] font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Popular</button>
-                                <button class="px-3 py-1.5 text-[13px] font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Trending</button>
+                            <div class="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-md">
+                                <button class="px-3 py-1.5 text-[12px] md:text-[13px] font-medium rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 shadow-sm">Latest</button>
+                                <button class="px-3 py-1.5 text-[12px] md:text-[13px] font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Popular</button>
+                                <button class="px-3 py-1.5 text-[12px] md:text-[13px] font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Trending</button>
                             </div>
                         </div>
 
                         <!-- প্রশ্ন তালিকা কন্টেইনার -->
                         <div id="question-container" class="divide-y divide-gray-100 dark:divide-gray-800">
                             
-                            <!-- ডামি পোস্ট ডিজাইন (JavaScript এর মাধ্যমে ডায়নামিক হবে, এখানে শুধু স্ট্রাকচার দেখানো হয়েছে) -->
+                            <!-- ডামি পোস্ট ডিজাইন -->
                             <div class="p-6 flex flex-col items-start">
-                                <!-- টাইটেলের উপরের ৩টি অপশন -->
-                                <div class="flex items-center gap-4 mb-3 text-[13px]">
-                                    <div class="flex flex-col items-center">
-                                        <span class="font-bold text-gray-700 dark:text-gray-200">0</span>
-                                        <span class="text-gray-500">Votes</span>
+                                <!-- টাইটেলের উপরের অংশ: মেটাডেটা এবং সময় -->
+                                <div class="flex items-center justify-between w-full mb-3 text-[12px]">
+                                    <div class="flex items-center gap-6">
+                                        <div class="flex flex-col items-center">
+                                            <span class="font-bold text-gray-700 dark:text-gray-200">0</span>
+                                            <span class="text-gray-500">Votes</span>
+                                        </div>
+                                        <div class="flex flex-col items-center border border-green-600 text-green-600 px-2 py-0.5 rounded">
+                                            <span class="font-bold">0</span>
+                                            <span>Answers</span>
+                                        </div>
+                                        <div class="flex flex-col items-center text-orange-700 dark:text-orange-400">
+                                            <span class="font-bold">0</span>
+                                            <span>Views</span>
+                                        </div>
                                     </div>
-                                    <div class="flex flex-col items-center border border-green-600 text-green-600 px-2 py-0.5 rounded">
-                                        <span class="font-bold">0</span>
-                                        <span>Answers</span>
-                                    </div>
-                                    <div class="flex flex-col items-center text-orange-700 dark:text-orange-400">
-                                        <span class="font-bold">0</span>
-                                        <span>Views</span>
+                                    
+                                    <!-- সময় (একেবারে ডানে) -->
+                                    <div class="text-gray-500 italic">
+                                        2 mins ago
                                     </div>
                                 </div>
                                 
                                 <!-- টাইটেল -->
-                                <h3 class="text-brandBlue text-lg font-medium hover:text-blue-400 cursor-pointer">
+                                <h3 class="text-brandBlue text-lg font-medium hover:text-blue-400 cursor-pointer leading-tight">
                                     একটি স্যাম্পল ফিজিক্স প্রশ্ন এখানে থাকবে?
                                 </h3>
                             </div>
