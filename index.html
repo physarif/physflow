@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhysFlow - পদার্থবিজ্ঞানের প্রশ্নোত্তর প্ল্যাটফর্ম</title>
+    <title>PhysFlow - প্রশ্নোত্তর</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="css/loader.css">
-    <link rel="stylesheet" href="css/home.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <script>
@@ -15,7 +14,6 @@
             theme: {
                 extend: {
                     colors: {
-                        brandOrange: '#f48225',
                         darkMain: '#232629', 
                         darkCard: '#1A1A1A',
                         darkBorder: '#444444'
@@ -28,30 +26,55 @@
 </head>
 <body class="bg-[#f8f9f9] dark:bg-darkMain transition-colors duration-200">
 
-    <header id="main-header"></header>
-    <aside id="main-sidebar"></aside>
+    <header id="main-header" class="fixed top-0 w-full h-[60px] bg-white dark:bg-darkCard border-b border-gray-300 dark:border-darkBorder z-50">
+        </header>
 
-    <main class="max-w-[1000px] mx-auto pt-[70px] min-h-screen px-4">
+    <main class="max-w-[1100px] mx-auto pt-[80px] pb-10 px-4">
         
-        <div class="mb-4 flex justify-end">
-            <span id="q-count-status" class="text-[11px] text-gray-400 dark:text-gray-600 font-medium"></span>
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">সব প্রশ্ন</h1>
+            <button class="bg-[#0a95ff] hover:bg-[#0074cc] text-white px-4 py-2 rounded shadow-sm text-sm font-medium transition-all">
+                প্রশ্ন করুন
+            </button>
         </div>
 
-        <div id="question-feed" class="flex flex-col">
-            <div class="flex flex-col items-center justify-center py-32 text-gray-400">
-                <i class="fas fa-circle-notch fa-spin text-2xl text-brandOrange/50"></i>
-                <p class="mt-4 text-sm tracking-wide">প্রশ্নগুলো সাজানো হচ্ছে...</p>
+        <div id="question-feed" class="grid grid-cols-1 md:grid-cols-2 border-t border-l border-gray-300 dark:border-darkBorder bg-white dark:bg-darkCard">
+            
+            <div class="p-4 border-r border-b border-gray-300 dark:border-darkBorder flex flex-col gap-2">
+                <div class="flex items-center justify-between text-[11px] font-medium">
+                    <div class="flex items-center gap-3 text-gray-500 dark:text-gray-400">
+                        <span>0 আপভোট</span>
+                        <span class="px-1.5 py-0.5 border border-green-600 text-green-600 rounded-sm font-bold">1 উত্তর</span>
+                        <span class="text-orange-600">14 দেখা হয়েছে</span>
+                    </div>
+                    <div class="text-gray-400 dark:text-gray-500">
+                        <i class="far fa-clock mr-1 text-[10px]"></i> ২ মিনিট আগে
+                    </div>
+                </div>
+
+                <h3 class="text-[#0a95ff] text-[17px] font-semibold leading-tight w-fit">
+                    <a href="#" class="hover:underline hover:text-[#0074cc] transition-all">
+                        কিভাবে স্থির তড়িৎ কাজ করে? উদাহরণসহ বুঝিয়ে বলুন।
+                    </a>
+                </h3>
+
+                <p class="text-[13px] text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
+                    স্থির তড়িৎ হলো কোনো বস্তুর উপরিভাগে চার্জ জমা হওয়া। যখন দুটি ভিন্ন ধর্মী বস্তুকে ঘর্ষণ করা হয়...
+                </p>
+
+                <div class="mt-auto pt-2 flex flex-wrap items-center gap-2">
+                    <span class="bg-[#0a95ff] text-white px-2 py-0.5 rounded-sm text-[10px] font-bold uppercase tracking-wider">
+                        স্থির তড়িৎ
+                    </span>
+                    <div class="flex gap-1">
+                        <span class="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-1.5 py-0.5 rounded-sm text-[10px] border border-gray-200 dark:border-gray-700">চার্জ</span>
+                        <span class="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-1.5 py-0.5 rounded-sm text-[10px] border border-gray-200 dark:border-gray-700">ফিজিক্স</span>
+                    </div>
+                </div>
             </div>
-        </div>
-
+            </div>
     </main>
 
-    <footer id="main-footer"></footer>
-
-    <script src="js/loader.js"></script> 
-    <script type="module" src="js/firebase-config.js"></script>
-    <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/home.js"></script>
-
-    </body>
+</body>
 </html>
