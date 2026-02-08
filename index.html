@@ -6,10 +6,8 @@
     <title>PhysFlow - পদার্থবিজ্ঞানের প্রশ্নোত্তর প্ল্যাটফর্ম</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link rel="stylesheet" href="css/loader.css">
     <link rel="stylesheet" href="css/home.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <script>
@@ -35,37 +33,44 @@
 
     <main class="max-w-[1264px] mx-auto flex flex-col md:flex-row gap-0 pt-[50px] min-h-screen">
         
-        <aside class="hidden md:block w-[210px] shrink-0 border-r border-gray-200 dark:border-darkBorder pt-6 bg-white dark:bg-darkMain">
-            <div class="sticky top-[70px]">
-                <nav class="space-y-1">
-                    <a href="index.html" class="flex items-center gap-3 px-4 py-2 text-sm font-semibold text-gray-800 dark:text-[#E0E0E0] border-r-4 border-brandOrange bg-gray-50 dark:bg-darkCard transition-all">
+        <aside class="hidden md:block w-[240px] shrink-0 border-r border-gray-200 dark:border-darkBorder pt-6 bg-white dark:bg-darkMain">
+            <div class="sticky top-[70px] flex flex-col h-[calc(100vh-100px)]">
+                
+                <nav class="space-y-1 mb-10">
+                    <a href="index.html" class="flex items-center gap-3 px-6 py-2 text-sm font-semibold text-gray-800 dark:text-[#E0E0E0] border-r-4 border-brandOrange bg-orange-50/50 dark:bg-darkCard transition-all">
                         <i class="fas fa-globe w-4 text-brandOrange"></i> হোম
                     </a>
-                    <a href="categories.html" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-[#B0B0B0] hover:bg-gray-50 dark:hover:bg-darkCard hover:text-gray-900 dark:hover:text-white transition-all">
+                    <a href="categories.html" class="flex items-center gap-3 px-6 py-2 text-sm text-gray-600 dark:text-[#B0B0B0] hover:bg-gray-50 dark:hover:bg-darkCard hover:text-gray-900 dark:hover:text-white transition-all">
                         <i class="fas fa-th-list w-4"></i> বিভাগ
                     </a>
-                    <a href="tags.html" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-[#B0B0B0] hover:bg-gray-50 dark:hover:bg-darkCard hover:text-gray-900 dark:hover:text-white transition-all">
+                    <a href="tags.html" class="flex items-center gap-3 px-6 py-2 text-sm text-gray-600 dark:text-[#B0B0B0] hover:bg-gray-50 dark:hover:bg-darkCard hover:text-gray-900 dark:hover:text-white transition-all">
                         <i class="fas fa-tags w-4"></i> ট্যাগ
                     </a>
                 </nav>
 
-                <div class="mt-8 px-4">
-                    <h3 class="text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">পরিসংখ্যান</h3>
-                    <div class="text-[13px] space-y-2 text-gray-600 dark:text-[#B0B0B0]">
-                        <div class="flex justify-between items-center">
-                            <span>প্রশ্ন:</span> 
-                            <strong id="total-q" class="text-gray-800 dark:text-[#E0E0E0]">০</strong>
+                <div class="px-6 py-6 border-t border-gray-100 dark:border-darkBorder">
+                    <h3 class="text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">PhysFlow ড্যাশবোর্ড</h3>
+                    <div class="space-y-4">
+                        <div class="flex flex-col">
+                            <span class="text-[11px] text-gray-500">মোট প্রশ্ন</span>
+                            <strong id="total-q" class="text-lg font-bold text-gray-800 dark:text-[#E0E0E0]">০</strong>
                         </div>
-                        <div class="flex justify-between items-center">
-                            <span>সদস্য:</span> 
-                            <strong id="active-users" class="text-gray-800 dark:text-[#E0E0E0]">০</strong>
+                        <div class="flex flex-col">
+                            <span class="text-[11px] text-gray-500">সক্রিয় সদস্য</span>
+                            <strong id="active-users" class="text-lg font-bold text-gray-800 dark:text-[#E0E0E0]">০</strong>
                         </div>
+                    </div>
+                    
+                    <div class="mt-8 p-3 bg-yellow-50 dark:bg-[#2D2D3A] rounded border border-yellow-100 dark:border-darkBorder">
+                        <p class="text-[10px] text-yellow-800 dark:text-[#B0B0B0] leading-relaxed">
+                            <i class="fas fa-lightbulb mr-1"></i> স্পষ্ট শিরোনাম দিয়ে প্রশ্ন করলে দ্রুত উত্তর পাওয়ার সম্ভাবনা থাকে।
+                        </p>
                     </div>
                 </div>
             </div>
         </aside>
 
-        <div class="flex-grow bg-white dark:bg-darkMain min-w-0 border-r border-gray-200 dark:border-darkBorder">
+        <div class="flex-grow bg-white dark:bg-darkMain min-w-0">
             
             <div class="p-6 border-b border-gray-200 dark:border-darkBorder flex justify-between items-center">
                 <h1 class="text-2xl font-normal text-gray-800 dark:text-[#E0E0E0]">সব প্রশ্ন</h1>
@@ -78,40 +83,21 @@
                 <div id="q-count-status" class="text-sm text-gray-600 dark:text-[#B0B0B0]">
                     প্রশ্নগুলো লোড হচ্ছে...
                 </div>
-                <div class="flex border border-gray-300 dark:border-darkBorder rounded overflow-hidden shadow-sm">
-                    <button class="px-3 py-1.5 text-[12px] bg-white dark:bg-darkCard text-gray-800 dark:text-[#E0E0E0] border-r dark:border-darkBorder hover:bg-gray-50">Newest</button>
-                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0] border-r dark:border-darkBorder hover:bg-gray-50">Active</button>
-                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0] hover:bg-gray-50">Unanswered</button>
+                <div class="flex border border-gray-300 dark:border-darkBorder rounded overflow-hidden">
+                    <button class="px-3 py-1.5 text-[12px] bg-white dark:bg-darkCard text-gray-800 dark:text-[#E0E0E0] border-r dark:border-darkBorder">Newest</button>
+                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0] border-r dark:border-darkBorder">Active</button>
+                    <button class="px-3 py-1.5 text-[12px] text-gray-600 dark:text-[#B0B0B0]">Unanswered</button>
                 </div>
             </div>
 
-            <div id="question-feed" class="divide-y divide-gray-100 dark:divide-darkBorder min-h-[400px]">
+            <div id="question-feed" class="divide-y divide-gray-100 dark:divide-darkBorder">
                 <div class="flex flex-col items-center justify-center py-20 text-gray-400">
-                    <i class="fas fa-circle-notch fa-spin text-3xl mb-3 text-brandOrange"></i>
-                    <p>ডাটাবেজ কানেক্ট হচ্ছে...</p>
+                    <i class="fas fa-spinner fa-spin text-3xl mb-3 text-brandOrange"></i>
+                    <p>ডাটা লোড হচ্ছে...</p>
                 </div>
             </div>
         </div>
 
-        <aside class="hidden lg:block w-[300px] shrink-0 p-6 bg-[#f8f9f9] dark:bg-darkMain">
-            <div class="sticky top-[70px] space-y-4">
-                <div class="bg-yellow-50 dark:bg-[#2D2D3A] border border-yellow-200 dark:border-darkBorder rounded shadow-sm overflow-hidden">
-                    <div class="bg-yellow-100/50 dark:bg-[#353545] px-4 py-2 border-b border-yellow-200 dark:border-darkBorder">
-                        <h4 class="text-xs font-bold text-yellow-800 dark:text-yellow-500 uppercase">কিভাবে প্রশ্ন করবেন?</h4>
-                    </div>
-                    <ul class="p-4 text-[12px] space-y-3 text-gray-700 dark:text-[#B0B0B0] list-disc ml-4">
-                        <li>শিরোনাম স্পষ্ট এবং সংক্ষিপ্ত রাখুন।</li>
-                        <li>প্রশ্নের বিস্তারিত ব্যাখ্যা দিন।</li>
-                        <li>সঠিক ট্যাগ ব্যবহার করুন।</li>
-                    </ul>
-                </div>
-
-                <div class="p-4 border border-gray-200 dark:border-darkBorder rounded bg-white dark:bg-darkCard text-center">
-                    <p class="text-xs text-gray-500 mb-2">আপনার কি কোনো মতামত আছে?</p>
-                    <a href="#" class="text-xs text-[#0a95ff] hover:underline">আমাদের জানান →</a>
-                </div>
-            </div>
-        </aside>
     </main>
 
     <footer id="main-footer"></footer>
