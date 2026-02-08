@@ -1,41 +1,41 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhysFlow - ফিজিক্স প্রশ্নোত্তর প্ল্যাটফর্ম</title>
-    
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/index.css">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Stack Overflow Clone</title>
+    <link rel="stylesheet" href="cs/index.css">
 </head>
 <body>
 
-    <header class="s-header" id="main-header"></header>
+    <div id="header-container"></div>
 
-    <div id="main-sidebar"></div>
-
-    <main class="s-main-container">
-        <div class="content-wrapper">
-            <div class="search-container" style="margin-bottom: 20px;">
-                <form action="#" method="GET" style="display: flex; gap: 10px;">
-                    <input type="text" placeholder="প্রশ্ন খুঁজুন..." name="search" style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-                    <button type="submit" style="padding: 10px 20px; border-radius: 5px; border: none; background-color: var(--primary-color, #007bff); color: white; cursor: pointer;">
-                        <i class="fa fa-search"></i> খুঁজুন
-                    </button>
-                </form>
+    <div class="container">
+        <div id="sidebar-container"></div>
+        
+        <main id="main-content">
+            <div class="main-header">
+                <h1>All Questions</h1>
+                <button class="ask-btn">Ask Question</button>
             </div>
-        </div>
-    </main>
 
-    <footer class="s-footer" id="main-footer"></footer>
+            <div class="filters">
+                <div class="filter-group">
+                    <button class="filter-item active">Newest</button>
+                    <button class="filter-item">Active</button>
+                    <button class="filter-item">Unanswered</button>
+                </div>
+            </div>
 
+            <div id="questions-list"></div>
+        </main>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/loader.js"></script>
-    <script type="module" src="js/firebase-config.js"></script>
-    <script type="module" src="js/auth.js"></script>
-    <script type="module" src="js/main.js"></script>
-<script src="js/main.js?v=1.0.5"></script>
-<link rel="stylesheet" href="css/style.css?v=1.0.5">
+    <script src="js/index.js"></script>
 </body>
 </html>
