@@ -1,217 +1,29 @@
 <!DOCTYPE html>
-<html lang="bn" class="scroll-smooth">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhysFlow - পদার্থবিজ্ঞানের প্রশ্নোত্তর কেন্দ্র</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        darkMain: '#1a1a1b', 
-                        darkCard: '#18181b',
-                        darkBorder: '#2d2d2d',
-                        brandOrange: '#f48225',
-                        brandBlue: '#0a95ff'
-                    }
-                }
-            },
-            darkMode: 'class'
-        }
-    </script>
-
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
-        .dark ::-webkit-scrollbar-thumb { background: #3f3f46; }
-    </style>
+    <title>সব প্রশ্নসমূহ - PhysFlow</title>
 </head>
-<body class="bg-white dark:bg-darkMain text-gray-800 dark:text-gray-200 transition-colors duration-200 min-h-screen flex flex-col">
+<body>
 
-    <!-- Header -->
-    <header class="fixed top-0 w-full h-[56px] bg-white dark:bg-[#1a1a1b] border-t-4 border-[#f48024] border-b dark:border-gray-800 z-[100] shadow-sm">
-        <div class="container mx-auto px-4 h-full flex items-center justify-between gap-4">
-            <div class="flex items-center gap-2 shrink-0">
-                <button id="hamburger-btn" class="md:hidden text-gray-600 dark:text-gray-300 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <i class="fas fa-bars text-lg"></i>
-                </button>
-                <a href="index.html" class="flex items-center gap-0.5">
-                    <span class="text-2xl font-black text-gray-800 dark:text-white tracking-tighter">phys</span>
-                    <span class="text-2xl font-light text-gray-500 dark:text-gray-400 tracking-tighter">flow</span>
-                </a>
-            </div>
-            <div class="hidden sm:flex flex-1 max-w-2xl relative items-center group">
-                <i class="fas fa-search absolute left-3 text-gray-400 text-xs"></i>
-                <input type="text" id="search-input" placeholder="অনুসন্ধান করুন..." class="w-full pl-9 pr-3 py-1.5 bg-white dark:bg-[#1a1a1b] border border-gray-300 dark:border-gray-700 rounded text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-400">
-            </div>
-            <div class="flex items-center gap-2 shrink-0">
-                <button id="theme-toggle" class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                    <i id="theme-icon" class="fas fa-moon text-lg"></i>
-                </button>
-                <div id="user-actions" class="flex items-center gap-2">
-                    <button id="login-btn" class="flex items-center gap-2 text-[#0074cc] dark:text-blue-400 px-3 py-1.5 rounded text-[13px] font-medium hover:bg-blue-50 dark:hover:bg-gray-800 transition-colors border border-transparent hover:border-blue-200 dark:hover:border-gray-700">
-                        <i class="fab fa-google"></i>
-                        <span>লগ ইন</span>
-                    </button>
-                    <div id="user-menu" class="hidden"></div>
+    <div id="layout-root"></div> <script>
+        async function loadLayout() {
+            const resp = await fetch('layout.html');
+            const html = await resp.text();
+            document.getElementById('layout-root').innerHTML = html;
+
+            // এখন layout-এর ভেতর main-content এ ডাটা ইনজেক্ট করি
+            const mainContent = document.getElementById('main-content');
+            mainContent.innerHTML = `
+                <div class="flex items-center justify-between px-6 pt-8 pb-4">
+                    <h1 class="text-xl md:text-2xl font-normal text-gray-700 dark:text-gray-100">সব প্রশ্নসমূহ</h1>
+                    <a href="ask.html" class="bg-brandBlue text-white px-4 py-2 rounded text-[13px]">প্রশ্ন করুন</a>
                 </div>
-            </div>
-        </div>
-    </header>
-
-    <div class="flex-grow container mx-auto flex">
-        
-        <!-- Sidebar -->
-        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-[140] hidden backdrop-blur-sm transition-opacity md:hidden"></div>
-        <aside id="mobile-sidebar" class="fixed top-[56px] left-0 h-screen w-[240px] bg-white dark:bg-[#1a1a1b] border-r dark:border-gray-800 z-[150] -translate-x-full transition-transform duration-300 ease-in-out md:translate-x-0 md:sticky md:z-0 shadow-2xl md:shadow-none">
-            <nav class="flex flex-col py-4 text-[13px] font-medium text-gray-600 dark:text-gray-400">
-                <div class="px-6 mt-6 mb-2 text-[11px] uppercase text-gray-400 font-bold">পাবলিক</div>
-                <a href="index.html" class="flex items-center gap-3 px-6 py-2 bg-gray-100 dark:bg-gray-800 border-r-2 border-brandOrange">
-                    <i class="fas fa-globe w-4"></i> <span>প্রশ্নসমূহ</span>
-                </a>
-                <a href="tags.html" class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <i class="fas fa-tags w-4"></i> <span>ট্যাগসমূহ</span>
-                </a>
-                <a href="users.html" class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <i class="fas fa-users w-4"></i> <span>ইউজারসমূহ</span>
-                </a>
-                <div class="px-6 mt-6 mb-2 text-[11px] uppercase text-gray-400 font-bold">আরও</div>
-                <a href="about.html" class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <i class="fas fa-info-circle w-4"></i> <span>আমাদের সম্পর্কে</span>
-                </a>
-                <a href="help.html" class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <i class="fas fa-question-circle w-4"></i> <span>সাহায্য</span>
-                </a>
-            </nav>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="flex-1 min-w-0 border-r dark:border-gray-800 pt-[56px]">
-            
-            <div class="flex items-center justify-between px-6 pt-8 pb-4">
-                <h1 class="text-xl md:text-2xl font-normal text-gray-700 dark:text-gray-100">সব প্রশ্নসমূহ</h1>
-                <a href="ask.html" class="bg-brandBlue hover:bg-[#0074cc] text-white px-4 py-2 rounded text-[13px] font-medium transition shadow-sm">প্রশ্ন করুন</a>
-            </div>
-
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 px-6 py-4 border-b dark:border-gray-800">
-                <div class="text-[14px] text-gray-600 dark:text-gray-400">
-                    <span id="total-questions" class="font-bold">০</span>টি প্রশ্ন পাওয়া গেছে
+                <div id="question-container" class="px-6">
+                    <p class="py-20 text-center italic">প্রশ্নসমূহ লোড হচ্ছে...</p>
                 </div>
-
-                <div class="inline-flex border border-gray-300 dark:border-gray-700 rounded shadow-sm text-[12px] bg-white dark:bg-gray-800 overflow-hidden font-medium">
-                    <button id="btn-latest" class="px-3 py-1.5 border-r dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 bg-[#fef7f0] dark:bg-[#4d2c00] text-brandOrange font-bold">সর্বশেষ</button>
-                    <button id="btn-featured" class="px-3 py-1.5 border-r dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">জনপ্রিয়</button>
-                    <button id="btn-trending" class="px-3 py-1.5 hover:bg-gray-50 dark:hover:bg-gray-700">ট্রেন্ডিং</button>
-                </div>
-            </div>
-
-            <div id="question-container" class="divide-y divide-gray-100 dark:divide-gray-800">
-                <div class="py-24 text-center text-gray-400 text-xs italic">
-                    <i class="fas fa-spinner fa-spin text-xl mb-3 block"></i>
-                    ফিজিক্সের তথ্যসমূহ লোড হচ্ছে...
-                </div>
-            </div>
-
-            <div class="px-8 py-12 border-t dark:border-gray-800 bg-gray-50/30 dark:bg-gray-800/10">
-                <p class="text-[13px] text-gray-500 text-center">
-                    আপনি কি আপনার প্রয়োজনীয় প্রশ্নের উত্তর পাচ্ছেন না? <br>
-                    আমাদের <a href="tags.html" class="text-brandBlue hover:underline font-medium">ট্যাগসমূহ</a> দেখুন অথবা আমাদের <a href="help.html" class="text-brandBlue hover:underline font-medium">হেল্প সেন্টারে</a> যোগাযোগ করুন।
-                </p>
-            </div>
-        </main>
-
-        <!-- Right Sidebar -->
-        <aside class="hidden lg:block w-[300px] p-6 shrink-0 pt-[70px]">
-            <div class="bg-[#fdf7e2] dark:bg-[#2d2d1a] border border-[#e6dbaf] dark:border-yellow-900/40 rounded shadow-sm overflow-hidden mb-6">
-                <h3 class="bg-[#fbf3d5] dark:bg-[#3d3d25] px-4 py-2 text-[12px] font-bold text-gray-600 dark:text-gray-200 border-b border-[#e6dbaf] dark:border-yellow-900/40 uppercase tracking-wider">PhysFlow নোটিশ</h3>
-                <ul class="p-4 text-[12px] space-y-4 text-gray-700 dark:text-gray-300 leading-snug">
-                    <li class="flex gap-2">
-                        <i class="fas fa-pencil-alt text-gray-400"></i>
-                        <span>নতুন 'কোয়ান্টাম-মেকানিক্স' ট্যাগ যুক্ত হয়েছে।</span>
-                    </li>
-                    <li class="flex gap-2">
-                        <i class="fas fa-bullhorn text-gray-400"></i>
-                        <span>আপনার প্রশ্নের সঠিক সমাধান পেলে তা মার্ক করুন।</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="border dark:border-gray-800 rounded p-4 text-center">
-                <h4 class="text-[11px] uppercase font-bold text-gray-400 mb-4 tracking-widest">কমিউনিটি স্ট্যাটাস</h4>
-                <div class="flex justify-around items-center">
-                    <div>
-                        <div class="text-lg font-bold" id="total-answers">০</div>
-                        <div class="text-[10px] text-gray-500">সমাধান</div>
-                    </div>
-                    <div class="h-8 border-l dark:border-gray-800"></div>
-                    <div>
-                        <div class="text-lg font-bold" id="total-users">০</div>
-                        <div class="text-[10px] text-gray-500">ইউজার</div>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-gray-50 dark:bg-[#0f0f0f] border-t dark:border-gray-800 py-8 mt-auto">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
-                <div>
-                    <h4 class="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-3">PhysFlow</h4>
-                    <ul class="space-y-2 text-xs text-gray-600 dark:text-gray-400">
-                        <li><a href="about.html" class="hover:text-[#f48024]">আমাদের সম্পর্কে</a></li>
-                        <li><a href="contact.html" class="hover:text-[#f48024]">যোগাযোগ</a></li>
-                        <li><a href="team.html" class="hover:text-[#f48024]">টিম</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-3">সাহায্য</h4>
-                    <ul class="space-y-2 text-xs text-gray-600 dark:text-gray-400">
-                        <li><a href="help.html" class="hover:text-[#f48024]">হেল্প সেন্টার</a></li>
-                        <li><a href="guidelines.html" class="hover:text-[#f48024]">গাইডলাইন</a></li>
-                        <li><a href="faq.html" class="hover:text-[#f48024]">FAQ</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-3">আইনি</h4>
-                    <ul class="space-y-2 text-xs text-gray-600 dark:text-gray-400">
-                        <li><a href="privacy.html" class="hover:text-[#f48024]">প্রাইভেসি পলিসি</a></li>
-                        <li><a href="terms.html" class="hover:text-[#f48024]">শর্তাবলী</a></li>
-                        <li><a href="cookie.html" class="hover:text-[#f48024]">কুকি পলিসি</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-3">সোশ্যাল</h4>
-                    <div class="flex gap-3">
-                        <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#f48024]">
-                            <i class="fab fa-facebook text-lg"></i>
-                        </a>
-                        <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#f48024]">
-                            <i class="fab fa-twitter text-lg"></i>
-                        </a>
-                        <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#f48024]">
-                            <i class="fab fa-github text-lg"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t dark:border-gray-800 pt-6 text-center">
-                <p class="text-xs text-gray-500">© 2024 PhysFlow. সর্বস্বত্ব সংরক্ষিত। বাংলাদেশী পদার্থবিজ্ঞানীদের জন্য তৈরি।</p>
-            </div>
-        </div>
-    </footer>
-
-    <script type="module" src="javascript/layout.js"></script>
-    <script type="module" src="javascript/main.js"></script>
-
+            `;
+        }
+        loadLayout();
+    </script>
 </body>
 </html>
