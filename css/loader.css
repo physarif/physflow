@@ -1,117 +1,59 @@
-/* --- ১. গ্লোবাল সেটিংস ও রিসেট --- */
-:root {
-    --orange: #f48225;
+/* --- ১. গ্লোবাল সেটিংস --- */
+:root { --orange: #f48225; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { overflow-y: scroll; }
+body { 
+    width: 100%; overflow-x: hidden; 
+    background-color: #ffffff; color: #232629; 
+    font-family: ui-sans-serif, system-ui, sans-serif; 
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* সবসময় স্ক্রলবার স্পেস ধরে রাখার জন্য যাতে লেআউট না নড়ে */
-html {
-    overflow-y: scroll;
-}
-
-body {
-    width: 100%;
-    overflow-x: hidden;
-    background-color: #ffffff;
-    color: #232629;
-    font-family: ui-sans-serif, system-ui, sans-serif;
-}
-
-/* --- ২. হেডার, ফুটার ও সাইডবার (লাইট মোড) --- */
+/* --- ২. লাইট মোড (ডিফল্ট) --- */
 #main-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw; /* স্ক্রিন উইডথ ফিক্সড রাখার জন্য */
-    height: 50px;
-    z-index: 1000;
-    background-color: #f8f9f9;
-    border-bottom: 1px solid #d6d9dc;
-    padding-right: 0 !important; /* নড়াচড়া বন্ধ করতে */
+    position: fixed; top: 0; left: 0; width: 100vw; height: 50px;
+    z-index: 1000; background-color: #f8f9f9;
+    border-bottom: 1px solid #d6d9dc; padding-right: 0 !important;
 }
-
-#main-footer {
-    background-color: #232629;
-    color: #9199a1;
-    width: 100%;
-    padding: 30px 0;
-}
-
+#main-footer { background-color: #232629; color: #9199a1; width: 100%; padding: 30px 0; }
 #mobile-sidebar {
-    position: fixed;
-    top: 50px;
-    left: -260px;
-    width: 240px;
-    height: calc(100vh - 50px);
-    background-color: #ffffff;
-    border-right: 1px solid #d6d9dc;
-    transition: left 0.3s ease;
-    z-index: 999;
+    position: fixed; top: 50px; left: -260px; width: 240px;
+    height: calc(100vh - 50px); background-color: #ffffff;
+    border-right: 1px solid #d6d9dc; transition: left 0.3s ease; z-index: 999;
 }
 
-/* পেছনের আবছা অংশ (Overlay) */
-#sidebar-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 998;
-}
-
-/* কন্টেন্ট গ্যাপ */
-main, .home-main-layout {
-    padding-top: 50px;
-    min-height: calc(100vh - 150px);
-}
-
-/* --- ৩. ডার্ক মোড সেটিংস (#44444E কালার প্লেট অনুযায়ী) --- */
+/* --- ৩. ডার্ক মোড (নতুন প্যালেট: #121212) --- */
 .dark body {
-    background-color: #2D2D3A; /* বডির জন্য গভীর শেড */
-    color: #E2E2E6;
+    background-color: #121212; /* Charcoal Black */
+    color: #E0E0E0; /* Light Gray Text */
 }
 
 .dark #main-header {
-    background-color: #44444E !important; /* তোমার পছন্দ করা কালার */
-    border-bottom: 1px solid #575766 !important;
+    background-color: #1A1A1A !important; 
+    border-bottom: 1px solid #444444 !important; /* Dark Gray Border */
 }
 
 .dark #mobile-sidebar {
-    background-color: #44444E !important;
-    border-right: 1px solid #575766 !important;
+    background-color: #1A1A1A !important;
+    border-right: 1px solid #444444 !important;
 }
 
-/* সাইডবারের লিঙ্কের কালার */
-.dark #mobile-sidebar a, 
-.dark .nav-links {
-    color: #D1D1D6 !important;
+.dark #main-footer {
+    background-color: #000000;
+    border-top: 1px solid #444444;
 }
 
-/* ডার্ক মোডে হোভার করলে কালার */
-.dark #mobile-sidebar a:hover, 
-.dark .hover\:bg-gray-100:hover {
-    background-color: #575766 !important;
+/* টেক্সট ও হোভার কালার */
+.dark .text-gray-700, .dark .nav-links, .dark #mobile-sidebar a {
+    color: #B0B0B0 !important; /* Medium Gray */
+}
+
+.dark .hover\:bg-gray-100:hover, .dark #mobile-sidebar a:hover {
+    background-color: #444444 !important; /* Dark Gray Accent */
     color: #ffffff !important;
 }
 
-/* ডার্ক মোড ফুটার */
-.dark #main-footer {
-    background-color: #1A1A24;
-    border-top: 1px solid #44444E;
-}
+.dark #sidebar-overlay { background-color: rgba(0, 0, 0, 0.8); }
 
-/* ডার্ক মোড ওভারলে */
-.dark #sidebar-overlay {
-    background-color: rgba(0, 0, 0, 0.6);
-}
-
-/* ইউটিলিটি ক্লাস */
-.hidden {
-    display: none !important;
-}
+/* ইউটিলিটি */
+main { padding-top: 50px; min-height: calc(100vh - 150px); }
+.hidden { display: none !important; }
