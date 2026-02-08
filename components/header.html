@@ -1,34 +1,40 @@
 <div class="max-w-[1264px] mx-auto w-full px-4 flex justify-between items-center h-[50px]">
     <div class="flex items-center gap-4">
-        <button id="nav-toggle" class="text-gray-600 md:hidden">
+        <button id="nav-toggle" class="text-gray-600 dark:text-gray-300 md:hidden focus:outline-none">
             <i class="fas fa-bars text-xl"></i>
         </button>
         
-        <a href="index.html" class="flex flex-col leading-none">
+        <a href="index.html" class="flex flex-col leading-none shrink-0">
             <div class="flex items-baseline font-bold text-xl">
                 <span class="text-[#f48225]">phys</span>
                 <span class="text-[#8a9aa5] font-light">flow</span>
             </div>
-            <span id="app-version" class="text-[9px] text-gray-500 opacity-80 mt-0.5 tracking-wider uppercase"></span>
+            <span id="app-version" class="text-[9px] text-gray-500 dark:text-gray-400 opacity-80 mt-0.5 tracking-wider uppercase"></span>
         </a>
 
         <nav class="hidden md:block ml-4">
-            <ul class="flex gap-4 text-sm font-medium text-gray-700">
-                <li><a href="index.html" class="hover:text-[#f48225]">হোম</a></li>
-                <li><a href="categories.html" class="hover:text-[#f48225]">বিভাগ</a></li>
-                <li><a href="tags.html" class="hover:text-[#f48225]">ট্যাগ</a></li>
+            <ul class="flex gap-4 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <li><a href="index.html" class="hover:text-[#f48225] transition-colors">হোম</a></li>
+                <li><a href="categories.html" class="hover:text-[#f48225] transition-colors">বিভাগ</a></li>
+                <li><a href="tags.html" class="hover:text-[#f48225] transition-colors">ট্যাগ</a></li>
             </ul>
         </nav>
     </div>
 
     <div class="flex items-center gap-3">
-        <button id="theme-toggle" class="p-2 text-gray-600"><i class="fas fa-sun"></i></button>
+        <button id="theme-toggle" class="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-all">
+            <i class="fas fa-sun"></i>
+        </button>
+        
         <div id="auth-container" class="flex items-center">
-            <button id="google-login" class="flex items-center gap-2 text-sm font-medium text-gray-700 border px-3 py-1.5 rounded hover:bg-gray-50">
-                <i class="fas fa-sign-in-alt text-[#f48225]"></i> লগইন
+            <button id="google-login" class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 px-3 py-1.5 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+                <i class="fas fa-sign-in-alt text-[#f48225]"></i> 
+                <span class="hidden sm:inline">লগইন</span>
             </button>
+
             <div id="user-profile" class="hidden">
-                <img id="user-img" src="" class="w-8 h-8 rounded-full border border-gray-200 object-cover cursor-pointer">
+                <img id="user-img" src="" alt="Profile" 
+                     class="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700 object-cover cursor-pointer hover:ring-2 hover:ring-[#f48225] transition-all">
             </div>
         </div>
     </div>
