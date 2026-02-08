@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhysFlow - প্রশ্নোত্তর</title>
+    <title>PhysFlow - পদার্থবিজ্ঞানের প্রশ্নোত্তর প্ল্যাটফর্ম</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/loader.css">
+    <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <script>
@@ -13,6 +15,7 @@
             theme: {
                 extend: {
                     colors: {
+                        brandOrange: '#f48225',
                         darkMain: '#232629', 
                         darkCard: '#1A1A1A',
                         darkBorder: '#444444'
@@ -28,17 +31,18 @@
     <header id="main-header"></header>
     <aside id="main-sidebar"></aside>
 
-    <main class="max-w-[1100px] mx-auto pt-[80px] pb-10 px-4">
+    <main class="max-w-[1000px] mx-auto pt-[70px] min-h-screen px-4">
         
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">সব প্রশ্ন</h1>
-            <button class="bg-[#0a95ff] hover:bg-[#0074cc] text-white px-4 py-2 rounded shadow-sm text-sm font-medium transition-all">
-                প্রশ্ন করুন
-            </button>
+        <div class="mb-4 flex justify-end">
+            <span id="q-count-status" class="text-[11px] text-gray-400 dark:text-gray-600 font-medium"></span>
         </div>
 
-        <div id="question-feed" class="grid grid-cols-1 md:grid-cols-2 border-t border-l border-gray-300 dark:border-darkBorder bg-white dark:bg-darkCard">
+        <div id="question-feed" class="flex flex-col">
+            <div class="flex flex-col items-center justify-center py-32 text-gray-400">
+                <i class="fas fa-circle-notch fa-spin text-2xl text-brandOrange/50"></i>
+                <p class="mt-4 text-sm tracking-wide">প্রশ্নগুলো সাজানো হচ্ছে...</p>
             </div>
+        </div>
 
     </main>
 
@@ -48,5 +52,6 @@
     <script type="module" src="js/firebase-config.js"></script>
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/home.js"></script>
-</body>
+
+    </body>
 </html>
