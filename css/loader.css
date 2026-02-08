@@ -32,3 +32,25 @@ body {
 main, .s-main-container {
     padding-top: 50px;
 }
+
+/* loader.css এ যোগ করো */
+
+/* হেডার ডার্ক মোড */
+.dark #main-header {
+    background-color: #1a1a1b !important;
+    border-bottom-color: #343536 !important;
+}
+
+/* সাইডবার ডার্ক মোড */
+.dark #mobile-sidebar {
+    background-color: #1a1a1b !important;
+    border-right-color: #343536 !important;
+}
+
+.dark .nav-links {
+    color: #d7dadc !important;
+}
+
+.dark .nav-links:hover {
+    background-color: #272729 !important;
+}
