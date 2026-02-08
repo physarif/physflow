@@ -5,42 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PhysFlow - পদার্থবিজ্ঞানের প্রশ্নোত্তর প্ল্যাটফর্ম</title>
     
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="stylesheet" href="css/loader.css">
     
-    <link rel="stylesheet" href="css/home.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
 
-    <div id="main-header"></div>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandOrange: '#f48225',
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-900 transition-colors duration-200">
+
+    <div id="main-header" class="h-[50px]"></div>
     <div id="main-sidebar"></div>
 
-    <main class="home-main-layout">
-        <section class="hero-section">
-            <h1>পদার্থবিজ্ঞানের দুনিয়ায় আপনাকে স্বাগতম</h1>
-            <p>আপনার অজানা প্রশ্নটি করুন অথবা অন্যদের প্রশ্নের উত্তর দিয়ে সাহায্য করুন।</p>
-            <div class="search-box">
-                <input type="text" id="home-search" placeholder="প্রশ্ন খুঁজুন...">
-                <button id="search-btn"><i class="fas fa-search"></i></button>
+    <main class="max-w-[1264px] mx-auto px-4 pt-[70px] pb-10 min-h-screen">
+        
+        <section class="bg-orange-50 dark:bg-gray-800 rounded-xl p-8 md:p-12 text-center mb-8 border border-orange-100 dark:border-gray-700">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">পদার্থবিজ্ঞানের দুনিয়ায় আপনাকে স্বাগতম</h1>
+            <p class="text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">আপনার অজানা প্রশ্নটি করুন অথবা অন্যদের প্রশ্নের উত্তর দিয়ে সাহায্য করুন।</p>
+            
+            <div class="flex max-w-lg mx-auto shadow-sm">
+                <input type="text" id="home-search" class="w-full p-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-l-lg focus:outline-none focus:ring-2 focus:ring-brandOrange" placeholder="প্রশ্ন খুঁজুন...">
+                <button id="search-btn" class="bg-brandOrange hover:bg-orange-600 text-white px-6 py-3 rounded-r-lg transition-colors">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
         </section>
 
-        <div class="content-wrapper">
-            <div id="question-feed" class="question-list">
-                <div class="loader-placeholder">প্রশ্নগুলো লোড হচ্ছে...</div>
+        <div class="flex flex-col md:flex-row gap-8">
+            <div id="question-feed" class="flex-grow space-y-4">
+                <div class="text-center py-10 text-gray-500 dark:text-gray-400">
+                    <i class="fas fa-spinner fa-spin text-2xl mb-2 border-brandOrange"></i>
+                    <p>নতুন প্রশ্নগুলো শীঘ্রই আসছে...</p>
+                </div>
             </div>
 
-            <aside class="home-right-sidebar">
-                <div class="stats-card">
-                    <h3>পরিসংখ্যান</h3>
-                    <div class="stat-item">
-                        <span>মোট প্রশ্ন:</span>
-                        <strong id="total-q">০</strong>
-                    </div>
-                    <div class="stat-item">
-                        <span>সক্রিয় সদস্য:</span>
-                        <strong id="active-users">০</strong>
+            <aside class="w-full md:w-[300px] shrink-0">
+                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 shadow-sm sticky top-[80px]">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+                        <i class="fas fa-chart-line text-brandOrange"></i> পরিসংখ্যান
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center border-b border-gray-50 dark:border-gray-700 pb-2">
+                            <span class="text-gray-600 dark:text-gray-400">মোট প্রশ্ন</span>
+                            <strong id="total-q" class="text-brandOrange text-lg font-bold">০</strong>
+                        </div>
+                        <div class="flex justify-between items-center pb-2">
+                            <span class="text-gray-600 dark:text-gray-400">সক্রিয় সদস্য</span>
+                            <strong id="active-users" class="text-brandOrange text-lg font-bold">০</strong>
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -50,10 +74,8 @@
     <div id="main-footer"></div>
 
     <script src="js/loader.js"></script> 
-    
     <script type="module" src="js/firebase-config.js"></script>
     <script type="module" src="js/auth.js"></script>
-    
     <script type="module" src="js/home.js"></script>
 
 </body>
