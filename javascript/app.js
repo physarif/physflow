@@ -39,9 +39,6 @@ export const renderLayout = () => {
         <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-[140] hidden backdrop-blur-sm transition-opacity md:hidden"></div>
         <aside id="mobile-sidebar" class="fixed top-[56px] left-0 h-screen w-[240px] bg-white dark:bg-[#1a1a1b] border-r dark:border-gray-800 z-[150] -translate-x-full transition-transform duration-300 ease-in-out md:translate-x-0 md:sticky md:z-0 shadow-2xl md:shadow-none">
             <nav class="flex flex-col py-4 text-[13px] font-medium text-gray-600 dark:text-gray-400">
-                <a href="index.html" class="flex items-center gap-3 px-6 py-2.5 bg-[#fdf3e7] dark:bg-[#2d1d0f] text-[#f48024] border-r-4 border-[#f48024]">
-                    <i class="fas fa-home w-4"></i> <span>হোম</span>
-                </a>
                 <div class="px-6 mt-6 mb-2 text-[11px] uppercase text-gray-400 font-bold">পাবলিক</div>
                 <a href="questions.html" class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
                     <i class="fas fa-globe w-4"></i> <span>প্রশ্নসমূহ</span>
