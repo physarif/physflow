@@ -1,10 +1,34 @@
-<aside class="s-sidebar" id="mobile-sidebar">
-    <nav class="s-sidebar--nav">
-        <ul>
-            <li><a href="index.html" class="nav-links"><i class="fas fa-home"></i> হোম</a></li>
-            <li><a href="categories.html" class="nav-links"><i class="fas fa-th-list"></i> বিভাগ</a></li>
-            <li><a href="tags.html" class="nav-links"><i class="fas fa-tags"></i> ট্যাগ</a></li>
-            <li><a href="blog.html" class="nav-links"><i class="fas fa-rss"></i> ব্লগ</a></li>
+<aside id="mobile-sidebar" class="fixed top-[50px] left-[-260px] w-[240px] h-[calc(100vh-50px)] bg-white border-r border-gray-200 transition-all duration-300 z-[999] md:hidden">
+    <nav class="py-4">
+        <ul class="space-y-1">
+            <li>
+                <a href="index.html" class="flex items-center gap-3 px-5 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:border-r-4 hover:border-[#f48225] transition-all">
+                    <i class="fas fa-home w-5 text-gray-400"></i> হোম
+                </a>
+            </li>
+            <li>
+                <a href="categories.html" class="flex items-center gap-3 px-5 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:border-r-4 hover:border-[#f48225] transition-all">
+                    <i class="fas fa-th-list w-5 text-gray-400"></i> বিভাগ
+                </a>
+            </li>
+            <li>
+                <a href="tags.html" class="flex items-center gap-3 px-5 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:border-r-4 hover:border-[#f48225] transition-all">
+                    <i class="fas fa-tags w-5 text-gray-400"></i> ট্যাগ
+                </a>
+            </li>
+            <li>
+                <a href="blog.html" class="flex items-center gap-3 px-5 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:border-r-4 hover:border-[#f48225] transition-all">
+                    <i class="fas fa-rss w-5 text-gray-400"></i> ব্লগ
+                </a>
+            </li>
+            <hr class="my-2 border-gray-100">
+            <li>
+                <a href="ask-question.html" class="flex items-center gap-3 px-5 py-3 text-sm text-[#f48225] font-bold hover:bg-orange-50 transition-all">
+                    <i class="fas fa-plus-circle w-5"></i> প্রশ্ন করুন
+                </a>
+            </li>
         </ul>
     </nav>
 </aside>
+
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/20 z-[998] hidden md:hidden"></div>
