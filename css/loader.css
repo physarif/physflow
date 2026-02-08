@@ -1,160 +1,34 @@
-/* --- ১. গ্লোবাল ভ্যারিয়েবল ও রিসেট --- */
+/* loader.css */
 :root {
     --orange: #f48225;
-    --border: #d6d9dc;
-    --bc-light: #f8f9f9;
-    --white: #ffffff;
-    --black: #232629;
-    --text-muted: #666;
 }
 
-body { margin: 0; padding: 0; }
-.d-none { display: none !important; }
+body {
+    margin: 0;
+    overflow-x: hidden;
+    background-color: #ffffff;
+}
 
-/* --- ২. হেডার ডিজাইন (সবচেয়ে গুরুত্বপূর্ণ অংশ) --- */
-.s-header {
-    background-color: var(--bc-light);
-    border-top: 3px solid var(--orange);
-    border-bottom: 1px solid var(--border);
-    height: 54px;
-    display: flex;
-    align-items: center;
-    position: sticky;
+/* Header Fix (Tailwind এ fixed ক্লাস ব্যবহার করা যায়, তবে এখানে রাখা নিরাপদ) */
+#main-header {
+    position: fixed;
     top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: #f8f9f9;
+    border-top: 3px solid var(--orange);
+    border-bottom: 1px solid #d6d9dc;
     z-index: 1000;
 }
 
-.header-container {
+#main-footer {
+    background-color: #232629;
+    padding: 30px 0;
     width: 100%;
-    max-width: 1264px;
-    margin: 0 auto;
-    padding: 0 15px;
-    display: flex;
-    justify-content: space-between; /* বাম ও ডান অংশকে দুই দিকে ঠেলে দেবে */
-    align-items: center;
 }
 
-/* বাম ও ডান সেকশনকে পাশাপাশি রাখার জন্য */
-.header-left, .header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-/* লোগো ও ভার্সন */
-.s-logo {
-    text-decoration: none;
-    line-height: 1;
-}
-
-.logo-wrapper {
-    display: flex;
-    align-items: baseline;
-    font-size: 1.3rem;
-    font-weight: bold;
-}
-
-.phys { color: var(--orange); }
-.flow { color: #8a9aa5; font-weight: 300; }
-
-.version-tag {
-    font-size: 10px;
-    color: var(--text-muted);
-    display: block;
-    margin-top: 2px;
-}
-
-/* নেভিগেশন (ডেস্কটপ) */
-.s-navigation__desktop ul {
-    display: flex;
-    gap: 15px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.s-navigation__desktop a {
-    text-decoration: none;
-    color: var(--black);
-    font-size: 13px;
-    padding: 5px 10px;
-}
-
-/* --- ৩. সাইডবার ডিজাইন --- */
-.s-sidebar {
-    position: fixed;
-    top: 54px;
-    left: -260px;
-    width: 240px;
-    height: calc(100vh - 54px);
-    background: var(--white);
-    border-right: 1px solid var(--border);
-    transition: left 0.3s ease;
-    z-index: 999;
-}
-
-.s-sidebar.active { left: 0 !important; }
-
-.nav-links {
-    display: block;
-    padding: 12px 20px;
-    text-decoration: none;
-    color: var(--black);
-    font-size: 14px;
-}
-
-.nav-links:hover { background: var(--bc-light); border-right: 3px solid var(--orange); }
-
-/* --- ৪. ফুটার ডিজাইন --- */
-.s-footer {
-    background-color: var(--black);
-    color: #9199a1;
-    padding: 30px 15px;
-    margin-top: auto;
-}
-
-.footer-container {
-    max-width: 1264px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap; /* মোবাইলে একটার নিচে আরেকটা আসার জন্য */
-    gap: 15px;
-}
-
-.footer-links {
-    list-style: none;
-    display: flex;
-    gap: 15px;
-    margin: 0;
-    padding: 0;
-}
-
-.footer-links a { color: #9199a1; text-decoration: none; font-size: 13px; }
-
-/* --- ৫. ইউজার ও বাটন এলিমেন্ট --- */
-.s-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid var(--border);
-}
-
-.s-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    color: var(--text-muted);
-}
-
-/* --- রেসপন্সিভনেস --- */
-@media (min-width: 769px) {
-    .s-btn__hamburger { display: none !important; }
-}
-
-@media (max-width: 768px) {
-    .s-navigation__desktop { display: none !important; }
+/* কন্টেন্ট যেন হেডারের নিচে না ঢোকে */
+main, .s-main-container {
+    padding-top: 50px;
 }
