@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhysFlow - ফিজিক্স প্রশ্নোত্তর প্ল্যাটফর্ম</title>
+    <title>PhysFlow - পদার্থবিজ্ঞানের প্রশ্নোত্তর প্ল্যাটফর্ম</title>
     
     <link rel="stylesheet" href="css/loader.css">
     <link rel="stylesheet" href="css/style.css">
@@ -17,8 +17,7 @@
         
         <div class="px-4 md:px-16 mt-6 mb-4">
             <div class="relative max-w-xl mx-auto">
-                <input type="text" id="search-input" placeholder="প্রশ্ন খুঁজুন..." 
-                    class="search-input-style">
+                <input type="text" id="search-input" placeholder="প্রশ্ন খুঁজুন..." class="search-input-style">
                 <button id="search-btn" class="search-icon-btn">
                     <i class="fas fa-search"></i>
                 </button>
@@ -28,45 +27,33 @@
         <main class="flex-grow">
             <div class="flex flex-wrap items-center justify-between gap-2 px-4 md:px-16 py-2">
                 <div class="stats-badge">
-                    <div><span class="text-blue-600 font-bold" id="total-questions">০</span> প্রশ্ন</div>
-                    <div><span class="text-green-600 font-bold" id="total-answers">০</span> সমাধান</div>
+                    <div><span id="total-questions" class="text-blue-600 font-bold">০</span> প্রশ্ন</div>
+                    <div><span id="total-answers" class="text-green-600 font-bold">০</span> সমাধান</div>
                 </div>
                 
                 <div class="filter-group">
-                    <button id="btn-latest" class="filter-btn">সর্বশেষ</button>
+                    <button id="btn-latest" class="filter-btn active">সর্বশেষ</button>
                     <button id="btn-featured" class="filter-btn">জনপ্রিয়</button>
-                    <button id="btn-trending" class="filter-btn active">ট্রেন্ডিং</button>
+                    <button id="btn-trending" class="filter-btn">ট্রেন্ডিং</button>
                 </div>
             </div>
 
             <div id="question-container" class="question-grid">
                 <div class="loading-text">
-                    <i class="fas fa-spinner fa-spin mr-2"></i> লোড হচ্ছে...
+                    <i class="fas fa-spinner fa-spin"></i> লোড হচ্ছে...
                 </div>
             </div>
 
-            <div class="px-4 md:px-16 py-8 mt-6 info-section">
-                <p class="text-sm md:text-base leading-relaxed">
-                    আরও খুঁজছেন? আমাদের 
-                    <a href="questions.html" class="link-brand">প্রশ্নের সম্পূর্ণ তালিকা</a> 
-                    দেখুন, অথবা 
-                    <a href="categories.html" class="link-brand">বিভাগ</a> 
-                    ও 
-                    <a href="tags.html" class="link-brand">ট্যাগগুলো</a> ঘুরে দেখুন।
-                </p>
-            </div>
-
-            <section class="container mx-auto px-4 md:px-16 mt-6 mb-10 border-t pt-4 dark:border-gray-800">
+            <section class="px-4 md:px-16 mt-10 mb-10 border-t pt-6 dark:border-gray-800">
                 <h2 class="featured-title">
                     <i class="fas fa-star text-yellow-500"></i> নির্বাচিত প্রশ্ন (Featured)
                 </h2>
-                <div id="popular-questions-container" class="max-w-6xl"></div>
+                <div id="popular-questions-container" class="max-w-6xl mt-4"></div>
             </section>
         </main>
     </div>
 
     <div id="main-sidebar"></div>
-
     <div id="main-footer"></div>
 
     <script src="js/loader.js"></script>
