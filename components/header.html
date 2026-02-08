@@ -1,41 +1,85 @@
-<div class="max-w-[1264px] mx-auto w-full px-4 flex justify-between items-center h-[50px]">
-    <div class="flex items-center gap-4">
-        <button id="nav-toggle" class="text-gray-600 dark:text-gray-300 md:hidden focus:outline-none">
-            <i class="fas fa-bars text-xl"></i>
-        </button>
-        
-        <a href="index.html" class="flex flex-col leading-none shrink-0">
-            <div class="flex items-baseline font-bold text-xl">
-                <span class="text-[#f48225]">phys</span>
-                <span class="text-[#8a9aa5] font-light">flow</span>
-            </div>
-            <span id="app-version" class="text-[9px] text-gray-500 dark:text-gray-400 opacity-80 mt-0.5 tracking-wider uppercase"></span>
-        </a>
+/* --- ১. গ্লোবাল সেটিংস ও রিসেট --- */
+:root {
+--orange: #f48225;
+}
 
-        <nav class="hidden md:block ml-4">
-            <ul class="flex gap-4 text-sm font-medium text-gray-700 dark:text-gray-300">
-                <li><a href="index.html" class="hover:text-[#f48225] transition-colors">হোম</a></li>
-                <li><a href="categories.html" class="hover:text-[#f48225] transition-colors">বিভাগ</a></li>
-                <li><a href="tags.html" class="hover:text-[#f48225] transition-colors">ট্যাগ</a></li>
-            </ul>
-        </nav>
-    </div>
+{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
 
-    <div class="flex items-center gap-3">
-        <button id="theme-toggle" class="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-all">
-            <i class="fas fa-sun"></i>
-        </button>
-        
-        <div id="auth-container" class="flex items-center">
-            <button id="google-login" class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 px-3 py-1.5 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
-                <i class="fas fa-sign-in-alt text-[#f48225]"></i> 
-                <span class="hidden sm:inline">লগইন</span>
-            </button>
 
-            <div id="user-profile" class="hidden">
-                <img id="user-img" src="" alt="Profile" 
-                     class="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700 object-cover cursor-pointer hover:ring-2 hover:ring-[#f48225] transition-all">
-            </div>
-        </div>
-    </div>
-</div>
+body {
+width: 100%;
+overflow-x: hidden;
+background-color: #ffffff; /* লাইট মোড ব্যাকগ্রাউন্ড */
+color: #232629;
+}
+
+/* --- ২. হেডার, ফুটার ও সাইডবার (লাইট মোড - ডিফল্ট) --- /
+#main-header {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 50px;
+z-index: 1000;
+background-color: #f8f9f9; / ট্রান্সপারেন্ট সমস্যা সমাধান */
+border-bottom: 1px solid #d6d9dc;
+}
+
+#main-footer {
+background-color: #232629; /* ফুটার কালার */
+color: #9199a1;
+width: 100%;
+padding: 30px 0;
+}
+
+#mobile-sidebar {
+position: fixed;
+top: 50px;
+left: -260px;
+width: 240px;
+height: calc(100vh - 50px);
+background-color: #ffffff;
+border-right: 1px solid #d6d9dc;
+transition: left 0.3s ease;
+z-index: 999;
+}
+
+/* কন্টেন্ট গ্যাপ /
+main, .home-main-layout {
+padding-top: 50px;
+min-height: calc(100vh - 150px); / ফুটারকে নিচে ঠেলে রাখার জন্য */
+}
+
+/* --- ৩. ডার্ক মোড সেটিংস (Charcoal Blue) --- /
+.dark body {
+background-color: #0f172a; / Slate-950 */
+color: #f1f5f9;
+}
+
+.dark #main-header {
+background-color: #1e293b !important; /* Slate-800 */
+border-bottom-color: #334155 !important;
+}
+
+.dark #mobile-sidebar {
+background-color: #1e293b !important;
+border-right-color: #334155 !important;
+}
+
+.dark #main-footer {
+background-color: #020617; /* আরও গাঢ় ফুটার */
+border-top: 1px solid #1e293b;
+}
+
+/* ডার্ক মোডে টেক্সট অ্যাডজাস্টমেন্ট */
+.dark .text-gray-700, .dark .nav-links {
+color: #cbd5e1 !important;
+}
+
+.dark .hover:bg-gray-100:hover, .dark .nav-links:hover {
+background-color: #334155 !important;
+}
