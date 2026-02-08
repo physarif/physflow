@@ -1,48 +1,39 @@
-/* হোমপেজের মেইন লেআউট */
-.home-main-layout {
-    max-width: 1264px;
-    margin: 0 auto;
-    padding: 20px;
-    min-height: 80vh;
+/* --- Home Page Specific Styles --- */
+
+/* ১. প্রশ্ন কার্ডের ট্রানজিশন ও হোভার */
+#question-feed > div {
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.hero-section {
-    text-align: center;
-    padding: 40px 0;
-    background: #fdf7e3;
-    border-radius: 8px;
-    margin-bottom: 30px;
+/* ২. লাইন ক্ল্যাম্প (বেশি বড় টেক্সট হলে ২ লাইনের পর ... দেখাবে) */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
 }
 
-.search-box {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
+/* ৩. স্ট্যাক ওভারফ্লো স্টাইল পরিসংখ্যান বক্সের জন্য বিশেষ হোভার */
+.dark #question-feed > div:hover {
+    background-color: #2d2d3a !important;
 }
 
-#home-search {
-    width: 60%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px 0 0 4px;
+/* ৪. ডার্ক মোডে ট্যাগের উজ্জ্বলতা সামান্য বাড়ানো */
+.dark .bg-blue-50 {
+    background-color: #2D2D3A !important;
+    color: #58a6ff !important;
 }
 
-#search-btn {
-    padding: 12px 20px;
-    background: #f48225;
-    color: white;
-    border: none;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-}
-
-.content-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 20px;
-}
-
+/* ৫. মোবাইল ডিভাইসে হেডারের নিচে হালকা শ্যাডো */
 @media (max-width: 768px) {
-    .content-wrapper { grid-template-columns: 1fr; }
-    .home-right-sidebar { display: none; }
+    #main-header {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* মোবাইলে পরিসংখ্যানগুলো পাশাপাশি সুন্দর দেখানোর জন্য */
+    .stats-container {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 15px;
+    }
 }
