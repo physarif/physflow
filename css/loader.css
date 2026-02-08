@@ -21,19 +21,19 @@ body {
     border-right: 1px solid #d6d9dc; transition: left 0.3s ease; z-index: 999;
 }
 
-/* --- ৩. ডার্ক মোড (নতুন প্যালেট: #121212) --- */
+/* --- ৩. ডার্ক মোড (নতুন প্যালেট: #232629) --- */
 .dark body {
-    background-color: #121212; /* Charcoal Black */
+    background-color: #232629; /* Charcoal Black */
     color: #E0E0E0; /* Light Gray Text */
 }
 
 .dark #main-header {
-    background-color: #1A1A1A !important; 
+    background-color: #232629 !important; 
     border-bottom: 1px solid #444444 !important; /* Dark Gray Border */
 }
 
 .dark #mobile-sidebar {
-    background-color: #1A1A1A !important;
+    background-color: #232629 !important;
     border-right: 1px solid #444444 !important;
 }
 
