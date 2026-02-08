@@ -35,6 +35,7 @@
     font-size: 18px;
     vertical-align: middle;
 }
+.d-none { display: none; }
 
 /* --- Sidebar Base (মোবাইলে এটি স্ক্রিনের বাইরে থাকবে) --- */
 .s-sidebar {
