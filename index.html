@@ -5,42 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PhysFlow - ফিজিক্স প্রশ্নোত্তর প্ল্যাটফর্ম</title>
     
+    <link rel="stylesheet" href="css/loader.css">
     <link rel="stylesheet" href="css/style.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <header class="s-header" id="main-header">
-        </header>
+    <header class="s-header" id="main-header"></header>
+
+    <div id="main-sidebar"></div>
 
     <main class="s-main-container">
         <div class="content-wrapper">
-            
-            <div class="search-container">
-                <input type="text" placeholder="প্রশ্ন খুঁজুন..." id="search-input">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            </div>
-
-            <div class="filter-row">
-                <div class="stats-box">
-                    <span class="stat-q"><span id="total-q">০</span> প্রশ্ন</span>
-                    <span class="stat-s"><span id="total-s">০</span> সমাধান</span>
-                </div>
-                <div class="tab-container">
-                    <button class="tab-btn active">সর্বশেষ</button>
-                    <button class="tab-btn">জনপ্রিয়</button>
-                    <button class="tab-btn">ট্রেন্ডিং</button>
-                </div>
-            </div>
-
             <section id="question-feed">
-                <div class="loading">লোড হচ্ছে...</div>
+                <h2>শীর্ষ প্রশ্নসমূহ</h2>
+                <hr>
+                <p style="padding: 20px 0; color: var(--text-light);">এখানে প্রশ্নগুলো লোড হবে...</p>
             </section>
-
         </div>
     </main>
 
+    <footer class="s-footer" id="main-footer"></footer>
+
+    <script src="js/loader.js"></script>
     <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/main.js"></script>
+<script src="js/main.js?v=1.0.5"></script>
+<link rel="stylesheet" href="css/style.css?v=1.0.5">
 </body>
 </html>
+
+
+
+search বার থেকে শুরু করে পোস্টের ডিজাইন সব এমন হবে, তুমি আমাকে প্রয়োজনীয় পরিবর্তন করে পুরো কোড দাও। আর, css ও js code আলাদা দেবে
