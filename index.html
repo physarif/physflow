@@ -13,7 +13,8 @@
 
     <header class="s-header" id="main-header"></header>
 
-    <div class="s-main-layout container">
+    <div class="s-main-layout">
+        
         <aside id="main-sidebar" class="desktop-sidebar-nav"></aside>
 
         <main id="main-content">
@@ -35,12 +36,23 @@
 
         <aside class="right-sidebar">
             <div class="s-widget">
-                <h3>PhysFlow নিয়মাবলী</h3>
-                <ul>
-                    <li>সংক্ষেপে সঠিক শিরোনাম দিন।</li>
-                    <li>বিস্তারিত বর্ণনা ও প্রয়োজনীয় ছবি যোগ করুন।</li>
-                    <li>সঠিক ট্যাগ ব্যবহার করুন।</li>
-                </ul>
+                <div class="s-widget--header">PhysFlow নিয়মাবলী</div>
+                <div class="s-widget--content">
+                    <p>আপনার সমস্যাটি পদার্থবিজ্ঞান সম্পর্কিত কি না নিশ্চিত করুন।</p>
+                    <ul>
+                        <li>শিরোনামে মূল প্রশ্নটি লিখুন।</li>
+                        <li>বিস্তারিত বর্ণনায় গাণিতিক সমীকরণ বা ছবি যোগ করুন।</li>
+                        <li>সঠিক ট্যাগ (যেমন: HSC, বলবিদ্যা) ব্যবহার করুন।</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="s-widget" style="margin-top: 20px;">
+                <div class="s-widget--header">পরিসংখ্যান</div>
+                <div class="s-widget--content">
+                    <p><i class="fas fa-question-circle"></i> মোট প্রশ্ন: ১০৫+</p>
+                    <p><i class="fas fa-check-circle"></i> সমাধান হয়েছে: ৮০%</p>
+                </div>
             </div>
         </aside>
     </div>
@@ -48,8 +60,11 @@
     <footer class="s-footer" id="main-footer"></footer>
 
     <script src="js/loader.js"></script>
+
     <script type="module" src="js/firebase-config.js"></script>
     <script type="module" src="js/auth.js"></script>
+
     <script type="module" src="js/main.js"></script>
+
 </body>
 </html>
