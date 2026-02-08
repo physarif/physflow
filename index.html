@@ -3,67 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhysFlow - পদার্থবিজ্ঞানের প্রশ্নোত্তর প্ল্যাটফর্ম</title>
+    <title>PhysFlow - ফিজিক্স প্রশ্নোত্তর প্ল্যাটফর্ম</title>
     
     <link rel="stylesheet" href="css/loader.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/home.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body class="bg-white text-gray-800 dark:bg-[#1a1a1b] dark:text-gray-200">
 
-    <header class="s-header" id="main-header"></header>
+    <div id="main-header"></div>
 
-    <div class="s-main-layout">
+    <div class="container mx-auto flex flex-col min-h-screen pt-[56px]">
         
-        <aside id="main-sidebar" class="desktop-sidebar-nav"></aside>
+        <div class="px-4 md:px-16 mt-6 mb-4">
+            <div class="relative max-w-xl mx-auto">
+                <input type="text" id="search-input" placeholder="প্রশ্ন খুঁজুন..." 
+                    class="search-input-style">
+                <button id="search-btn" class="search-icon-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
 
-        <main id="main-content">
-            <div class="feed-header">
-                <h1>শীর্ষ প্রশ্নসমূহ</h1>
-                <a href="ask-question.html" class="s-btn s-btn__primary">প্রশ্ন করুন</a>
+        <main class="flex-grow">
+            <div class="flex flex-wrap items-center justify-between gap-2 px-4 md:px-16 py-2">
+                <div class="stats-badge">
+                    <div><span class="text-blue-600 font-bold" id="total-questions">০</span> প্রশ্ন</div>
+                    <div><span class="text-green-600 font-bold" id="total-answers">০</span> সমাধান</div>
+                </div>
+                
+                <div class="filter-group">
+                    <button id="btn-latest" class="filter-btn">সর্বশেষ</button>
+                    <button id="btn-featured" class="filter-btn">জনপ্রিয়</button>
+                    <button id="btn-trending" class="filter-btn active">ট্রেন্ডিং</button>
+                </div>
             </div>
 
-            <div class="feed-tabs">
-                <button class="tab-btn active">নতুন</button>
-                <button class="tab-btn">সক্রিয়</button>
-                <button class="tab-btn">অমীমাংসিত</button>
+            <div id="question-container" class="question-grid">
+                <div class="loading-text">
+                    <i class="fas fa-spinner fa-spin mr-2"></i> লোড হচ্ছে...
+                </div>
             </div>
 
-            <div id="question-list">
-                <div class="loading-state">প্রশ্নগুলো লোড হচ্ছে...</div>
+            <div class="px-4 md:px-16 py-8 mt-6 info-section">
+                <p class="text-sm md:text-base leading-relaxed">
+                    আরও খুঁজছেন? আমাদের 
+                    <a href="questions.html" class="link-brand">প্রশ্নের সম্পূর্ণ তালিকা</a> 
+                    দেখুন, অথবা 
+                    <a href="categories.html" class="link-brand">বিভাগ</a> 
+                    ও 
+                    <a href="tags.html" class="link-brand">ট্যাগগুলো</a> ঘুরে দেখুন।
+                </p>
             </div>
+
+            <section class="container mx-auto px-4 md:px-16 mt-6 mb-10 border-t pt-4 dark:border-gray-800">
+                <h2 class="featured-title">
+                    <i class="fas fa-star text-yellow-500"></i> নির্বাচিত প্রশ্ন (Featured)
+                </h2>
+                <div id="popular-questions-container" class="max-w-6xl"></div>
+            </section>
         </main>
-
-        <aside class="right-sidebar">
-            <div class="s-widget">
-                <div class="s-widget--header">PhysFlow নিয়মাবলী</div>
-                <div class="s-widget--content">
-                    <p>আপনার সমস্যাটি পদার্থবিজ্ঞান সম্পর্কিত কি না নিশ্চিত করুন।</p>
-                    <ul>
-                        <li>শিরোনামে মূল প্রশ্নটি লিখুন।</li>
-                        <li>বিস্তারিত বর্ণনায় গাণিতিক সমীকরণ বা ছবি যোগ করুন।</li>
-                        <li>সঠিক ট্যাগ (যেমন: HSC, বলবিদ্যা) ব্যবহার করুন।</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="s-widget" style="margin-top: 20px;">
-                <div class="s-widget--header">পরিসংখ্যান</div>
-                <div class="s-widget--content">
-                    <p><i class="fas fa-question-circle"></i> মোট প্রশ্ন: ১০৫+</p>
-                    <p><i class="fas fa-check-circle"></i> সমাধান হয়েছে: ৮০%</p>
-                </div>
-            </div>
-        </aside>
     </div>
 
-    <footer class="s-footer" id="main-footer"></footer>
+    <div id="main-sidebar"></div>
+
+    <div id="main-footer"></div>
 
     <script src="js/loader.js"></script>
-
     <script type="module" src="js/firebase-config.js"></script>
     <script type="module" src="js/auth.js"></script>
-
     <script type="module" src="js/main.js"></script>
 
 </body>
